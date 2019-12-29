@@ -1,2 +1,2 @@
-include ':app'
-rootProject.name='Dudh Wala'
+include ':app', ':view', ':viewmodel', ':viewmodelimpl', ':model', ':modelimpl', ':common'
+rootProject.name='DudhWala'
