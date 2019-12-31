@@ -7,6 +7,53 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "transaction_table")
 public class Transaction {
 
+    @ColumnInfo(name = "transaction_amount")
+    private int transactionAmount;
+
+    public Transaction(int customerId, int quantity, int milkType,
+                       int pricePerLiter, int transactionAmount,
+                       long transactionDate, boolean isPaid) {
+        this.customerId = customerId;
+        this.quantity = quantity;
+        this.milkType = milkType;
+        this.pricePerLiter = pricePerLiter;
+        this.transactionAmount = transactionAmount;
+        this.transactionDate = transactionDate;
+        this.isPaid = isPaid;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getMilkType() {
+        return milkType;
+    }
+
+    public int getPricePerLiter() {
+        return pricePerLiter;
+    }
+
+    public int getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public long getTransactionDate() {
+        return transactionDate;
+    }
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     private int id;
@@ -26,8 +73,9 @@ public class Transaction {
     @ColumnInfo(name = "price_per_liter")
     private int pricePerLiter;
 
-    @ColumnInfo(name = "transaction_amount")
-    private int transactionAmont;
+    public boolean isPaid() {
+        return isPaid;
+    }
 
     @ColumnInfo(name = "transaction_date")
     private long transactionDate;

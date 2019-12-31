@@ -8,6 +8,59 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "actions_table")
 public class Action {
 
+    public Action(int actionPerformer, int customerId, int transactionId,
+                  int action, int milkType, int milkQuantity,
+                  int pricePerLiter, long date) {
+        this.actionPerformer = actionPerformer;
+        this.customerId = customerId;
+        this.transactionId = transactionId;
+        this.action = action;
+        this.milkType = milkType;
+        this.milkQuantity = milkQuantity;
+        this.pricePerLiter = pricePerLiter;
+        this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getActionPerformer() {
+        return actionPerformer;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public int getAction() {
+        return action;
+    }
+
+    public int getMilkType() {
+        return milkType;
+    }
+
+    public int getMilkQuantity() {
+        return milkQuantity;
+    }
+
+    public int getPricePerLiter() {
+        return pricePerLiter;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     private int id;

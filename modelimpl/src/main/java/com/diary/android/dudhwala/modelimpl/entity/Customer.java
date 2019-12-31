@@ -7,6 +7,75 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "customer_table")
 public class Customer {
 
+    public Customer(String customerName, String mobileNumber, String emailAddress,
+                    String address, int milkType, int pricePerLiterCow,
+                    int pricePerLiterBuffalo, int quickAddQuantity, int amountDue,
+                    int totalMilkQuantity, int accountType) {
+        this.customerName = customerName;
+        this.mobileNumber = mobileNumber;
+        this.emailAddress = emailAddress;
+        this.address = address;
+        this.milkType = milkType;
+        this.pricePerLiterCow = pricePerLiterCow;
+        this.pricePerLiterBuffalo = pricePerLiterBuffalo;
+        this.quickAddQuantity = quickAddQuantity;
+        this.amountDue = amountDue;
+        this.totalMilkQuantity = totalMilkQuantity;
+        this.accountType = accountType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getMilkType() {
+        return milkType;
+    }
+
+    public int getPricePerLiterCow() {
+        return pricePerLiterCow;
+    }
+
+    public int getPricePerLiterBuffalo() {
+        return pricePerLiterBuffalo;
+    }
+
+    public int getQuickAddQuantity() {
+        return quickAddQuantity;
+    }
+
+    public int getAmountDue() {
+        return amountDue;
+    }
+
+    public int getTotalMilkQuantity() {
+        return totalMilkQuantity;
+    }
+
+    public int getAccountType() {
+        return accountType;
+    }
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     private int id;
