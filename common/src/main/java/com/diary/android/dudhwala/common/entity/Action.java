@@ -1,4 +1,4 @@
-package com.diary.android.dudhwala.modelimpl.entity;
+package com.diary.android.dudhwala.common.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
