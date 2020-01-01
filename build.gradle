@@ -32,6 +32,9 @@ ext {
     minSdkVersion = 17
     targetSdkVersion = 29
 
+    sourceJavaCompatibility = 1.8
+    targetJavaCompatibility = 1.8
+
     roomVersion = '2.2.3'
     archLifecycleVersion = '2.1.0'
     coreTestingVersion = '2.1.0'

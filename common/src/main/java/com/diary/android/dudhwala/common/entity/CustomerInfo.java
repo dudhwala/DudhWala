@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "customer_table")
-public class Customer {
+@Entity(tableName = "customer_info_table")
+public class CustomerInfo {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
@@ -45,12 +45,12 @@ public class Customer {
     private int totalAmountDue;
 
     @ColumnInfo(name = "last_updated_timestamp")
-    private int lastUpdatedTimestamp;
+    private long lastUpdatedTimestamp;
 
-    public Customer(String customerName, String mobileNumber, String emailAddress,
-                    String address, int pricePerLiterCow, int pricePerLiterBuffalo,
-                    int pricePerLiterMix, int quickAddMilkType, int quickAddQuantity,
-                    int totalAmountDue, int lastUpdatedTimestamp) {
+    public CustomerInfo(String customerName, String mobileNumber, String emailAddress,
+                        String address, int pricePerLiterCow, int pricePerLiterBuffalo,
+                        int pricePerLiterMix, int quickAddMilkType, int quickAddQuantity,
+                        int totalAmountDue, long lastUpdatedTimestamp) {
         this.customerName = customerName;
         this.mobileNumber = mobileNumber;
         this.emailAddress = emailAddress;
@@ -112,7 +112,7 @@ public class Customer {
         return totalAmountDue;
     }
 
-    public int getLastUpdatedTimestamp() {
+    public long getLastUpdatedTimestamp() {
         return lastUpdatedTimestamp;
     }
 }

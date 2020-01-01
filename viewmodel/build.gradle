@@ -21,6 +21,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = project.sourceJavaCompatibility
+        targetCompatibility = project.targetJavaCompatibility
+    }
 }
 
 dependencies {
