@@ -1,4 +1,4 @@
-package com.diary.android.dudhwala.common.database;
+package com.diary.android.dudhwala.modelimpl.database;
 
 import android.content.Context;
 
@@ -9,10 +9,10 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.diary.android.dudhwala.common.CommonThreadPool;
-import com.diary.android.dudhwala.common.dao.CustomerInfoDao;
-import com.diary.android.dudhwala.common.dao.MilkTransactionDao;
-import com.diary.android.dudhwala.common.dao.MonthTransactionAmountDao;
-import com.diary.android.dudhwala.common.dao.PaymentDao;
+import com.diary.android.dudhwala.modelimpl.dao.CustomerInfoDao;
+import com.diary.android.dudhwala.modelimpl.dao.MilkTransactionDao;
+import com.diary.android.dudhwala.modelimpl.dao.MonthTransactionAmountDao;
+import com.diary.android.dudhwala.modelimpl.dao.PaymentDao;
 import com.diary.android.dudhwala.common.entity.Action;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
@@ -71,13 +71,17 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
         }
     };
 
-    public static synchronized DudhwalaDatabase getDatabase(final Context context) {
+    public static DudhwalaDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    DudhwalaDatabase.class,
-                    DATABASE_NAME)
-                    .addCallback(sRoomDatabaseCallback)
-                    .build();
+            synchronized (DudhwalaDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            DudhwalaDatabase.class,
+                            DATABASE_NAME)
+                            .addCallback(sRoomDatabaseCallback)
+                            .build();
+                }
+            }
         }
         return INSTANCE;
     }

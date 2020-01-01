@@ -1,4 +1,4 @@
-package com.diary.android.dudhwala.common.dao;
+package com.diary.android.dudhwala.modelimpl.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
