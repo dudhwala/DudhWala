@@ -9,7 +9,7 @@ import com.diary.android.dudhwala.R;
 
 public class CustomersListActivity extends AppCompatActivity {
 
-    private static final String TAG = "DudhWala/MainActivity";
+    private static final String TAG = "DudhWala/CustomersListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

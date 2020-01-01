@@ -22,6 +22,10 @@ android {
         }
     }
 
+    lintOptions {
+        disable 'LongLogTag'
+    }
+
     compileOptions {
         sourceCompatibility = project.sourceJavaCompatibility
         targetCompatibility = project.targetJavaCompatibility
