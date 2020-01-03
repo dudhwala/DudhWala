@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.R;
-import com.diary.android.dudhwala.view.itemdecoration.DividerItemDecoration;
-import com.diary.android.dudhwala.view.itemdecoration.VerticalSpaceItemDecoration;
+import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
 import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
 
@@ -37,19 +36,17 @@ public class MilkTransactionListVIewImpl implements
         mRecyclerView = (RecyclerView) view;
         mAdapter = new MilkTransactionsAdapter();
 
-        configureRecyclerVIew();
+        configureRecyclerView();
     }
 
-    private void configureRecyclerVIew() {
+    private void configureRecyclerView() {
         Log.d(TAG, "configureRecyclerVIew()");
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         //add ItemDecoration vertical Space
-        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
         //Add Custom Divider
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(mContext, R.drawable.divider));
+        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider, VERTICAL_ITEM_SPACE));
         mRecyclerView.setAdapter(mAdapter);
     }
 
