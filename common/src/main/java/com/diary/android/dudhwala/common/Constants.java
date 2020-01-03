@@ -9,5 +9,8 @@ public interface Constants {
         int PRICE_UNKNOWN = 0;
         int DEFAULT_QUICK_ADD_QUANTITY = 2;
     }
+    interface Log{
+        String _TAG = "Dudhwala - ";
+    }
 
 }

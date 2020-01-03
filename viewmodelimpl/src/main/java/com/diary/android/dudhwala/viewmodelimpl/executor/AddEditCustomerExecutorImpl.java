@@ -1,5 +1,7 @@
 package com.diary.android.dudhwala.viewmodelimpl.executor;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
@@ -11,10 +13,10 @@ import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerExecutor;
 
-import java.util.Optional;
 
 public class AddEditCustomerExecutorImpl implements AddEditCustomerExecutor {
 
+    private static final String TAG = Constants.Log._TAG + "AddEditCustomerExecutorImpl";
     private ModelFactory mModelFactory;
 
     @Nullable
@@ -57,7 +59,8 @@ public class AddEditCustomerExecutorImpl implements AddEditCustomerExecutor {
         }
     }
 
-    private CustomerInfo makeCustomerInfoForEdit(CustomerData customerData) {
+    // if value not changed then return null
+    private @Nullable CustomerInfo makeCustomerInfoForEdit(CustomerData customerData) {
 
         CustomerInfo currentInfo = null;
         if (mCustomerInfoLiveData != null) {
@@ -70,17 +73,19 @@ public class AddEditCustomerExecutorImpl implements AddEditCustomerExecutor {
                     customerData.getNumber(),
                     customerData.getEmail(),
                     customerData.getAddress(),
-                    customerData.getMilkType() == MilkType.COW.intValue() ? customerData.getRate() + 1 : currentInfo.getPricePerLiterCow(),
+                    customerData.getMilkType() == MilkType.COW.intValue() ? customerData.getRate() : currentInfo.getPricePerLiterCow(),
                     customerData.getMilkType() == MilkType.BUFF.intValue() ? customerData.getRate() : currentInfo.getPricePerLiterBuffalo(),
                     customerData.getMilkType() == MilkType.MIX.intValue() ? customerData.getRate() : currentInfo.getPricePerLiterMix(),
                     customerData.getMilkType(),
                     currentInfo.getQuickAddQuantity(),
                     currentInfo.getTotalAmountDue(),
-                    System.currentTimeMillis()
+                    currentInfo.getLastUpdatedTimestamp()
             );
             customerInfo.setId(mCustomerId);
-        }
 
+            Log.d(TAG, "isDataSame : " + customerInfo.equals(currentInfo));
+            customerInfo = customerInfo.equals(currentInfo) ? null : customerInfo;
+        }
         return customerInfo;
 
     }
