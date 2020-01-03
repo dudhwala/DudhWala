@@ -1,6 +1,7 @@
 package com.diary.android.dudhwala.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import com.diary.android.dudhwala.viewmodel.ViewActionListener.AddEditViewAction
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 
 public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
+
+    private final String TAG = " AddEditCustomerViewImpl : ";
 
     @NonNull
     private Context mContext;
@@ -63,20 +66,20 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (mCustomerInfo != null) {
-                    mRate.setText(getRate(pos));
+                    mRate.setText(getRateString(pos));
                 }
             }
 
-            private int getRate(int pos) {
+            private String getRateString(int pos) {
                 switch (pos) {
                     case 0:
-                        return mCustomerInfo.getPricePerLiterCow();
+                        return mCustomerInfo.getPricePerLiterCow() + "";
                     case 1:
-                        return mCustomerInfo.getPricePerLiterBuffalo();
+                        return mCustomerInfo.getPricePerLiterBuffalo() + "";
                     case 2:
-                        return mCustomerInfo.getPricePerLiterMix();
+                        return mCustomerInfo.getPricePerLiterMix() + "";
                 }
-                return Constants.Customer.PRICE_UNKNOWN;
+                return Constants.Customer.PRICE_UNKNOWN + "";
             }
 
             @Override
@@ -121,7 +124,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
             mCustomerInfoMiltRate = mCustomerInfo.getPricePerLiterMix();
         }
         mMilktype.setSelection(mCustomerInfoMilkType - 1);
-        mRate.setText(mCustomerInfoMiltRate);
+        mRate.setText(Integer.toString(mCustomerInfoMiltRate));
     }
 
     @Override
@@ -140,8 +143,15 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
     private CustomerData makeCustomerData() {
         CustomerData customerData = null;
 
-        if (Utils.isStringNotEmpty(mName.getText())
-                && Utils.isStringNotEmpty(mRate.getText())
+        Log.d(TAG, "makeCustomerData : name " + mName.getText()
+                + " rate - " + mRate.getText()
+                + " milktype - " + mMilktype.getSelectedItemPosition()
+                + " mail - " + mEmail.getText()
+                + " address - " + mAddress.getText()
+                + " number - " + mNumber.getText());
+
+        if (Utils.isStringNotEmpty(mName.getText().toString())
+                && Utils.isStringNotEmpty(mRate.getText().toString())
                 && mMilktype.getSelectedItemPosition() >= 0) {
 
             customerData = new CustomerData(mName.getText().toString(),

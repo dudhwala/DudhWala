@@ -22,7 +22,7 @@ public class AddEditCustomerExecutorImpl implements AddEditCustomerExecutor {
 
     private CustomerInfoDataSource mCustomerInfoDataSource;
 
-    private int mCustomerId = -1;
+    private int mCustomerId;
 
     public AddEditCustomerExecutorImpl(ModelFactory modelFactory, int customerId) {
 
@@ -70,9 +70,9 @@ public class AddEditCustomerExecutorImpl implements AddEditCustomerExecutor {
                     customerData.getNumber(),
                     customerData.getEmail(),
                     customerData.getAddress(),
-                    customerData.getMilkType() == MilkType.COW.intValue() ? customerData.getRate() : Constants.Customer.PRICE_UNKNOWN,
-                    customerData.getMilkType() == MilkType.BUFF.intValue() ? customerData.getRate() : Constants.Customer.PRICE_UNKNOWN,
-                    customerData.getMilkType() == MilkType.MIX.intValue() ? customerData.getRate() : Constants.Customer.PRICE_UNKNOWN,
+                    customerData.getMilkType() == MilkType.COW.intValue() ? customerData.getRate() + 1 : currentInfo.getPricePerLiterCow(),
+                    customerData.getMilkType() == MilkType.BUFF.intValue() ? customerData.getRate() : currentInfo.getPricePerLiterBuffalo(),
+                    customerData.getMilkType() == MilkType.MIX.intValue() ? customerData.getRate() : currentInfo.getPricePerLiterMix(),
                     customerData.getMilkType(),
                     currentInfo.getQuickAddQuantity(),
                     currentInfo.getTotalAmountDue(),
