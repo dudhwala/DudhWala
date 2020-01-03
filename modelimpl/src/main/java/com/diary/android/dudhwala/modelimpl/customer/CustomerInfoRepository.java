@@ -13,17 +13,24 @@ public class CustomerInfoRepository implements CustomerInfoDataSource {
 
     private final DudhwalaDatabase db;
 
-    public CustomerInfoRepository(Application application) {
+    public CustomerInfoRepository(Context context) {
 
-        db = DudhwalaDatabase.getDatabase(application);
+        db = DudhwalaDatabase.getDatabase(context);
 
     }
 
     @Override
-    public int addEditCustomerInfo(CustomerInfo customerInfo) {
+    public int addCustomerInfo(CustomerInfo customerInfo) {
 
          db.customerInfoDao().insertCustomerInfo(customerInfo);
          return 909090;  // TOCHECK shouldn't db query return int ?
+    }
+
+    @Override
+    public int editCustomerInfo(CustomerInfo customerInfo) {
+
+        db.customerInfoDao().insertCustomerInfo(customerInfo);
+        return 909090;  // TOCHECK shouldn't db query return int ?
     }
 
     @Override

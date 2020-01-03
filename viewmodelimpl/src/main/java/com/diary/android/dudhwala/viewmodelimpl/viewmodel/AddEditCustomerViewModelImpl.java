@@ -7,6 +7,7 @@ import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.model.ModelFactory;
 import com.diary.android.dudhwala.model.ModelFactoryLifecycle;
 import com.diary.android.dudhwala.viewmodel.AddEditCustomerViewModel;
+import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerExecutor;
 import com.diary.android.dudhwala.viewmodelimpl.executor.AddEditCustomerExecutorImpl;
 
@@ -22,7 +23,6 @@ public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCu
     private AddEditCustomerExecutor mAddEditCustomerExecutor;
 
     private int mCustomerId = -1;
-
 
     @Override
     protected void onCleared() {
@@ -41,19 +41,18 @@ public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCu
     }
 
     @Override
-    public void injectModelFactory(ModelFactory modelFactory) {
-        mModelFactory = modelFactory;
-        modelFactory.connected(ModelFactoryLifecycle.ViewModelType.addEditCustomerVM);
-    }
-
-    @Override
     public void setCustomerId(int customerId) {
         mCustomerId = customerId;
     }
 
     @Override
+    public void injectModelFactory(ModelFactory modelFactory) {
+        mModelFactory = modelFactory;
+        modelFactory.connected(ModelFactoryLifecycle.ViewModelType.addEditCustomerVM);
+    }
+
     public void injectExecutors() {
-        mAddEditCustomerExecutor = new AddEditCustomerExecutorImpl(mModelFactory);
+        mAddEditCustomerExecutor = new AddEditCustomerExecutorImpl(mModelFactory, mCustomerId);
 
     }
 
@@ -63,8 +62,7 @@ public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCu
     }
 
     @Override
-    public void onAddCustomerClicked(CustomerInfo customerInfo) {
-
+    public void onAddCustomerClicked(CustomerData customerData) {
+        mAddEditCustomerExecutor.executeUpdateCustomerData(customerData);
     }
-
 }

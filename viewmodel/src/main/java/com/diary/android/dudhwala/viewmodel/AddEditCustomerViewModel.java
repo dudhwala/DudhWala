@@ -8,10 +8,10 @@ public interface AddEditCustomerViewModel extends LiveDataSource.AddEditLiveData
 
     void markThisInstance();
 
-    void injectExecutors();
-
-    void injectModelFactory(ModelFactory modelFactory);
+     void injectExecutors();
 
     void setCustomerId(int customerId);
+
+    void injectModelFactory(ModelFactory modelFactory);
 
 }

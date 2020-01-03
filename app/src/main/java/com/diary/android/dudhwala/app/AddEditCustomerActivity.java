@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.AddEditCustomerViewImpl;
 import com.diary.android.dudhwala.view.ViewFactory;
@@ -26,23 +27,29 @@ public class AddEditCustomerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_edit_customer);
 
         mCustomerId = Optional.ofNullable(getIntent())
                 .map(Intent::getExtras)
-                .map(extras -> extras.getInt(Constants.EXTRA_CUSTOMER_ID))
-                .orElse(-1);
+                .map(extras -> extras.getInt(Constants.Extra.EXTRA_CUSTOMER_ID))
+                .orElse(Constants.Customer.UNKNOWN_CUSTOMER_ID);
 
         mAddEditCustomerViewModel = getAddEditCustomerViewModel();
 
         if (mAddEditCustomerViewModel.isNewInstance()) {
             mAddEditCustomerViewModel.markThisInstance();
+            mAddEditCustomerViewModel.setCustomerId(mCustomerId); //LEARN https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
             mAddEditCustomerViewModel.injectModelFactory(App.getInstance().getModelFactory());
             mAddEditCustomerViewModel.injectExecutors();
-            mAddEditCustomerViewModel.setCustomerId(mCustomerId);
         }
 
         injectView();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     private AddEditCustomerViewModel getAddEditCustomerViewModel() {
@@ -52,7 +59,8 @@ public class AddEditCustomerActivity extends AppCompatActivity {
     private void injectView() {
         mViewFactory = new ViewFactory();
 
-        AddEditCustomerViewImpl addEditCustomerView = mViewFactory.provideAddEditCustomerView(this, this);
+
+        AddEditCustomerViewImpl addEditCustomerView = mViewFactory.provideAddEditCustomerView(findViewById(R.id.add_edit_main_view), this, this);
         addEditCustomerView.startObservingLiveData(getAddEditCustomerViewModel(), getAddEditCustomerViewModel());
 
     }

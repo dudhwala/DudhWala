@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "customer_info_table")
 public class CustomerInfo {
 
@@ -47,10 +49,17 @@ public class CustomerInfo {
     @ColumnInfo(name = "last_updated_timestamp")
     private long lastUpdatedTimestamp;
 
-    public CustomerInfo(String customerName, String mobileNumber, String emailAddress,
-                        String address, int pricePerLiterCow, int pricePerLiterBuffalo,
-                        int pricePerLiterMix, int quickAddMilkType, int quickAddQuantity,
-                        int totalAmountDue, long lastUpdatedTimestamp) {
+    public CustomerInfo(String customerName,
+                        String mobileNumber,
+                        String emailAddress,
+                        String address,
+                        int pricePerLiterCow,
+                        int pricePerLiterBuffalo,
+                        int pricePerLiterMix,
+                        int quickAddMilkType,
+                        int quickAddQuantity,
+                        int totalAmountDue,
+                        long lastUpdatedTimestamp) {
         this.customerName = customerName;
         this.mobileNumber = mobileNumber;
         this.emailAddress = emailAddress;
@@ -114,5 +123,29 @@ public class CustomerInfo {
 
     public long getLastUpdatedTimestamp() {
         return lastUpdatedTimestamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomerInfo that = (CustomerInfo) o;
+        return id == that.id &&
+                pricePerLiterCow == that.pricePerLiterCow &&
+                pricePerLiterBuffalo == that.pricePerLiterBuffalo &&
+                pricePerLiterMix == that.pricePerLiterMix &&
+                quickAddMilkType == that.quickAddMilkType &&
+                quickAddQuantity == that.quickAddQuantity &&
+                totalAmountDue == that.totalAmountDue &&
+                lastUpdatedTimestamp == that.lastUpdatedTimestamp &&
+                Objects.equals(customerName, that.customerName) &&
+                Objects.equals(mobileNumber, that.mobileNumber) &&
+                Objects.equals(emailAddress, that.emailAddress) &&
+                Objects.equals(address, that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, customerName, mobileNumber, emailAddress, address, pricePerLiterCow, pricePerLiterBuffalo, pricePerLiterMix, quickAddMilkType, quickAddQuantity, totalAmountDue, lastUpdatedTimestamp);
     }
 }

@@ -7,8 +7,7 @@ public class CommonThreadPool {
 
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
 
-    private static final ExecutorService threadPool =
-            Executors.newFixedThreadPool(NUMBER_OF_CORES);
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(NUMBER_OF_CORES);
 
     public static ExecutorService getThreadPool() {
         return threadPool;

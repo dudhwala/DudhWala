@@ -6,7 +6,9 @@ import com.diary.android.dudhwala.common.entity.CustomerInfo;
 
 public interface CustomerInfoDataSource {
 
-    int addEditCustomerInfo(CustomerInfo customerInfo);
+    int addCustomerInfo(CustomerInfo customerInfo);
+
+    int editCustomerInfo(CustomerInfo customerInfo);
 
     LiveData<CustomerInfo> getCustomerInfo(int customerId);
 

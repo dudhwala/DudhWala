@@ -5,12 +5,15 @@ import android.content.Context;
 
 import com.diary.android.dudhwala.model.ModelFactory;
 import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
+import com.diary.android.dudhwala.modelimpl.customer.CustomerInfoRepository;
 
 public class ModelFactoryImpl implements ModelFactory {
 
     private Context mContext;
 
     private int connectedViewModels = ViewModelType.noVM;
+
+    private CustomerInfoDataSource mCustomerInfoDataSource;
 
     public ModelFactoryImpl(Application application) {
         mContext = application;
@@ -26,7 +29,7 @@ public class ModelFactoryImpl implements ModelFactory {
     @Override
     public boolean disconnected(int viewmodelType) { // TODO check if all viewmodels removed if so then tear down
         connectedViewModels &= ~viewmodelType;
-        if(connectedViewModels == ViewModelType.noVM){
+        if (connectedViewModels == ViewModelType.noVM) {
             // all view models cleared
         }
         return false;
@@ -34,8 +37,11 @@ public class ModelFactoryImpl implements ModelFactory {
 
 
     @Override
-    public CustomerInfoDataSource getCustomerInfoRepository(Application application) {
+    public CustomerInfoDataSource getCustomerInfoRepository() {
 
-        return null;
+        if (mCustomerInfoDataSource == null) {
+            mCustomerInfoDataSource = new CustomerInfoRepository(mContext);
+        }
+        return mCustomerInfoDataSource;
     }
 }
