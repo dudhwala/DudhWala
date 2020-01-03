@@ -21,11 +21,25 @@ android {
         }
     }
 
+    lintOptions {
+        disable 'LongLogTag'
+    }
+
+    compileOptions {
+        sourceCompatibility = project.sourceJavaCompatibility
+        targetCompatibility = project.targetJavaCompatibility
+    }
+
 }
 
 dependencies {
     implementation project(":common")
     implementation project(":model")
+
+    // Room components
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
