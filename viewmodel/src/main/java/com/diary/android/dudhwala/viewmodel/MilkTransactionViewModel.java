@@ -9,4 +9,5 @@ public interface MilkTransactionViewModel extends
 
     void injectLiveDataManager();
 
+    void setCustomerId(int customerId);
 }

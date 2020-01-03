@@ -25,7 +25,7 @@ public class MilkTransactionsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
-        setContentView(R.layout.milk_transactions_activity);
+        setContentView(R.layout.milk_transaction_activity);
         mCustomerId = Optional.ofNullable(getIntent())
                 .map(Intent::getExtras)
                 .map(extras -> extras.getInt(Constants.Extra.EXTRA_CUSTOMER_ID))
@@ -42,8 +42,10 @@ public class MilkTransactionsActivity extends BaseActivity {
 
         if (mMilkTransactionsViewModel.isNewInstance()) {
             mMilkTransactionsViewModel.markAsOldInstance();
+            mMilkTransactionsViewModel.setCustomerId(mCustomerId);
             mMilkTransactionsViewModel.injectRepositoryFactory(App.getInstance().getRepositoryFactory());
             mMilkTransactionsViewModel.injectLiveDataManager();
+
         }
     }
 
@@ -55,10 +57,10 @@ public class MilkTransactionsActivity extends BaseActivity {
         mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.recyclerView))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
-        mViewFactory.provideMilkTransactionSummeryView(this, this)
+        mViewFactory.provideMilkTransactionSummeryView(this, this, findViewById(R.id.summeryViewContainer))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
-        mViewFactory.provideMilkTransactionDurationView(this, this, findViewById(R.id.durationContainer))
+        mViewFactory.provideMilkTransactionDurationView(this, this, findViewById(R.id.durationViewContainer))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
     }
 

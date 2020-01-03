@@ -9,6 +9,7 @@ import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.MilkTransactionViewModel;
+import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.DetailDialogLiveDataManager;
 import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.SummeryLiveDataManager;
 import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
@@ -26,7 +27,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     private DetailDialogLiveDataManager mDetailDialogLiveDataManager;
     private SummeryLiveDataManager mSummeryLiveDataManager;
     private boolean mIsNewInstance = true;
-
+    private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
 
     @Override
     public boolean isNewInstance() {
@@ -41,10 +42,18 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     @Override
     public void injectLiveDataManager() {
         Log.d(TAG, "injectLiveDataManager()");
-        mTransactionsListLiveDataManager = new MilkTransactionLiveDataManagerImpl(mRepositoryFactory);
-        mDetailDialogLiveDataManager = new MilkTransactionLiveDataManagerImpl(mRepositoryFactory);
-        mSummeryLiveDataManager = new MilkTransactionLiveDataManagerImpl(mRepositoryFactory);
+        MilkTransactionLiveDataManagerImpl milkTransactionLiveDataManager =
+                new MilkTransactionLiveDataManagerImpl(mRepositoryFactory, mCustomerId);
 
+        mTransactionsListLiveDataManager = milkTransactionLiveDataManager;
+        mDetailDialogLiveDataManager = milkTransactionLiveDataManager;
+        mSummeryLiveDataManager = milkTransactionLiveDataManager;
+
+    }
+
+    @Override
+    public void setCustomerId(int customerId) {
+        mCustomerId = customerId;
     }
 
     @Override
@@ -55,7 +64,6 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
 
     @Override
     public void onListItemClicked(MilkTransaction milkTransaction) {
-        onDurationChange(0L, System.currentTimeMillis());
     }
 
     @Override
@@ -80,13 +88,17 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
 
     @Override
     public void onDurationChange(long fromTimeStamp, long toTimestamp) {
-        mTransactionsListLiveDataManager.onDurationChanged(fromTimeStamp, toTimestamp);
+
     }
 
     @Override
     public void onClickChangeDuration(Constants.DurationDirection direction) {
         Log.d(TAG, "onClickChangeDuration()  direction : " + direction);
-        mTransactionsListLiveDataManager.onClickDurationChange(direction);
+
+        //TODO calculate timestamp
+        long fromTimestamp = 0;
+        long toTimestamp = System.currentTimeMillis();
+        mTransactionsListLiveDataManager.updateMilkTransactionDuration(fromTimestamp, toTimestamp);
     }
 
     @Override
@@ -95,8 +107,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public Optional<LiveData<MilkTransaction>> provideMilkTransactionSummeryLiveData() {
-        return Optional.empty();
+    public Optional<LiveData<SummeryData>> provideMilkTransactionSummeryLiveData() {
+        return Optional.ofNullable(mSummeryLiveDataManager.getSummeryLiveData());
     }
 
     @Override

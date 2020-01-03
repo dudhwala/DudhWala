@@ -56,8 +56,6 @@ public class MilkTransactionListVIewImpl implements
         Log.d(TAG, "startObservingLiveData()");
         mViewActionListener = viewActionListener;
         liveDataSource.provideMilkTransactionLiveData().ifPresent(this::observeMilkTransactionLiveData);
-        mViewActionListener.onListItemClicked(null);
-
     }
 
     private void observeMilkTransactionLiveData(LiveData<List<MilkTransaction>> arrayListLiveData) {

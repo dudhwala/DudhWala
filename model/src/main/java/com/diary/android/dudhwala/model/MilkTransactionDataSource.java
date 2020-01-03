@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MilkTransactionDataSource {
 
-    LiveData<List<MilkTransaction>> getMilkTransactions(long fromTimestamp, long toTimestamp);
+    LiveData<List<MilkTransaction>> getMilkTransactions(int customerId, long fromTimestamp, long toTimestamp);
 
     void updateMilkTransaction(MilkTransaction milkTransaction);
 }

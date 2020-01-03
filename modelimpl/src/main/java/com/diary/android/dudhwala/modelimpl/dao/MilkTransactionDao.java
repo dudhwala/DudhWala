@@ -20,9 +20,9 @@ public interface MilkTransactionDao {
     @Query("SELECT * FROM milk_transaction_table")
     LiveData<List<MilkTransaction>> getAllMilkTransactions();
 
-    @Query("SELECT * FROM milk_transaction_table where transaction_date > :fromTimestamp " +
-            "AND transaction_date < :toTimestamp")
-    LiveData<List<MilkTransaction>> getMilkTransactionsForDuration(long fromTimestamp, long toTimestamp);
+    @Query("SELECT * FROM milk_transaction_table where customer_id = :customerId " +
+            "AND transaction_date > :fromTimestamp AND transaction_date < :toTimestamp")
+    LiveData<List<MilkTransaction>> getMilkTransactionsForDuration(int customerId, long fromTimestamp, long toTimestamp);
 
     @Update
     void updateTransaction(MilkTransaction milkTransaction);

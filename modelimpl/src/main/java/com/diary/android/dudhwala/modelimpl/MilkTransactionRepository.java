@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.diary.android.dudhwala.common.CommonThreadPool;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.MilkTransactionDataSource;
 import com.diary.android.dudhwala.modelimpl.database.DudhwalaDatabase;
@@ -21,14 +22,17 @@ public class MilkTransactionRepository implements MilkTransactionDataSource {
     }
 
     @Override
-    public LiveData<List<MilkTransaction>> getMilkTransactions(long fromTimestamp, long toTimestamp) {
+    public LiveData<List<MilkTransaction>> getMilkTransactions(int customerId,
+                                                               long fromTimestamp, long toTimestamp) {
         Log.d(TAG, "getMilkTransactions() fromTimestamp : " + fromTimestamp
                 + ", toTimestamp : " + toTimestamp);
-        return mDb.milkTransactionDao().getMilkTransactionsForDuration(fromTimestamp, toTimestamp);
+        return mDb.milkTransactionDao().getMilkTransactionsForDuration(customerId,
+                fromTimestamp, toTimestamp);
     }
 
     @Override
     public void updateMilkTransaction(MilkTransaction milkTransaction) {
-        mDb.milkTransactionDao().updateTransaction(milkTransaction);
+        CommonThreadPool.getThreadPool().execute(() -> mDb.milkTransactionDao()
+                .updateTransaction(milkTransaction));
     }
 }

@@ -4,13 +4,15 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.RepositoryFactory;
+import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class MilkTransactionLiveDataManagerImpl implements
@@ -20,15 +22,18 @@ public class MilkTransactionLiveDataManagerImpl implements
         MilkTransactionLiveDataManager.TransactionsListLiveDataManager {
 
     private static final String TAG = "DudhWala/MilkTransactionLiveDataManagerImpl";
+    private final int mCustomerId;
 
     private RepositoryFactory mRepositoryFactory;
     private MediatorLiveData<List<MilkTransaction>> mTransactionsArrayListLiveData
             = new MediatorLiveData<>();
 
     private HashMap milkTransactionCache;
+    private MutableLiveData<SummeryData> mSummeryLiveData = new MutableLiveData<>();
 
-    public MilkTransactionLiveDataManagerImpl(RepositoryFactory repositoryFactory) {
+    public MilkTransactionLiveDataManagerImpl(RepositoryFactory repositoryFactory, int customerId) {
         mRepositoryFactory = repositoryFactory;
+        mCustomerId = customerId;
     }
 
     @Override
@@ -52,8 +57,8 @@ public class MilkTransactionLiveDataManagerImpl implements
     }
 
     @Override
-    public LiveData<MilkTransaction> getSummeryLiveData() {
-        return null;
+    public LiveData<SummeryData> getSummeryLiveData() {
+        return mSummeryLiveData;
     }
 
     @Override
@@ -63,21 +68,34 @@ public class MilkTransactionLiveDataManagerImpl implements
     }
 
     @Override
-    public void onDurationChanged(long fromTimestamp, long toTimestamp) {
-
-    }
-
-    @Override
-    public void onClickDurationChange(Constants.DurationDirection direction) {
-        Log.d(TAG, "onClickDurationChange() direction : " + direction);
-        //TODO calculate from and to timestamp according to direction
-        long fromTimestamp = 0;
-        long toTimestamp = System.currentTimeMillis();
+    public void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp) {
+        Log.d(TAG, "updateMilkTransactionDuration()");
 
         LiveData<List<MilkTransaction>> source = mRepositoryFactory.getMilkTransactionRepository()
-                .getMilkTransactions(fromTimestamp, toTimestamp);
+                .getMilkTransactions(mCustomerId, fromTimestamp, toTimestamp);
 
         mTransactionsArrayListLiveData.addSource(source,
-                value -> mTransactionsArrayListLiveData.setValue(value));
+                value -> {
+                    updateSummery(value);
+                    mTransactionsArrayListLiveData.setValue(value);
+                });
+    }
+
+    private void updateSummery(List<MilkTransaction> value) {
+        Log.d(TAG, "updateSummery()");
+        Iterator<MilkTransaction> iterator = value.iterator();
+        int totalMilkQuantity = 0;
+        int totalAmount = 0;
+
+        while (iterator.hasNext()) {
+            MilkTransaction milkTransaction = iterator.next();
+            totalMilkQuantity += milkTransaction.getMilkQuantityLiters();
+            totalAmount += milkTransaction.getTransactionAmount();
+        }
+        SummeryData summeryData = new SummeryData();
+        summeryData.setTotalMilkQuantityInLitersForDuration(totalMilkQuantity);
+        summeryData.setTotalAmountForDuration(totalAmount);
+
+        mSummeryLiveData.setValue(summeryData);
     }
 }

@@ -32,7 +32,8 @@ public class MilkTransactionDurationViewImpl
     }
 
     private void setClickListeners() {
-        mItemView.findViewById(R.id.durationView)
+        //TODO change to proper logic
+        mItemView.findViewById(R.id.durationViewContainer)
                 .setOnClickListener(v -> onClickChangeDuration(Constants.DurationDirection.NEXT));
     }
 
