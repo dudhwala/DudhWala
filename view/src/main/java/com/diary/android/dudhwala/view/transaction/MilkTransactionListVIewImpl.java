@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.view.LiveDataObserver;
+import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.view.itemdecoration.DividerItemDecoration;
 import com.diary.android.dudhwala.view.itemdecoration.VerticalSpaceItemDecoration;
@@ -20,7 +20,7 @@ import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionVi
 import java.util.List;
 
 public class MilkTransactionListVIewImpl implements
-        LiveDataObserver.TransactionListLiveDataObserver {
+        MillTransactionLiveDataObserver {
 
 
     private static final String TAG = "DudhWala/MilkTransactionListVIewImpl";

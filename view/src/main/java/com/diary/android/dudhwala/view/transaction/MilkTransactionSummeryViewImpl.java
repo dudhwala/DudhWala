@@ -7,11 +7,12 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.view.LiveDataObserver;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource;
+import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
+import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
 
 public class MilkTransactionSummeryViewImpl implements
-        LiveDataObserver.TransactionSummeryLiveDataObserver {
+        MillTransactionLiveDataObserver {
 
     private static final String TAG = "DudhWala/MilkTransactionSummeryViewImpl";
     private final LifecycleOwner mLifecycleOwner;
@@ -23,8 +24,8 @@ public class MilkTransactionSummeryViewImpl implements
     }
 
     @Override
-    public void startObservingLiveData(LiveDataSource.MilkTransactionSummeryLiveDataSource
-                                               liveDataSource) {
+    public void startObservingLiveData(MilkTransactionLiveDataSource liveDataSource,
+                                       MilkTransactionViewActionListener viewActionListener) {
         Log.d(TAG, "startObservingLiveData()");
         liveDataSource.provideMilkTransactionSummeryLiveData().ifPresent(this::observeSummeryData);
     }

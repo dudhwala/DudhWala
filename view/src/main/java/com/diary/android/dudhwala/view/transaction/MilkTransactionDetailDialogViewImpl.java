@@ -6,16 +6,16 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.view.LiveDataObserver;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener;
+import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
+import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
 
 public class MilkTransactionDetailDialogViewImpl
-        implements LiveDataObserver.TransactionDetailDialogLiveDataObserver {
+        implements MillTransactionLiveDataObserver {
 
     private final Context mContext;
     private final LifecycleOwner mLifecycleOwner;
-    private ViewActionListener.MilkTransactionDetailDialogViewActionListener mViewActionListener;
+    private MilkTransactionViewActionListener mViewActionListener;
 
     public MilkTransactionDetailDialogViewImpl(Context context, LifecycleOwner lifecycleOwner) {
         mContext = context;
@@ -23,8 +23,8 @@ public class MilkTransactionDetailDialogViewImpl
     }
 
     @Override
-    public void startObservingLiveData(LiveDataSource.MilkTransactionDialogLiveDataSource liveDataSource,
-                                       ViewActionListener.MilkTransactionDetailDialogViewActionListener viewActionListener) {
+    public void startObservingLiveData(MilkTransactionLiveDataSource liveDataSource,
+                                       MilkTransactionViewActionListener viewActionListener) {
         mViewActionListener = viewActionListener;
         liveDataSource.provideDialogMilkTransactionLiveData().ifPresent(this::observeMilkTransactionData);
         liveDataSource.provideDialogVisibilityControllerLiveData().ifPresent(this::observeDialogVisibilityControllerLiveData);

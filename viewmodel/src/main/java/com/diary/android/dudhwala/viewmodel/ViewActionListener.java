@@ -11,16 +11,11 @@ public interface ViewActionListener {
     }
 
     interface MilkTransactionViewActionListener {
-        void onListItemClicked(MilkTransaction milkTransaction);
-    }
 
-    interface MilkTransactionDurationViewActionListener {
         void onDurationChange(long fromTimeStamp, long toTimestamp);
 
         void onClickChangeDuration(Constants.DurationDirection direction);
-    }
 
-    interface MilkTransactionDetailDialogViewActionListener {
         void onListItemClicked(MilkTransaction milkTransaction);
 
         void onClickDialogPositiveButton(MilkTransaction newMilkTransaction);

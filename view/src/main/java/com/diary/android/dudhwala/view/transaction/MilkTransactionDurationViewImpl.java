@@ -9,19 +9,19 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.view.LiveDataObserver;
+import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.R;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener;
+import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
 
 public class MilkTransactionDurationViewImpl
-        implements LiveDataObserver.TransactionDurationLiveDataObserver {
+        implements MillTransactionLiveDataObserver {
 
     private static final String TAG = "DudhWala/MilkTransactionDurationViewImpl";
     private final LifecycleOwner mLifecycleOwner;
     private final Context mContext;
     private final View mItemView;
-    private ViewActionListener.MilkTransactionDurationViewActionListener mDurationViewActionListener;
+    private MilkTransactionViewActionListener mDurationViewActionListener;
 
     public MilkTransactionDurationViewImpl(Context context, LifecycleOwner lifecycleOwner, View view) {
         mContext = context;
@@ -36,14 +36,14 @@ public class MilkTransactionDurationViewImpl
                 .setOnClickListener(v -> onClickChangeDuration(Constants.DurationDirection.NEXT));
     }
 
-    public void onClickChangeDuration(Constants.DurationDirection direction) {
+    private void onClickChangeDuration(Constants.DurationDirection direction) {
         Log.d(TAG, "onClickChangeDuration() direction : " + direction);
         mDurationViewActionListener.onClickChangeDuration(direction);
     }
 
     @Override
-    public void startObservingLiveData(LiveDataSource.MilkTransactionDurationLiveDataSource liveDataSource,
-                                       ViewActionListener.MilkTransactionDurationViewActionListener viewActionListener) {
+    public void startObservingLiveData(MilkTransactionLiveDataSource liveDataSource,
+                                       MilkTransactionViewActionListener viewActionListener) {
 
         Log.d(TAG, "startObservingLiveData()");
         mDurationViewActionListener = viewActionListener;

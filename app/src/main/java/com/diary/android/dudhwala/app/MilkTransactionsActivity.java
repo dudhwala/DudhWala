@@ -56,7 +56,7 @@ public class MilkTransactionsActivity extends BaseActivity {
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
         mViewFactory.provideMilkTransactionSummeryView(this, this)
-                .startObservingLiveData(mMilkTransactionsViewModel);
+                .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
         mViewFactory.provideMilkTransactionDurationView(this, this, findViewById(R.id.durationContainer))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);

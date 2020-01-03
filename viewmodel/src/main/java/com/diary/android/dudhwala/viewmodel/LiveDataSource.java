@@ -21,21 +21,15 @@ public interface LiveDataSource {
         default Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionLiveData() {
             return Optional.empty();
         }
-    }
 
-    interface MilkTransactionSummeryLiveDataSource {
         default Optional<LiveData<MilkTransaction>> provideMilkTransactionSummeryLiveData() {
             return Optional.empty();
         }
-    }
 
-    interface MilkTransactionDurationLiveDataSource {
         default Optional<LiveData<MilkTransaction>> provideMilkTransactionDurationLiveData() {
             return Optional.empty();
         }
-    }
 
-    interface MilkTransactionDialogLiveDataSource {
         default Optional<LiveData<Boolean>> provideDialogVisibilityControllerLiveData() {
             return Optional.empty();
         }
