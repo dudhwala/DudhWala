@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15 Aug" />
+
+    <TextView
+        android:id="@+id/milkQuantityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2 litter" />
+
+    <TextView
+        android:id="@+id/milkRateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rs 50/liter" />
+
+    <TextView
+        android:id="@+id/milkType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cow Milk" />
+
+    <TextView
+        android:id="@+id/totalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rs 100/-" />
+
+</LinearLayout>

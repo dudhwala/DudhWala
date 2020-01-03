@@ -1,5 +1,7 @@
 package com.diary.android.dudhwala.viewmodel;
 
+import com.diary.android.dudhwala.common.Constants;
+import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 
 public interface ViewActionListener {
@@ -8,4 +10,23 @@ public interface ViewActionListener {
         void onAddCustomerClicked(CustomerData customerData);
     }
 
+    interface MilkTransactionViewActionListener {
+        void onListItemClicked(MilkTransaction milkTransaction);
+    }
+
+    interface MilkTransactionDurationViewActionListener {
+        void onDurationChange(long fromTimeStamp, long toTimestamp);
+
+        void onClickChangeDuration(Constants.DurationDirection direction);
+    }
+
+    interface MilkTransactionDetailDialogViewActionListener {
+        void onListItemClicked(MilkTransaction milkTransaction);
+
+        void onClickDialogPositiveButton(MilkTransaction newMilkTransaction);
+
+        void onClickEditButton();
+
+        void onClickDeleteButton();
+    }
 }

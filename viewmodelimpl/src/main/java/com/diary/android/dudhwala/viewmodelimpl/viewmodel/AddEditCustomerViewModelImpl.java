@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.model.ModelFactory;
-import com.diary.android.dudhwala.model.ModelFactoryLifecycle;
+import com.diary.android.dudhwala.model.RepositoryFactory;
+import com.diary.android.dudhwala.model.RepositoryFactoryLifecycle;
 import com.diary.android.dudhwala.viewmodel.AddEditCustomerViewModel;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
-import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerExecutor;
-import com.diary.android.dudhwala.viewmodelimpl.executor.AddEditCustomerExecutorImpl;
+import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerLiveDataManager;
+import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.AddEditCustomerLiveDataManagerImpl;
 
 import java.util.Optional;
 
@@ -18,16 +18,16 @@ public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCu
 
     private boolean isMarked = true;
 
-    private ModelFactory mModelFactory;
+    private RepositoryFactory mRepositoryFactory;
 
-    private AddEditCustomerExecutor mAddEditCustomerExecutor;
+    private AddEditCustomerLiveDataManager mAddEditCustomerLiveDataManager;
 
     private int mCustomerId = -1;
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        mModelFactory.disconnected(ModelFactoryLifecycle.ViewModelType.addEditCustomerVM);
+        mRepositoryFactory.disconnected(RepositoryFactoryLifecycle.ViewModelType.addEditCustomerVM);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCu
     }
 
     @Override
-    public void markThisInstance() {
+    public void markAsOldInstance() {
         isMarked = false;
     }
 
@@ -46,23 +46,24 @@ public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCu
     }
 
     @Override
-    public void injectModelFactory(ModelFactory modelFactory) {
-        mModelFactory = modelFactory;
-        modelFactory.connected(ModelFactoryLifecycle.ViewModelType.addEditCustomerVM);
+    public void injectRepositoryFactory(RepositoryFactory repositoryFactory) {
+        mRepositoryFactory = repositoryFactory;
+        repositoryFactory.connected(RepositoryFactoryLifecycle.ViewModelType.addEditCustomerVM);
     }
 
-    public void injectExecutors() {
-        mAddEditCustomerExecutor = new AddEditCustomerExecutorImpl(mModelFactory, mCustomerId);
+    @Override
+    public void injectLiveDataManager() {
+        mAddEditCustomerLiveDataManager = new AddEditCustomerLiveDataManagerImpl(mRepositoryFactory, mCustomerId);
 
     }
 
     @Override
     public Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
-        return Optional.ofNullable(mAddEditCustomerExecutor.getCustomerInfoLiveData());
+        return Optional.ofNullable(mAddEditCustomerLiveDataManager.getCustomerInfoLiveData());
     }
 
     @Override
     public void onAddCustomerClicked(CustomerData customerData) {
-        mAddEditCustomerExecutor.executeUpdateCustomerData(customerData);
+        mAddEditCustomerLiveDataManager.executeUpdateCustomerData(customerData);
     }
 }

@@ -1,17 +1,11 @@
 package com.diary.android.dudhwala.viewmodel;
 
-import com.diary.android.dudhwala.model.ModelFactory;
+public interface AddEditCustomerViewModel extends
+        BaseViewModel,
+        LiveDataSource.AddEditLiveDataSource,
+        ViewActionListener.AddEditViewActionListner {
 
-public interface AddEditCustomerViewModel extends LiveDataSource.AddEditLiveDataSource, ViewActionListener.AddEditViewActionListner {
-
-    boolean isNewInstance();
-
-    void markThisInstance();
-
-     void injectExecutors();
+    void injectLiveDataManager();
 
     void setCustomerId(int customerId);
-
-    void injectModelFactory(ModelFactory modelFactory);
-
 }

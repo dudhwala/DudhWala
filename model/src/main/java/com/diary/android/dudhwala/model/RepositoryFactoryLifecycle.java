@@ -1,6 +1,6 @@
 package com.diary.android.dudhwala.model;
 
-public interface ModelFactoryLifecycle {
+public interface RepositoryFactoryLifecycle {
 
     interface ViewModelType {
         int noVM = 0x00000000;

@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
-import com.diary.android.dudhwala.viewmodel.executorlifecycle.ExecutorLifeCycle;
+import com.diary.android.dudhwala.viewmodel.executorlifecycle.LiveDataManagerLifeCycle;
 
-public interface AddEditCustomerExecutor extends ExecutorLifeCycle {
+public interface AddEditCustomerLiveDataManager extends LiveDataManagerLifeCycle {
 
     LiveData<CustomerInfo> getCustomerInfoLiveData();
 

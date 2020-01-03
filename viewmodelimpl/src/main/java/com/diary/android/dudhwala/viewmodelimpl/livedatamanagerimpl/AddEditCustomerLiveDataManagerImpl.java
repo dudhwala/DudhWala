@@ -1,4 +1,4 @@
-package com.diary.android.dudhwala.viewmodelimpl.executor;
+package com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl;
 
 import android.util.Log;
 
@@ -8,30 +8,30 @@ import androidx.lifecycle.LiveData;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.MilkType;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.model.ModelFactory;
+import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
-import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerExecutor;
+import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerLiveDataManager;
 
 
-public class AddEditCustomerExecutorImpl implements AddEditCustomerExecutor {
+public class AddEditCustomerLiveDataManagerImpl implements AddEditCustomerLiveDataManager {
 
     private static final String TAG = Constants.Log._TAG + "AddEditCustomerExecutorImpl";
-    private ModelFactory mModelFactory;
+    private RepositoryFactory mRepositoryFactory;
 
     @Nullable
     private LiveData<CustomerInfo> mCustomerInfoLiveData;
 
     private CustomerInfoDataSource mCustomerInfoDataSource;
 
-    private int mCustomerId;
+    private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
 
-    public AddEditCustomerExecutorImpl(ModelFactory modelFactory, int customerId) {
+    public AddEditCustomerLiveDataManagerImpl(RepositoryFactory repositoryFactory, int customerId) {
 
-        mModelFactory = modelFactory;
+        mRepositoryFactory = repositoryFactory;
         mCustomerId = customerId;
 
-        mCustomerInfoDataSource = mModelFactory.getCustomerInfoRepository();
+        mCustomerInfoDataSource = mRepositoryFactory.getCustomerInfoRepository();
 
         if (mCustomerId != Constants.Customer.UNKNOWN_CUSTOMER_ID) {
             mCustomerInfoLiveData = mCustomerInfoDataSource.getCustomerInfo(mCustomerId);

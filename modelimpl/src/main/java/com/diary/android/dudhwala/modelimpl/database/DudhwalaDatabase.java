@@ -9,15 +9,15 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.diary.android.dudhwala.common.CommonThreadPool;
-import com.diary.android.dudhwala.modelimpl.dao.CustomerInfoDao;
-import com.diary.android.dudhwala.modelimpl.dao.MilkTransactionDao;
-import com.diary.android.dudhwala.modelimpl.dao.MonthTransactionAmountDao;
-import com.diary.android.dudhwala.modelimpl.dao.PaymentDao;
 import com.diary.android.dudhwala.common.entity.Action;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.common.entity.MonthTransactionAmount;
 import com.diary.android.dudhwala.common.entity.Payment;
+import com.diary.android.dudhwala.modelimpl.dao.CustomerInfoDao;
+import com.diary.android.dudhwala.modelimpl.dao.MilkTransactionDao;
+import com.diary.android.dudhwala.modelimpl.dao.MonthTransactionAmountDao;
+import com.diary.android.dudhwala.modelimpl.dao.PaymentDao;
 
 @Database(entities = {CustomerInfo.class, MilkTransaction.class, Payment.class,
         MonthTransactionAmount.class, Action.class},
@@ -38,6 +38,12 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
                         milkTransactionDao.insertMilkTransaction(new MilkTransaction(2,
                                 2, 1, 50, 100,
                                 System.currentTimeMillis()));
+                milkTransactionDao.insertMilkTransaction(new MilkTransaction(2,
+                        3, 1, 50, 100,
+                        System.currentTimeMillis()));
+                milkTransactionDao.insertMilkTransaction(new MilkTransaction(2,
+                        4, 1, 50, 100,
+                        System.currentTimeMillis()));
 
 
                         PaymentDao paymentDao = INSTANCE.paymentDao();

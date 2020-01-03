@@ -2,13 +2,13 @@ package com.diary.android.dudhwala.app;
 
 import android.app.Application;
 
-import com.diary.android.dudhwala.model.ModelFactory;
-import com.diary.android.dudhwala.modelimpl.ModelFactoryImpl;
+import com.diary.android.dudhwala.model.RepositoryFactory;
+import com.diary.android.dudhwala.modelimpl.RepositoryFactoryImpl;
 
 public class App extends Application {
 
     private static App instance;
-    private ModelFactory modelFactory;
+    private RepositoryFactory mRepositoryFactory;
 
     @Override
     public void onCreate() {
@@ -21,11 +21,11 @@ public class App extends Application {
     }
 
     // So that model be same for all components
-    ModelFactory getModelFactory(){
-        if(modelFactory == null){
-            modelFactory = new ModelFactoryImpl(this);
+    RepositoryFactory getRepositoryFactory() {
+        if (mRepositoryFactory == null) {
+            mRepositoryFactory = new RepositoryFactoryImpl(this);
         }
-        return modelFactory;
+        return mRepositoryFactory;
     }
 
 }

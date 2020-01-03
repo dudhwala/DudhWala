@@ -1,8 +1,6 @@
 package com.diary.android.dudhwala.viewmodel.executorlifecycle;
 
-import com.diary.android.dudhwala.model.ModelFactory;
-
-public interface ExecutorLifeCycle {
+public interface LiveDataManagerLifeCycle {
 
     void setUp();
 
