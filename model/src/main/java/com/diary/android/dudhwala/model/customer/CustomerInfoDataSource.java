@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 
+import java.util.List;
+
 public interface CustomerInfoDataSource {
 
     int addCustomerInfo(CustomerInfo customerInfo);
@@ -11,5 +13,7 @@ public interface CustomerInfoDataSource {
     int editCustomerInfo(CustomerInfo customerInfo);
 
     LiveData<CustomerInfo> getCustomerInfo(int customerId);
+
+    LiveData<List<CustomerInfo>> getAllCustomersList();
 
 }

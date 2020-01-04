@@ -5,7 +5,5 @@ public interface AddEditCustomerViewModel extends
         LiveDataSource.AddEditLiveDataSource,
         ViewActionListener.AddEditViewActionListner {
 
-    void injectLiveDataManager();
-
     void setCustomerId(int customerId);
 }

@@ -5,7 +5,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.android.dudhwala.view.customerlist.CustomerListViewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionDetailDialogViewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionDurationViewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionListVIewImpl;
@@ -24,6 +26,12 @@ public class ViewFactory {
             }
         }
         return INSTANCE;
+    }
+
+    public CustomerListViewImpl provideCustomerListView(@NonNull Context context,
+                                                        @NonNull LifecycleOwner lifecycleOwner,
+                                                        @NonNull View recyclerView) {
+        return new CustomerListViewImpl(context, lifecycleOwner, recyclerView);
     }
 
     public AddEditCustomerViewImpl provideAddEditCustomerView(@NonNull View view, @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {

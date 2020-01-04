@@ -12,6 +12,12 @@ import java.util.Optional;
 
 public interface LiveDataSource {
 
+    interface CustomerListLiveDataSource {
+        default Optional<LiveData<List<CustomerInfo>>> provideCustomerListLiveData() {
+            return Optional.empty();
+        }
+    }
+
     interface AddEditLiveDataSource {
         default Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
             return Optional.empty();

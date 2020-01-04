@@ -7,7 +7,6 @@ public interface MilkTransactionViewModel extends
 
     void onClickAddNewTransactionFab();
 
-    void injectLiveDataManager();
-
     void setCustomerId(int customerId);
+
 }

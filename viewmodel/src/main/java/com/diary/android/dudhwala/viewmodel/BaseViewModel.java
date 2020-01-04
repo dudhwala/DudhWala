@@ -9,4 +9,6 @@ public interface BaseViewModel {
     void markAsOldInstance();
 
     void injectRepositoryFactory(RepositoryFactory repositoryFactory);
+
+    void injectLiveDataManager();
 }

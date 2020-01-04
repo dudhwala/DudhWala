@@ -17,7 +17,6 @@ import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerLiveDataMana
 public class AddEditCustomerLiveDataManagerImpl implements AddEditCustomerLiveDataManager {
 
     private static final String TAG = Constants.Log._TAG + "AddEditCustomerExecutorImpl";
-    private RepositoryFactory mRepositoryFactory;
 
     @Nullable
     private LiveData<CustomerInfo> mCustomerInfoLiveData;
@@ -27,15 +26,11 @@ public class AddEditCustomerLiveDataManagerImpl implements AddEditCustomerLiveDa
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
 
     public AddEditCustomerLiveDataManagerImpl(RepositoryFactory repositoryFactory, int customerId) {
-
-        mRepositoryFactory = repositoryFactory;
         mCustomerId = customerId;
 
-        mCustomerInfoDataSource = mRepositoryFactory.getCustomerInfoRepository();
+        mCustomerInfoDataSource = repositoryFactory.getCustomerInfoRepository();
 
-        if (mCustomerId != Constants.Customer.UNKNOWN_CUSTOMER_ID) {
-            mCustomerInfoLiveData = mCustomerInfoDataSource.getCustomerInfo(mCustomerId);
-        }
+        mCustomerInfoLiveData = mCustomerInfoDataSource.getCustomerInfo(mCustomerId);
     }
 
     @Override

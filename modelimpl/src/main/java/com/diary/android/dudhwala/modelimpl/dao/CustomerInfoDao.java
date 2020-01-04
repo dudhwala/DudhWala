@@ -8,6 +8,8 @@ import androidx.room.Query;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 
+import java.util.List;
+
 @Dao
 public interface CustomerInfoDao {
 
@@ -19,4 +21,7 @@ public interface CustomerInfoDao {
 
     @Query("SELECT * from customer_info_table where _id = :customerId")
     LiveData<CustomerInfo> getCustomerInfoByCustomerId(int customerId);
+
+    @Query("SELECT * from customer_info_table")
+    LiveData<List<CustomerInfo>> getAllCustomers();
 }
