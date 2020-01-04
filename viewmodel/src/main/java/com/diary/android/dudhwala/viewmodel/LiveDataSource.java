@@ -4,6 +4,7 @@ package com.diary.android.dudhwala.viewmodel;
 import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
+import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 
@@ -42,6 +43,10 @@ public interface LiveDataSource {
         }
 
         default Optional<LiveData<MilkTransaction>> provideDialogMilkTransactionLiveData() {
+            return Optional.empty();
+        }
+
+        default Optional<LiveData<CustomerInfoForMTActivity>> provideCustomerInfoLiveData() {
             return Optional.empty();
         }
     }

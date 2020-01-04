@@ -1,6 +1,5 @@
 package com.diary.android.dudhwala.modelimpl.customer;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -8,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.CommonThreadPool;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
+import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
 import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
 import com.diary.android.dudhwala.modelimpl.dao.CustomerInfoDao;
 import com.diary.android.dudhwala.modelimpl.database.DudhwalaDatabase;
@@ -67,5 +67,10 @@ public class CustomerInfoRepository implements CustomerInfoDataSource {
         Log.d(TAG, "getAllCustomersList ");
 
         return mDb.customerInfoDao().getAllCustomers();
+    }
+
+    @Override
+    public LiveData<CustomerInfoForMTActivity> getCustomerInfoForMTActivity(int customerId) {
+        return mDb.customerInfoDao().getCustomerInfoForMTActivity(customerId);
     }
 }

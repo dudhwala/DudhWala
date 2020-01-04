@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
@@ -59,6 +60,11 @@ public class MilkTransactionLiveDataManagerImpl implements
     @Override
     public LiveData<SummeryData> getSummeryLiveData() {
         return mSummeryLiveData;
+    }
+
+    @Override
+    public LiveData<CustomerInfoForMTActivity> getCustomerInfoLiveData() {
+        return mRepositoryFactory.getCustomerInfoRepository().getCustomerInfoForMTActivity(mCustomerId);
     }
 
     @Override

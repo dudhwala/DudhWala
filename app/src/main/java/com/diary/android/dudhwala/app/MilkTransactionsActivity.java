@@ -3,6 +3,8 @@ package com.diary.android.dudhwala.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -36,6 +38,34 @@ public class MilkTransactionsActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.milk_transaction_activity_menus, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_show_payments:
+                // User chose the "Payment" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
     void createViewModelAndInjectRepositoryFactory() {
         Log.d(TAG, "createViewModelAndInjectRepositoryFactory()");
         mMilkTransactionsViewModel = getMilkTransactionViewModel();
@@ -57,7 +87,8 @@ public class MilkTransactionsActivity extends BaseActivity {
         mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.recyclerView))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
-        mViewFactory.provideMilkTransactionSummeryView(this, this, findViewById(R.id.summeryViewContainer))
+        mViewFactory.provideMilkTransactionSummeryAndToolbarView(this, this,
+                findViewById(R.id.summeryViewContainer), findViewById(R.id.toolbar))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
         mViewFactory.provideMilkTransactionDurationView(this, this, findViewById(R.id.durationViewContainer))

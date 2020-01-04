@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
@@ -135,6 +136,8 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
                 Toast.makeText(mContext, "Please Check Info Entered", Toast.LENGTH_LONG).show(); //TOCHECK //String
             } else {
                 mViewActionListener.onAddCustomerClicked(customerData);
+                Toast.makeText(mContext, "Customer Added", Toast.LENGTH_LONG).show();
+                ((AppCompatActivity) mContext).finish();
             }
         }
     }

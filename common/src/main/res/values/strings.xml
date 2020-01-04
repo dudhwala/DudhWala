@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Dudh Wala</string>
     <string name="choose_milk_type">Choose Milk Type</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_favorite">Payments</string>
+    <string name="action_search">Search</string>
 
     <string-array name="milk_type">
         <item>Cow</item>

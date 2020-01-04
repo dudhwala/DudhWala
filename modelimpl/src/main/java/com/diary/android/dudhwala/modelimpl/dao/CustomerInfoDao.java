@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
+import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public interface CustomerInfoDao {
 
     @Query("SELECT * from customer_info_table")
     LiveData<List<CustomerInfo>> getAllCustomers();
+
+    @Query("SELECT customer_name, mobile_number, total_amount_due from customer_info_table where _id = :customerId")
+    LiveData<CustomerInfoForMTActivity> getCustomerInfoForMTActivity(int customerId);
 }

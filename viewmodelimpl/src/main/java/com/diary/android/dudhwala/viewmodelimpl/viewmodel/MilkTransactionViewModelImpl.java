@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diary.android.dudhwala.common.Constants;
+import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.MilkTransactionViewModel;
@@ -119,5 +120,10 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     @Override
     public Optional<LiveData<MilkTransaction>> provideDialogMilkTransactionLiveData() {
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<LiveData<CustomerInfoForMTActivity>> provideCustomerInfoLiveData() {
+        return Optional.ofNullable(mSummeryLiveDataManager.getCustomerInfoLiveData());
     }
 }
