@@ -44,7 +44,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
             mAddress,
             mRate;
     private Spinner mMilktype;
-    private Button mAddButton;
+    private Button mAddUpdateButton;
 
 
     AddEditCustomerViewImpl(@NonNull View view, @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {
@@ -60,8 +60,8 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
         mMilktype = view.findViewById(R.id.spn_milktype);
         mRate = view.findViewById(R.id.et_rate);
 
-        mAddButton = view.findViewById(R.id.btn_Add);
-        mAddButton.setOnClickListener(this);
+        mAddUpdateButton = view.findViewById(R.id.btn_Add);
+        mAddUpdateButton.setOnClickListener(this);
 
         mMilktype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -126,11 +126,13 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
         }
         mMilktype.setSelection(mCustomerInfoMilkType - 1);
         mRate.setText(Integer.toString(mCustomerInfoMiltRate));
+
+        mAddUpdateButton.setText("Update");
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == mAddButton.getId()) {
+        if (view.getId() == mAddUpdateButton.getId()) {
             CustomerData customerData = makeCustomerData();
             if (customerData == null) {
                 Toast.makeText(mContext, "Please Check Info Entered", Toast.LENGTH_LONG).show(); //TOCHECK //String

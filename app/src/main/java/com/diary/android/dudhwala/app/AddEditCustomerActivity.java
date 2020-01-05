@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.diary.android.dudhwala.R;
@@ -33,9 +34,21 @@ public class AddEditCustomerActivity extends BaseActivity {
                 .map(extras -> extras.getInt(Constants.Extra.EXTRA_CUSTOMER_ID))
                 .orElse(Constants.Customer.UNKNOWN_CUSTOMER_ID);
 
+        updateActionBar();
+
         createViewModelAndInjectRepositoryFactory();
         injectView();
 
+    }
+
+    private void updateActionBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (mCustomerId == Constants.Customer.UNKNOWN_CUSTOMER_ID) {
+            toolbar.setTitle("Add New Customer");
+        } else {
+            toolbar.setTitle("Update Customer");
+        }
     }
 
     @Override

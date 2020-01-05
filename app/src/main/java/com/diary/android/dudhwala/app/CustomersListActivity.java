@@ -34,10 +34,9 @@ public class CustomersListActivity extends BaseActivity {
 
         findViewById(R.id.fab_add_new_customer).setOnClickListener(v -> {
             Intent intent = new Intent(this, AddEditCustomerActivity.class);
-            intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, 1);
+            intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, -1);
             startActivity(intent);
         });
-        tempCode();
     }
 
     @Override
@@ -60,10 +59,11 @@ public class CustomersListActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.customers_list_activity_menus, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
 
+        MenuItem searchItem = menu.findItem(R.id.action_search);
         // Configure the search info and add any event listeners...
         SearchView searchView = (SearchView) searchItem.getActionView();
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -86,15 +86,6 @@ public class CustomersListActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    //TODO Remove it it is for just testing
-    private void tempCode() {
-        findViewById(R.id.fab_temp).setOnClickListener(v -> {
-            Intent intent = new Intent(this, MilkTransactionsActivity.class);
-            intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, 2);
-            startActivity(intent);
-        });
     }
 
     @Override

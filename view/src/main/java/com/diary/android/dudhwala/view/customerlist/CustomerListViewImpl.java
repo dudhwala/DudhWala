@@ -1,18 +1,19 @@
 package com.diary.android.dudhwala.view.customerlist;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.view.LiveDataObserver;
 import com.diary.android.dudhwala.view.R;
@@ -24,7 +25,8 @@ import java.util.List;
 
 import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 
-public class CustomerListViewImpl implements LiveDataObserver.CustomerListLiveDataObserver {
+public class CustomerListViewImpl implements CustomerListAdapter.CustomerListItemClickListener,
+        LiveDataObserver.CustomerListLiveDataObserver {
 
     private final String TAG = _TAG + "CustomerListViewImpl";
 
@@ -52,7 +54,7 @@ public class CustomerListViewImpl implements LiveDataObserver.CustomerListLiveDa
     }
 
     private void configureRecyclerView() {
-        mCustomerListAdapter = new CustomerListAdapter();
+        mCustomerListAdapter = new CustomerListAdapter(this);
         Log.d(TAG, "configureRecyclerVIew()");
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -75,5 +77,23 @@ public class CustomerListViewImpl implements LiveDataObserver.CustomerListLiveDa
                     mCustomerInfoList = customerInfoList;
                     mCustomerListAdapter.updateCustomerList(customerInfoList);
                 });
+    }
+
+    @Override
+    public void onClickListItem() {
+        Intent intent = new Intent().setComponent(
+                new ComponentName(mContext, "com.diary.android.dudhwala.app.MilkTransactionsActivity"));
+        intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, 2);
+        mContext.startActivity(intent);
+    }
+
+    @Override
+    public void onClickQuickAdd() {
+        Toast.makeText(mContext, "quickadd", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClickAdd() {
+        Toast.makeText(mContext, "add", Toast.LENGTH_SHORT).show();
     }
 }

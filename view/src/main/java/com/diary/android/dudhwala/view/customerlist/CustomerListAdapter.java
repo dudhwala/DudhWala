@@ -24,26 +24,36 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     @Nullable
     private List<CustomerInfo> mCustomerInfoList;
 
+    private final CustomerListItemClickListener mCustomerListItemClickListener;
+
+    CustomerListAdapter(CustomerListItemClickListener customerListItemClickListener) {
+        mCustomerListItemClickListener = customerListItemClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.customers_list_item, parent, false);
-        return new ViewHolder(listItem);
+        return new ViewHolder(listItem, mCustomerListItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder position : " + position);
 
-        CustomerInfo customerInfo = mCustomerInfoList.get(position);
-        if (customerInfo != null) {
-            String name = "Date : " + customerInfo.getCustomerName();
-            String pendAmt = "Milk Type : " + customerInfo.getTotalAmountDue();
+        if(mCustomerInfoList == null){
+            return;
+        }
+
+        Optional.ofNullable(mCustomerInfoList.get(position)).ifPresent(customerInfo -> {
+            String name = "Name : " + customerInfo.getCustomerName();
+            String pendAmt = "Pending Amount : " + customerInfo.getTotalAmountDue();
 
             holder.name.setText(name);
             holder.pendingAmount.setText(pendAmt);
-        }
+        });
+
     }
 
     @Override
@@ -67,12 +77,26 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         ImageView quickAdd;
         ImageView add;
 
-        ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView, final CustomerListItemClickListener customerListItemClickListener) {
             super(itemView);
             this.name = itemView.findViewById(R.id.customer_name);
             this.pendingAmount = itemView.findViewById(R.id.pending_amount);
             this.quickAdd = itemView.findViewById(R.id.quick_add_milk);
             this.add = itemView.findViewById(R.id.add_milk);
+
+            itemView.setOnClickListener(v -> customerListItemClickListener.onClickListItem());
+            quickAdd.setOnClickListener(v -> customerListItemClickListener.onClickQuickAdd());
+            add.setOnClickListener(v -> customerListItemClickListener.onClickAdd());
+
+
         }
+    }
+
+    interface CustomerListItemClickListener {
+        void onClickListItem();
+
+        void onClickQuickAdd();
+
+        void onClickAdd();
     }
 }
