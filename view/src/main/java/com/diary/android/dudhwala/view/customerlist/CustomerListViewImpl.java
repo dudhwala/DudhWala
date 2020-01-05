@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
@@ -80,20 +79,21 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     }
 
     @Override
-    public void onClickListItem() {
+    public void onClickListItem(int customerId) {
+       // mViewActionListener.onCustomerListItemClicked(customerId);
         Intent intent = new Intent().setComponent(
-                new ComponentName(mContext, "com.diary.android.dudhwala.app.MilkTransactionsActivity"));
-        intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, 2);
+                new ComponentName(mContext, Constants.ActivityIntent.MilkTransactionActivity));
+        intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, customerId);
         mContext.startActivity(intent);
     }
 
     @Override
     public void onClickQuickAdd() {
-        Toast.makeText(mContext, "quickadd", Toast.LENGTH_SHORT).show();
+        mViewActionListener.onQuickAddMilkTransactionClicked();
     }
 
     @Override
     public void onClickAdd() {
-        Toast.makeText(mContext, "add", Toast.LENGTH_SHORT).show();
+        mViewActionListener.onAddMilkTransactionClicked();
     }
 }

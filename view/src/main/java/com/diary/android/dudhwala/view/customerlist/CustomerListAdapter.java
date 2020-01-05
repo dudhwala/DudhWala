@@ -42,7 +42,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder position : " + position);
 
-        if(mCustomerInfoList == null){
+        if (mCustomerInfoList == null) {
             return;
         }
 
@@ -52,6 +52,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
             holder.name.setText(name);
             holder.pendingAmount.setText(pendAmt);
+            holder.bindCustomerInfo(customerInfo);
         });
 
     }
@@ -76,6 +77,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         TextView pendingAmount;
         ImageView quickAdd;
         ImageView add;
+        CustomerInfo mCustomerInfo;
 
         ViewHolder(@NonNull View itemView, final CustomerListItemClickListener customerListItemClickListener) {
             super(itemView);
@@ -84,16 +86,18 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             this.quickAdd = itemView.findViewById(R.id.quick_add_milk);
             this.add = itemView.findViewById(R.id.add_milk);
 
-            itemView.setOnClickListener(v -> customerListItemClickListener.onClickListItem());
+            itemView.setOnClickListener(v -> customerListItemClickListener.onClickListItem(mCustomerInfo.getId()));
             quickAdd.setOnClickListener(v -> customerListItemClickListener.onClickQuickAdd());
             add.setOnClickListener(v -> customerListItemClickListener.onClickAdd());
+        }
 
-
+        void bindCustomerInfo(CustomerInfo customerInfo) {
+            mCustomerInfo = customerInfo;
         }
     }
 
     interface CustomerListItemClickListener {
-        void onClickListItem();
+        void onClickListItem(int customerId);
 
         void onClickQuickAdd();
 
