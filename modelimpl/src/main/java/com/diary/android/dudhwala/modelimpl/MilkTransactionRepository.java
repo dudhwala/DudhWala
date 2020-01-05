@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Insert;
 
 import com.diary.android.dudhwala.common.CommonThreadPool;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
@@ -34,5 +35,12 @@ public class MilkTransactionRepository implements MilkTransactionDataSource {
     public void updateMilkTransaction(MilkTransaction milkTransaction) {
         CommonThreadPool.getThreadPool().execute(() -> mDb.milkTransactionDao()
                 .updateTransaction(milkTransaction));
+    }
+
+    @Insert
+    public void insertMilkTransaction(MilkTransaction milkTransaction) {
+        CommonThreadPool.getThreadPool().execute(() -> mDb.milkTransactionDao()
+                .insertMilkTransaction(milkTransaction));
+
     }
 }

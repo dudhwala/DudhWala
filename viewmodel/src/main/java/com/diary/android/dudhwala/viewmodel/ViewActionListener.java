@@ -27,10 +27,12 @@ public interface ViewActionListener {
 
         void onListItemClicked(MilkTransaction milkTransaction);
 
-        void onClickDialogPositiveButton(MilkTransaction newMilkTransaction);
+        void onClickAddNewMilkTransaction(MilkTransaction newMilkTransaction);
 
         void onClickEditButton();
 
         void onClickDeleteButton();
+
+        void saveCurrentMilkTransactionState(MilkTransaction mMilkTransaction);
     }
 }

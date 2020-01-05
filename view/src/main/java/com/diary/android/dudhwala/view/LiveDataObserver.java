@@ -1,7 +1,11 @@
 package com.diary.android.dudhwala.view;
 
-import com.diary.android.dudhwala.viewmodel.LiveDataSource.*;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener.*;
+import com.diary.android.dudhwala.viewmodel.LiveDataSource.AddEditLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.LiveDataSource.CustomerListLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.ViewActionListener.AddEditViewActionListner;
+import com.diary.android.dudhwala.viewmodel.ViewActionListener.CustomerListViewActionListener;
+import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
 
 public interface LiveDataObserver {
 
@@ -12,7 +16,7 @@ public interface LiveDataObserver {
 
     interface AddEditLiveDataObserver {
         void startObservingLiveData(AddEditLiveDataSource liveDataSource,
-                                    AddEditViewActionListner viewActionListner);
+                                    AddEditViewActionListner viewActionListener);
     }
 
     interface MillTransactionLiveDataObserver {

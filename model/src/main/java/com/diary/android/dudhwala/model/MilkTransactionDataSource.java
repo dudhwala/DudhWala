@@ -11,4 +11,6 @@ public interface MilkTransactionDataSource {
     LiveData<List<MilkTransaction>> getMilkTransactions(int customerId, long fromTimestamp, long toTimestamp);
 
     void updateMilkTransaction(MilkTransaction milkTransaction);
+
+    void insertMilkTransaction(MilkTransaction milkTransaction);
 }

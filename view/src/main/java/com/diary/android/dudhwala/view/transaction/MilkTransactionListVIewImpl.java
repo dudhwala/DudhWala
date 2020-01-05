@@ -55,7 +55,7 @@ public class MilkTransactionListVIewImpl implements
                                        MilkTransactionViewActionListener viewActionListener) {
         Log.d(TAG, "startObservingLiveData()");
         mViewActionListener = viewActionListener;
-        liveDataSource.provideMilkTransactionLiveData().ifPresent(this::observeMilkTransactionLiveData);
+        liveDataSource.provideMilkTransactionListLiveData().ifPresent(this::observeMilkTransactionLiveData);
     }
 
     private void observeMilkTransactionLiveData(LiveData<List<MilkTransaction>> arrayListLiveData) {

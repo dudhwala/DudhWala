@@ -2,7 +2,7 @@ package com.diary.android.dudhwala.viewmodel.executor;
 
 import androidx.lifecycle.LiveData;
 
-import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
+import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 import com.diary.android.dudhwala.viewmodel.executorlifecycle.LiveDataManagerLifeCycle;
@@ -14,17 +14,26 @@ public interface MilkTransactionLiveDataManager extends LiveDataManagerLifeCycle
     interface TransactionsListLiveDataManager {
         LiveData<List<MilkTransaction>> getTransactionsArrayListLiveData();
 
+        LiveData<MilkTransaction> getSelectedMilkTransaction();
+
+        void updateTransactionId(int transactionId);
+
+        void updateCurrentMilkTransaction(MilkTransaction milkTransaction);
+
         void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp);
     }
 
-    interface DetailDialogLiveDataManager {
-        LiveData<Boolean> getDetailDialogVisibilityControllerLiveData();
+    interface DialogLiveDataManager {
         LiveData<MilkTransaction> getMilkTransactionLiveData(int milkTransactionId);
+
+        void insertNewMilkTransaction(MilkTransaction milkTransaction);
+
+        void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
     }
 
     interface SummeryLiveDataManager {
         LiveData<SummeryData> getSummeryLiveData();
 
-        LiveData<CustomerInfoForMTActivity> getCustomerInfoLiveData();
+        LiveData<CustomerInfo> getCustomerInfoLiveData();
     }
 }

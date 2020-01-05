@@ -24,7 +24,7 @@ import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 
 public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
 
-    private final String TAG = " AddEditCustomerViewImpl : ";
+    private final String TAG = "DudhWala/AddEditCustomerViewImpl";
 
     @NonNull
     private Context mContext;
@@ -110,6 +110,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
     }
 
     private void assignCustomerInfo() {
+        Log.d(TAG, "assignCustomerInfo()");
         mName.setText(mCustomerInfo.getCustomerName());
         mNumber.setText(mCustomerInfo.getMobileNumber());
         mEmail.setText(mCustomerInfo.getEmailAddress());

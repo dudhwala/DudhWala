@@ -75,4 +75,28 @@ public class MilkTransaction {
     public long getTransactionDate() {
         return transactionDate;
     }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setMilkQuantityLiters(int milkQuantityLiters) {
+        this.milkQuantityLiters = milkQuantityLiters;
+    }
+
+    public void setMilkType(int milkType) {
+        this.milkType = milkType;
+    }
+
+    public void setPricePerLiter(int pricePerLiter) {
+        this.pricePerLiter = pricePerLiter;
+    }
+
+    public void setTransactionAmount(int transactionAmount) {
+        this.transactionAmount = transactionAmount;
+    }
+
+    public void setTransactionDate(long transactionDate) {
+        this.transactionDate = transactionDate;
+    }
 }

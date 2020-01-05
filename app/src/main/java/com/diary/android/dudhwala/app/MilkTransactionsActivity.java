@@ -20,7 +20,6 @@ public class MilkTransactionsActivity extends BaseActivity {
 
     private static final String TAG = "DudhWala/MilkTransactionsActivity";
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
-    private ViewFactory mViewFactory;
     private MilkTransactionViewModelImpl mMilkTransactionsViewModel;
 
     @Override
@@ -38,16 +37,21 @@ public class MilkTransactionsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        findViewById(R.id.fab).setOnClickListener(v ->
+                showAddNewTransactionDialog(Constants.MilkTransaction.UNKNOWN_TRANSACTION_ID));
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.milk_transaction_activity_menus, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
@@ -82,7 +86,7 @@ public class MilkTransactionsActivity extends BaseActivity {
     @Override
     void injectView() {
         Log.d(TAG, "injectView()");
-        mViewFactory = ViewFactory.getViewFactoryInstance();
+        ViewFactory mViewFactory = ViewFactory.getViewFactoryInstance();
 
         mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.recyclerView))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
@@ -97,5 +101,13 @@ public class MilkTransactionsActivity extends BaseActivity {
 
     private MilkTransactionViewModelImpl getMilkTransactionViewModel() {
         return ViewModelProviders.of(this).get(MilkTransactionViewModelImpl.class);
+    }
+
+    private void showAddNewTransactionDialog(int transactionId) {
+        Log.d(TAG, "showAddNewTransactionDialog()");
+        mMilkTransactionsViewModel.setTransactionId(transactionId);
+        MilkTransactionDialogFragment milkTransactionDialogFragment = new MilkTransactionDialogFragment();
+        milkTransactionDialogFragment.show(getSupportFragmentManager(),
+                "add_new_milk_transaction_dialog");
     }
 }

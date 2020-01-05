@@ -2,6 +2,7 @@ package com.diary.android.dudhwala.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 public class AddEditCustomerActivity extends BaseActivity {
 
+    private static final String TAG = "DudhWala/AddEditCustomerActivity";
     private AddEditCustomerViewModel mAddEditCustomerViewModel;
 
     private ViewFactory mViewFactory;
@@ -27,6 +29,7 @@ public class AddEditCustomerActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_add_edit_customer);
 
         mCustomerId = Optional.ofNullable(getIntent())
@@ -63,6 +66,7 @@ public class AddEditCustomerActivity extends BaseActivity {
 
     @Override
     void createViewModelAndInjectRepositoryFactory() {
+        Log.d(TAG, "createViewModelAndInjectRepositoryFactory()");
         mAddEditCustomerViewModel = getAddEditCustomerViewModel();
 
         if (mAddEditCustomerViewModel.isNewInstance()) {

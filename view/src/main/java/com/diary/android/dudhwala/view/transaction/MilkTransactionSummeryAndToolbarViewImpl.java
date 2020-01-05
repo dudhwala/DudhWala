@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
-import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
+import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
@@ -56,8 +56,8 @@ public class MilkTransactionSummeryAndToolbarViewImpl implements
         liveDataSource.provideCustomerInfoLiveData().ifPresent(this::setCustomerDataObserver);
     }
 
-    private void setCustomerDataObserver(LiveData<CustomerInfoForMTActivity> customerLiveData) {
-        customerLiveData.observe(mLifecycleOwner, this::updateCustomerViews);
+    private void setCustomerDataObserver(LiveData<CustomerInfo> customerInfoLiveData) {
+        customerInfoLiveData.observe(mLifecycleOwner, this::updateCustomerViews);
     }
 
     private void setSummeryDataObserver(LiveData<SummeryData> milkTransactionLiveData) {
@@ -70,7 +70,7 @@ public class MilkTransactionSummeryAndToolbarViewImpl implements
         mSummeryAmountTextView.setText(String.valueOf(summeryData.getTotalAmountForDuration()));
     }
 
-    private void updateCustomerViews(CustomerInfoForMTActivity customerData) {
+    private void updateCustomerViews(CustomerInfo customerData) {
         Log.d(TAG, "due amount : " + customerData.getTotalAmountDue()
                 + " customer name : " + customerData.getCustomerName());
         mSummeryTotalDueAmountTextView.setText(String.valueOf(customerData.getTotalAmountDue()));

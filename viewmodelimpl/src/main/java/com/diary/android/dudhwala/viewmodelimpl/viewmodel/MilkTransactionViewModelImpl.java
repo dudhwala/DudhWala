@@ -6,12 +6,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diary.android.dudhwala.common.Constants;
-import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
+import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.MilkTransactionViewModel;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.DetailDialogLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.DialogLiveDataManager;
 import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.SummeryLiveDataManager;
 import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.MilkTransactionLiveDataManagerImpl;
@@ -25,7 +25,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     private static final String TAG = "DudhWala/MilkTransactionViewModelImpl";
     private RepositoryFactory mRepositoryFactory;
     private TransactionsListLiveDataManager mTransactionsListLiveDataManager;
-    private DetailDialogLiveDataManager mDetailDialogLiveDataManager;
+    private DialogLiveDataManager mDialogLiveDataManager;
     private SummeryLiveDataManager mSummeryLiveDataManager;
     private boolean mIsNewInstance = true;
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
@@ -47,7 +47,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
                 new MilkTransactionLiveDataManagerImpl(mRepositoryFactory, mCustomerId);
 
         mTransactionsListLiveDataManager = milkTransactionLiveDataManager;
-        mDetailDialogLiveDataManager = milkTransactionLiveDataManager;
+        mDialogLiveDataManager = milkTransactionLiveDataManager;
         mSummeryLiveDataManager = milkTransactionLiveDataManager;
 
     }
@@ -55,6 +55,11 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     @Override
     public void setCustomerId(int customerId) {
         mCustomerId = customerId;
+    }
+
+    @Override
+    public void setTransactionId(int transactionId) {
+        mTransactionsListLiveDataManager.updateTransactionId(transactionId);
     }
 
     @Override
@@ -68,8 +73,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void onClickDialogPositiveButton(MilkTransaction newMilkTransaction) {
-
+    public void onClickAddNewMilkTransaction(MilkTransaction newMilkTransaction) {
+        mDialogLiveDataManager.insertNewMilkTransaction(newMilkTransaction);
     }
 
     @Override
@@ -83,8 +88,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void onClickAddNewTransactionFab() {
-
+    public void saveCurrentMilkTransactionState(MilkTransaction milkTransaction) {
+        mDialogLiveDataManager.saveCurrentMilkTransactionState(milkTransaction);
     }
 
     @Override
@@ -103,8 +108,13 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionLiveData() {
+    public Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionListLiveData() {
         return Optional.ofNullable(mTransactionsListLiveDataManager.getTransactionsArrayListLiveData());
+    }
+
+    @Override
+    public Optional<LiveData<MilkTransaction>> provideSelectedMilkTransactionLiveData() {
+        return Optional.ofNullable(mTransactionsListLiveDataManager.getSelectedMilkTransaction());
     }
 
     @Override
@@ -123,7 +133,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public Optional<LiveData<CustomerInfoForMTActivity>> provideCustomerInfoLiveData() {
+    public Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
         return Optional.ofNullable(mSummeryLiveDataManager.getCustomerInfoLiveData());
     }
 }

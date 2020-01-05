@@ -16,7 +16,12 @@ public interface Constants {
         int PRICE_UNKNOWN = 0;
         int DEFAULT_QUICK_ADD_QUANTITY = 2;
     }
-    interface Log{
+
+    interface MilkTransaction {
+        int UNKNOWN_TRANSACTION_ID = -1;
+    }
+
+    interface Log {
         String _TAG = "Dudhwala - ";
     }
     interface ActivityIntent{

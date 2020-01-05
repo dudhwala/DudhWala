@@ -4,12 +4,11 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.android.dudhwala.view.customerlist.CustomerListViewImpl;
-import com.diary.android.dudhwala.view.customerlist.CustomerListViewImpl;
-import com.diary.android.dudhwala.view.transaction.MilkTransactionDetailDialogViewImpl;
+import com.diary.android.dudhwala.view.transaction.MilkTransactionDialogView;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionDurationViewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionListVIewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionSummeryAndToolbarViewImpl;
@@ -51,9 +50,9 @@ public class ViewFactory {
                 context, lifecycleOwner, summeryView, toolbarView);
     }
 
-    public MilkTransactionDetailDialogViewImpl provideMilkTransactionDetailView(
-            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {
-        return new MilkTransactionDetailDialogViewImpl(context, lifecycleOwner);
+    public MilkTransactionDialogView provideMilkTransactionDialogView(
+            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, AlertDialog dialog) {
+        return new MilkTransactionDialogView(context, lifecycleOwner, dialog);
     }
 
     public MilkTransactionDurationViewImpl provideMilkTransactionDurationView(

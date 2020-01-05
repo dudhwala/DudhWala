@@ -5,8 +5,7 @@ public interface MilkTransactionViewModel extends
         ViewActionListener.MilkTransactionViewActionListener,
         LiveDataSource.MilkTransactionLiveDataSource {
 
-    void onClickAddNewTransactionFab();
-
     void setCustomerId(int customerId);
 
+    void setTransactionId(int unknownTransactionId);
 }
