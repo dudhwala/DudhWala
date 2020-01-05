@@ -40,7 +40,7 @@ public class MilkTransactionsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         findViewById(R.id.fab).setOnClickListener(v ->
-                showAddNewTransactionDialog(Constants.MilkTransaction.UNKNOWN_TRANSACTION_ID));
+                showAddNewTransactionDialog(Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID));
     }
 
     @Override

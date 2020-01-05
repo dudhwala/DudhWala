@@ -17,7 +17,7 @@ public interface Constants {
         int DEFAULT_QUICK_ADD_QUANTITY = 2;
     }
 
-    interface MilkTransaction {
+    interface MilkTransactionConstants {
         int UNKNOWN_TRANSACTION_ID = -1;
     }
 

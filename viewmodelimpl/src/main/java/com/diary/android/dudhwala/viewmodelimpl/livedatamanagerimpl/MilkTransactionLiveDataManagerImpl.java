@@ -32,6 +32,8 @@ public class MilkTransactionLiveDataManagerImpl implements
     private MediatorLiveData<List<MilkTransaction>> mTransactionsArrayListLiveData
             = new MediatorLiveData<>();
 
+    private LiveData<List<MilkTransaction>> source;
+
     private HashMap milkTransactionCache;
     private MutableLiveData<SummeryData> mSummeryLiveData = new MutableLiveData<>();
     private MutableLiveData<MilkTransaction> mSelectedMilkTransactionLiveData = new MutableLiveData<>();
@@ -41,6 +43,15 @@ public class MilkTransactionLiveDataManagerImpl implements
         mRepositoryFactory = repositoryFactory;
         mCustomerId = customerId;
         mCustomerInfoLiveData = mRepositoryFactory.getCustomerInfoRepository().getCustomerInfo(mCustomerId);
+
+        source = mRepositoryFactory.getMilkTransactionRepository()
+                .getMilkTransactions(mCustomerId, 0, System.currentTimeMillis());
+
+        mTransactionsArrayListLiveData.addSource(source, value -> {
+            updateSummery(value);
+            mTransactionsArrayListLiveData.setValue(value);
+        });
+
     }
 
     @Override
@@ -92,7 +103,7 @@ public class MilkTransactionLiveDataManagerImpl implements
 
     @Override
     public void updateTransactionId(int transactionId) {
-        if (transactionId == Constants.MilkTransaction.UNKNOWN_TRANSACTION_ID) {
+        if (transactionId == Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID) {
             mSelectedMilkTransactionLiveData.setValue(getDefaultMilkTransaction());
         } else {
             mSelectedMilkTransactionLiveData.setValue(getMTForTransactionId(transactionId));
@@ -140,11 +151,11 @@ public class MilkTransactionLiveDataManagerImpl implements
     public void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp) {
         Log.d(TAG, "updateMilkTransactionDuration() mCustomerId : " + mCustomerId);
 
-        LiveData<List<MilkTransaction>> source = mRepositoryFactory.getMilkTransactionRepository()
+        mTransactionsArrayListLiveData.removeSource(source);
+        source = mRepositoryFactory.getMilkTransactionRepository()
                 .getMilkTransactions(mCustomerId, fromTimestamp, toTimestamp);
 
-        mTransactionsArrayListLiveData.addSource(source,
-                value -> {
+        mTransactionsArrayListLiveData.addSource(source, value -> {
                     updateSummery(value);
                     mTransactionsArrayListLiveData.setValue(value);
                 });
@@ -152,6 +163,9 @@ public class MilkTransactionLiveDataManagerImpl implements
 
     private void updateSummery(List<MilkTransaction> value) {
         Log.d(TAG, "updateSummery()");
+        if (value == null) {
+            return;
+        }
         Iterator<MilkTransaction> iterator = value.iterator();
         int totalMilkQuantity = 0;
         int totalAmount = 0;

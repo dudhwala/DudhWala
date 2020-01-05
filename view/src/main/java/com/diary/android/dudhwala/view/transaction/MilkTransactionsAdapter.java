@@ -55,7 +55,10 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
 
     @Override
     public int getItemCount() {
-        return milkTransactionsArrayList.size();
+        if (milkTransactionsArrayList != null) {
+            return milkTransactionsArrayList.size();
+        }
+        return 0;
     }
 
     public void updateMilkTransactionsData(List<MilkTransaction> milkTransactions) {

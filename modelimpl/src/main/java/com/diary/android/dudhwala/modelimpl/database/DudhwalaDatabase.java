@@ -8,7 +8,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.diary.android.dudhwala.common.CommonThreadPool;
 import com.diary.android.dudhwala.common.entity.Action;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
@@ -33,7 +32,7 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
             super.onCreate(db);
 
             //insert dummy data
-            CommonThreadPool.getThreadPool().execute(() -> {
+          /*  CommonThreadPool.getThreadPool().execute(() -> {
                         MilkTransactionDao milkTransactionDao = INSTANCE.milkTransactionDao();
                         milkTransactionDao.insertMilkTransaction(new MilkTransaction(2,
                                 2, 1, 50, 100,
@@ -68,7 +67,7 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
                                 600,
                                 System.currentTimeMillis()));
                     }
-            );
+            );*/
         }
 
         @Override
