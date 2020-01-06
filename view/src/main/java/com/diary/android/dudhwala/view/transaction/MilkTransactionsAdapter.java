@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.android.dudhwala.common.TimeUtils;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.R;
 
@@ -34,7 +35,8 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
 
         MilkTransaction milkTransaction = milkTransactionsArrayList.get(position);
 
-        String transactionDate = "Date : " + milkTransaction.getTransactionDate();
+        String transactionDate = "Date : " + TimeUtils.convertTimestampToDateString(
+                milkTransaction.getTransactionDate());
         String milkType = "Milk Type : " + milkTransaction.getMilkType();
         String milkQuantity = "Milk Quantity : " + milkTransaction.getMilkQuantityLiters();
         String milkPricePerLiter = "Price/Liter : " + milkTransaction.getPricePerLiter();

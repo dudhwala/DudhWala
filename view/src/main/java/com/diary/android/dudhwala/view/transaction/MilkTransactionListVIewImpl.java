@@ -21,7 +21,6 @@ import java.util.List;
 public class MilkTransactionListVIewImpl implements
         MillTransactionLiveDataObserver {
 
-
     private static final String TAG = "DudhWala/MilkTransactionListVIewImpl";
     private static final int VERTICAL_ITEM_SPACE = 30;
     private final Context mContext;
@@ -41,11 +40,14 @@ public class MilkTransactionListVIewImpl implements
 
     private void configureRecyclerView() {
         Log.d(TAG, "configureRecyclerVIew()");
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
 
-        //add ItemDecoration vertical Space
-        //Add Custom Divider
+        //Reverse View Show latest transaction at bottom
+        linearLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        //Add Custom Divider and ItemDecoration vertical Space
         mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider, VERTICAL_ITEM_SPACE));
         mRecyclerView.setAdapter(mAdapter);
     }

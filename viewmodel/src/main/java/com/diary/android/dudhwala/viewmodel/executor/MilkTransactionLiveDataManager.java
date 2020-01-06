@@ -29,6 +29,8 @@ public interface MilkTransactionLiveDataManager extends LiveDataManagerLifeCycle
         void insertNewMilkTransaction(MilkTransaction milkTransaction);
 
         void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
+
+        void updateMilkType(int milkType, long date, int price, int quantity);
     }
 
     interface SummeryLiveDataManager {

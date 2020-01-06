@@ -34,5 +34,7 @@ public interface ViewActionListener {
         void onClickDeleteButton();
 
         void saveCurrentMilkTransactionState(MilkTransaction mMilkTransaction);
+
+        void updateMilkType(int milkType, long date, int price, int quantity);
     }
 }

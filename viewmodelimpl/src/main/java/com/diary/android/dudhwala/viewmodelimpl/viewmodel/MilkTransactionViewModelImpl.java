@@ -93,6 +93,11 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
+    public void updateMilkType(int milkType, long date, int price, int quantity) {
+        mDialogLiveDataManager.updateMilkType(milkType, date, price, quantity);
+    }
+
+    @Override
     public void onDurationChange(long fromTimeStamp, long toTimestamp) {
 
     }

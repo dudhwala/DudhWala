@@ -26,6 +26,7 @@ public class MilkTransactionLiveDataManagerImpl implements
         TransactionsListLiveDataManager {
 
     private static final String TAG = "DudhWala/MilkTransactionLiveDataManagerImpl";
+    private static final int DEFAULT_MILK_PRICE = 50;
     private final int mCustomerId;
 
     private RepositoryFactory mRepositoryFactory;
@@ -43,15 +44,6 @@ public class MilkTransactionLiveDataManagerImpl implements
         mRepositoryFactory = repositoryFactory;
         mCustomerId = customerId;
         mCustomerInfoLiveData = mRepositoryFactory.getCustomerInfoRepository().getCustomerInfo(mCustomerId);
-
-        source = mRepositoryFactory.getMilkTransactionRepository()
-                .getMilkTransactions(mCustomerId, 0, System.currentTimeMillis());
-
-        mTransactionsArrayListLiveData.addSource(source, value -> {
-            updateSummery(value);
-            mTransactionsArrayListLiveData.setValue(value);
-        });
-
     }
 
     @Override
@@ -77,6 +69,30 @@ public class MilkTransactionLiveDataManagerImpl implements
     @Override
     public void saveCurrentMilkTransactionState(MilkTransaction milkTransaction) {
         mSelectedMilkTransactionLiveData.setValue(milkTransaction);
+    }
+
+    @Override
+    public void updateMilkType(int milkType, long date, int price, int quantity) {
+
+        //old price not required any more
+        price = getPriceOfMilkType(milkType);
+        MilkTransaction milkTransaction = new MilkTransaction(
+                mCustomerId, quantity, milkType, price, price * quantity, date);
+        mSelectedMilkTransactionLiveData.setValue(milkTransaction);
+    }
+
+    private int getPriceOfMilkType(int milkType) {
+        CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
+        if (customerInfo != null) {
+            if (milkType == MilkType.COW.intValue()) {
+                return customerInfo.getPricePerLiterCow();
+            } else if (milkType == MilkType.BUFF.intValue()) {
+                return customerInfo.getPricePerLiterBuffalo();
+            } else if (milkType == MilkType.MIX.intValue()) {
+                return customerInfo.getPricePerLiterMix();
+            }
+        }
+        return DEFAULT_MILK_PRICE;
     }
 
     @Override
@@ -151,14 +167,13 @@ public class MilkTransactionLiveDataManagerImpl implements
     public void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp) {
         Log.d(TAG, "updateMilkTransactionDuration() mCustomerId : " + mCustomerId);
 
-        mTransactionsArrayListLiveData.removeSource(source);
         source = mRepositoryFactory.getMilkTransactionRepository()
                 .getMilkTransactions(mCustomerId, fromTimestamp, toTimestamp);
 
         mTransactionsArrayListLiveData.addSource(source, value -> {
-                    updateSummery(value);
-                    mTransactionsArrayListLiveData.setValue(value);
-                });
+            updateSummery(value);
+            mTransactionsArrayListLiveData.setValue(value);
+        });
     }
 
     private void updateSummery(List<MilkTransaction> value) {

@@ -1,5 +1,6 @@
 package com.diary.android.dudhwala.view.transaction;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
+import com.diary.android.dudhwala.common.TimeUtils;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.IActivityActionListener.IDialogFragmentActionListener;
 import com.diary.android.dudhwala.view.LiveDataObserver;
@@ -24,6 +26,7 @@ import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
 
+import java.util.Calendar;
 
 public class MilkTransactionDialogView implements LiveDataObserver.MillTransactionLiveDataObserver,
         IDialogFragmentActionListener {
@@ -40,36 +43,26 @@ public class MilkTransactionDialogView implements LiveDataObserver.MillTransacti
     private Spinner mMilkTypeSpinner;
     private LifecycleOwner mLifecycleOwner;
     private MilkTransaction mMilkTransaction;
-    private AdapterView.OnItemSelectedListener mSpinnerItemClickListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-            //TODO
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-
-        }
-    };
 
     public MilkTransactionDialogView(Context context, LifecycleOwner lifecycleOwner, AlertDialog dialog) {
         mContext = context;
         mLifecycleOwner = lifecycleOwner;
 
-        mDateEditText = dialog.findViewById(R.id.date);
         mMilkQuantityEditText = dialog.findViewById(R.id.milkQuantity);
         mMilkPriceEditText = dialog.findViewById(R.id.milkPrice);
         mMilkTypeSpinner = dialog.findViewById(R.id.milkTypeSpinner);
-        mMilkTypeSpinner.setOnItemSelectedListener(mSpinnerItemClickListener);
+        mMilkTypeSpinner.setOnItemSelectedListener(getSpinnerItemSelectedListener());
         mPositiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         mNegativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         mPositiveButton.setOnClickListener(v -> createMilkTransactionAndInsert(dialog));
+        mDateEditText = dialog.findViewById(R.id.date);
+        mDateEditText.setOnClickListener(getOnClickDateListener());
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         Log.v(TAG, "onSaveInstanceState() pos : " + mMilkTypeSpinner.getSelectedItemPosition());
-        mMilkTransaction.setTransactionDate(Long.parseLong(mDateEditText.getText().toString()));
+        mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(mDateEditText.getText().toString()));
         mMilkTransaction.setPricePerLiter(Integer.parseInt(mMilkPriceEditText.getText().toString()));
         mMilkTransaction.setMilkQuantityLiters(Integer.parseInt(mMilkQuantityEditText.getText().toString()));
         mMilkTransaction.setMilkType(mMilkTypeSpinner.getSelectedItemPosition() + 1);
@@ -92,7 +85,7 @@ public class MilkTransactionDialogView implements LiveDataObserver.MillTransacti
         mMilkTransaction.setMilkType(milkType);
         mMilkTransaction.setPricePerLiter(Integer.parseInt(milkPrice));
         mMilkTransaction.setTransactionAmount(Integer.parseInt(quantity) * Integer.parseInt(milkPrice));
-        mMilkTransaction.setTransactionDate(Long.parseLong(date));
+        mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(date));
 
         mListener.onClickAddNewMilkTransaction(mMilkTransaction);
         dialog.dismiss();
@@ -107,16 +100,53 @@ public class MilkTransactionDialogView implements LiveDataObserver.MillTransacti
     }
 
     private void setMilkTransactionObserver(LiveData<MilkTransaction> milkTransactionLiveData) {
-        milkTransactionLiveData.observe(mLifecycleOwner, milkTransaction -> dataChangedUpdateDialogInfo(milkTransaction));
+        milkTransactionLiveData.observe(mLifecycleOwner, this::dataChangedUpdateDialogInfo);
     }
 
     private void dataChangedUpdateDialogInfo(MilkTransaction milkTransaction) {
         Log.d(TAG, "dataChangedUpdateDialogInfo()");
         mMilkTransaction = milkTransaction;
 
-        mDateEditText.setText(String.valueOf(mMilkTransaction.getTransactionDate()));
+        mDateEditText.setText(String.valueOf(TimeUtils.convertTimestampToDateString(mMilkTransaction.getTransactionDate())));
         mMilkQuantityEditText.setText((String.valueOf(mMilkTransaction.getMilkQuantityLiters())));
         mMilkTypeSpinner.setSelection(mMilkTransaction.getMilkType() - 1);
         mMilkPriceEditText.setText(String.valueOf(mMilkTransaction.getPricePerLiter()));
+    }
+
+    private AdapterView.OnItemSelectedListener getSpinnerItemSelectedListener() {
+        return new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                //todo
+
+                mListener.updateMilkType(pos + 1,
+                        TimeUtils.convertStringToTimestamp(mDateEditText.getText().toString()),
+                        Integer.parseInt(mMilkPriceEditText.getText().toString()),
+                        Integer.parseInt(mMilkQuantityEditText.getText().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        };
+    }
+
+    private View.OnClickListener getOnClickDateListener() {
+        return v -> {
+
+            final Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR); // current year
+            int mMonth = c.get(Calendar.MONTH); // current month
+            int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(mContext,
+                    (view, year, monthOfYear, dayOfMonth) -> {
+                        // set day of month , month and year value in the edit text
+                        mDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
+        };
     }
 }
