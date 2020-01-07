@@ -2,6 +2,7 @@ package com.diary.android.dudhwala.modelimpl.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -31,4 +32,7 @@ public interface MilkTransactionDao {
 
     @Query("DELETE FROM milk_transaction_table")
     void deleteAllMilkTransaction();
+
+    @Delete
+    void deleteMilkTransaction(MilkTransaction milkTransaction);
 }

@@ -43,4 +43,10 @@ public class MilkTransactionRepository implements MilkTransactionDataSource {
                 .insertMilkTransaction(milkTransaction));
 
     }
+
+    @Override
+    public void deleteMilkTransaction(MilkTransaction milkTransaction) {
+        CommonThreadPool.getThreadPool().execute(() -> mDb.milkTransactionDao()
+                .deleteMilkTransaction(milkTransaction));
+    }
 }

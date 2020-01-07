@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.view.LiveDataObserver;
 import com.diary.android.dudhwala.view.R;
+import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
 import com.diary.android.dudhwala.viewmodel.LiveDataSource;
 import com.diary.android.dudhwala.viewmodel.ViewActionListener;
@@ -25,7 +27,7 @@ import java.util.List;
 import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 
 public class CustomerListViewImpl implements CustomerListAdapter.CustomerListItemClickListener,
-        LiveDataObserver.CustomerListLiveDataObserver {
+        LiveDataObserver.CustomerListLiveDataObserver, SwipeController.SwipeActionListener {
 
     private final String TAG = _TAG + "CustomerListViewImpl";
 
@@ -57,7 +59,12 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
         Log.d(TAG, "configureRecyclerVIew()");
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider, VERTICAL_ITEM_SPACE));
+        //Add swipe actions
+        SwipeController swipeController = new SwipeController(this);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider, VERTICAL_ITEM_SPACE, swipeController));
         mRecyclerView.setAdapter(mCustomerListAdapter);
 
     }
@@ -95,5 +102,15 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     @Override
     public void onClickAdd() {
         mViewActionListener.onAddMilkTransactionClicked();
+    }
+
+    @Override
+    public void onEditClicked(int position) {
+
+    }
+
+    @Override
+    public void onDeleteClicked(int position) {
+
     }
 }

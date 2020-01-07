@@ -13,4 +13,6 @@ public interface MilkTransactionDataSource {
     void updateMilkTransaction(MilkTransaction milkTransaction);
 
     void insertMilkTransaction(MilkTransaction milkTransaction);
+
+    void deleteMilkTransaction(MilkTransaction milkTransaction);
 }

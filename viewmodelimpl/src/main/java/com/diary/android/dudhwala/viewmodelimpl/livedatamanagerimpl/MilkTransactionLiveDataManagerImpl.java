@@ -176,6 +176,11 @@ public class MilkTransactionLiveDataManagerImpl implements
         });
     }
 
+    @Override
+    public void deleteMilkTransaction(MilkTransaction milkTransaction) {
+        mRepositoryFactory.getMilkTransactionRepository().deleteMilkTransaction(milkTransaction);
+    }
+
     private void updateSummery(List<MilkTransaction> value) {
         Log.d(TAG, "updateSummery()");
         if (value == null) {

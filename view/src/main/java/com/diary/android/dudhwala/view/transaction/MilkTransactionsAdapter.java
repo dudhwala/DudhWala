@@ -69,6 +69,10 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
         notifyDataSetChanged();
     }
 
+    public MilkTransaction getItem(int position) {
+        return milkTransactionsArrayList.get(position);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView dateTextView;
         TextView milkQuantityTextView;

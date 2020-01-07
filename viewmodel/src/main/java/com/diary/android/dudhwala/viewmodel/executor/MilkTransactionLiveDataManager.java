@@ -21,6 +21,8 @@ public interface MilkTransactionLiveDataManager extends LiveDataManagerLifeCycle
         void updateCurrentMilkTransaction(MilkTransaction milkTransaction);
 
         void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp);
+
+        void deleteMilkTransaction(MilkTransaction milkTransaction);
     }
 
     interface DialogLiveDataManager {

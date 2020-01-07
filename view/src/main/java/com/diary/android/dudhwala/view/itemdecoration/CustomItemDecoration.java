@@ -8,13 +8,15 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.diary.android.dudhwala.view.SwipeController;
 
 public class CustomItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+    private final SwipeController swipeController;
 
     private Drawable divider;
 
@@ -23,19 +25,21 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * Default divider will be used
      */
-    public CustomItemDecoration(Context context, int verticalSpaceHeight) {
+    public CustomItemDecoration(Context context, SwipeController swipeController, int verticalSpaceHeight) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         divider = styledAttributes.getDrawable(0);
         styledAttributes.recycle();
         this.verticalSpaceHeight = verticalSpaceHeight;
+        this.swipeController = swipeController;
     }
 
     /**
      * Custom divider will be used
      */
-    public CustomItemDecoration(Context context, int resId, int verticalSpaceHeight) {
+    public CustomItemDecoration(Context context, int resId, int verticalSpaceHeight, SwipeController swipeController) {
         divider = ContextCompat.getDrawable(context, resId);
         this.verticalSpaceHeight = verticalSpaceHeight;
+        this.swipeController = swipeController;
     }
 
     @Override
@@ -53,8 +57,9 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
             int bottom = top + divider.getIntrinsicHeight();
 
             divider.setBounds(left, top, right, bottom);
-            divider.draw(c);
+            //divider.draw(c);
         }
+        swipeController.onDraw(c);
     }
 
     @Override

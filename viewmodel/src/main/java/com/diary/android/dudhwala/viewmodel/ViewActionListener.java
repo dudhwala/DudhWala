@@ -31,7 +31,7 @@ public interface ViewActionListener {
 
         void onClickEditButton();
 
-        void onClickDeleteButton();
+        void onClickDelete(MilkTransaction milkTransaction);
 
         void saveCurrentMilkTransactionState(MilkTransaction mMilkTransaction);
 

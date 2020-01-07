@@ -83,7 +83,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void onClickDeleteButton() {
+    public void onClickDelete(MilkTransaction milkTransaction) {
+        mTransactionsListLiveDataManager.deleteMilkTransaction(milkTransaction);
 
     }
 
