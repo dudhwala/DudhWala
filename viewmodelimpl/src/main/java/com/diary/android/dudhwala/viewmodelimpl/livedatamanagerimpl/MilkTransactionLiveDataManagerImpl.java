@@ -10,26 +10,26 @@ import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.MilkType;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.model.RepositoryFactory;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.DialogLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.SummeryLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager.DialogLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager.SummeryLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager.TransactionsListLiveDataManager;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public class MilkTransactionLiveDataManagerImpl implements
-        MilkTransactionLiveDataManager, DialogLiveDataManager, SummeryLiveDataManager,
+        IMilkTransactionLiveDataManager, DialogLiveDataManager, SummeryLiveDataManager,
         TransactionsListLiveDataManager {
 
     private static final String TAG = "DudhWala/MilkTransactionLiveDataManagerImpl";
     private static final int DEFAULT_MILK_PRICE = 50;
     private final int mCustomerId;
 
-    private RepositoryFactory mRepositoryFactory;
+    private IRepositoryFactory mRepositoryFactory;
     private MediatorLiveData<List<MilkTransaction>> mTransactionsArrayListLiveData
             = new MediatorLiveData<>();
 
@@ -40,7 +40,7 @@ public class MilkTransactionLiveDataManagerImpl implements
     private MutableLiveData<MilkTransaction> mSelectedMilkTransactionLiveData = new MutableLiveData<>();
     private LiveData<CustomerInfo> mCustomerInfoLiveData;
 
-    public MilkTransactionLiveDataManagerImpl(RepositoryFactory repositoryFactory, int customerId) {
+    public MilkTransactionLiveDataManagerImpl(IRepositoryFactory repositoryFactory, int customerId) {
         mRepositoryFactory = repositoryFactory;
         mCustomerId = customerId;
         mCustomerInfoLiveData = mRepositoryFactory.getCustomerInfoRepository().getCustomerInfo(mCustomerId);

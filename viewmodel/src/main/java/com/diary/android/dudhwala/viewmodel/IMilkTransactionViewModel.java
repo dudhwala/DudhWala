@@ -1,6 +1,6 @@
 package com.diary.android.dudhwala.viewmodel;
 
-public interface MilkTransactionViewModel extends
+public interface IMilkTransactionViewModel extends
         BaseViewModel,
         IViewActionListener.MilkTransactionViewActionListener,
         ILiveDataSource.MilkTransactionLiveDataSource {

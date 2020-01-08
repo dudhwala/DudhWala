@@ -21,14 +21,14 @@ import androidx.lifecycle.LiveData;
 import com.diary.android.dudhwala.common.TimeUtils;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.IActivityActionListener.IDialogFragmentActionListener;
-import com.diary.android.dudhwala.view.LiveDataObserver;
+import com.diary.android.dudhwala.view.ILiveDataObserver;
 import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 
 import java.util.Calendar;
 
-public class MilkTransactionDialogView implements LiveDataObserver.MillTransactionLiveDataObserver,
+public class MilkTransactionDialogView implements ILiveDataObserver.MillTransactionLiveDataObserver,
         IDialogFragmentActionListener {
 
     private final static String TAG = "DudhWala/MilkTransactionDialogView";

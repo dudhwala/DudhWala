@@ -1,6 +1,6 @@
 package com.diary.android.dudhwala.viewmodel;
 
-public interface CustomerListViewModel
+public interface ICustomerListViewModel
         extends BaseViewModel,
         ILiveDataSource.CustomerListLiveDataSource,
         IViewActionListener.CustomerListViewActionListener {

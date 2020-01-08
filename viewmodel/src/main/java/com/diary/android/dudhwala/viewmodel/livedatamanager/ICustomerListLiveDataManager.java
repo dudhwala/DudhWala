@@ -6,7 +6,7 @@ import com.diary.android.dudhwala.common.entity.CustomerInfo;
 
 import java.util.List;
 
-public interface CustomerListLiveDataManager {
+public interface ICustomerListLiveDataManager {
 
     LiveData<List<CustomerInfo>> provideCustomerListLiveData();
 

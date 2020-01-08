@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.view.LiveDataObserver;
+import com.diary.android.dudhwala.view.ILiveDataObserver;
 import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
@@ -27,7 +27,7 @@ import java.util.List;
 import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 
 public class CustomerListViewImpl implements CustomerListAdapter.CustomerListItemClickListener,
-        LiveDataObserver.CustomerListLiveDataObserver, SwipeController.SwipeActionListener {
+        ILiveDataObserver.CustomerListLiveDataObserver, SwipeController.SwipeActionListener {
 
     private final String TAG = _TAG + "CustomerListViewImpl";
 

@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
+import com.diary.android.dudhwala.view.ILiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;

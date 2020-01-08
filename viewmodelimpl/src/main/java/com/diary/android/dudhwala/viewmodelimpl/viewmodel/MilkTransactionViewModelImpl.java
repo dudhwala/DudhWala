@@ -8,22 +8,22 @@ import androidx.lifecycle.ViewModel;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.model.RepositoryFactory;
-import com.diary.android.dudhwala.viewmodel.MilkTransactionViewModel;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
+import com.diary.android.dudhwala.viewmodel.IMilkTransactionViewModel;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.DialogLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.SummeryLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager.DialogLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager.SummeryLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager.TransactionsListLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.MilkTransactionLiveDataManagerImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 public class MilkTransactionViewModelImpl extends ViewModel implements
-        MilkTransactionViewModel {
+        IMilkTransactionViewModel {
 
     private static final String TAG = "DudhWala/MilkTransactionViewModelImpl";
-    private RepositoryFactory mRepositoryFactory;
+    private IRepositoryFactory mRepositoryFactory;
     private TransactionsListLiveDataManager mTransactionsListLiveDataManager;
     private DialogLiveDataManager mDialogLiveDataManager;
     private SummeryLiveDataManager mSummeryLiveDataManager;
@@ -63,7 +63,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void injectRepositoryFactory(RepositoryFactory repositoryFactory) {
+    public void injectRepositoryFactory(IRepositoryFactory repositoryFactory) {
         Log.d(TAG, "injectRepositoryFactory()");
         mRepositoryFactory = repositoryFactory;
     }

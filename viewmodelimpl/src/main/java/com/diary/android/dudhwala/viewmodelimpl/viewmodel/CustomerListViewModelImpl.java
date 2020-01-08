@@ -4,21 +4,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.model.RepositoryFactory;
-import com.diary.android.dudhwala.viewmodel.CustomerListViewModel;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.CustomerListLiveDataManager;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
+import com.diary.android.dudhwala.viewmodel.ICustomerListViewModel;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.ICustomerListLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.CustomerListLiveDataManagerImpl;
 
 import java.util.List;
 import java.util.Optional;
 
-public class CustomerListViewModelImpl extends ViewModel implements CustomerListViewModel {
+public class CustomerListViewModelImpl extends ViewModel implements ICustomerListViewModel {
 
     private boolean isMarked = true;
 
-    private CustomerListLiveDataManager mCustomerListLiveDataManager;
+    private ICustomerListLiveDataManager mCustomerListLiveDataManager;
 
-    private RepositoryFactory mRepositoryFactory;
+    private IRepositoryFactory mRepositoryFactory;
 
     @Override
     public boolean isNewInstance() {
@@ -31,7 +31,7 @@ public class CustomerListViewModelImpl extends ViewModel implements CustomerList
     }
 
     @Override
-    public void injectRepositoryFactory(RepositoryFactory repositoryFactory) {
+    public void injectRepositoryFactory(IRepositoryFactory repositoryFactory) {
         mRepositoryFactory = repositoryFactory;
     }
 

@@ -6,7 +6,7 @@ import com.diary.android.dudhwala.common.entity.CustomerInfo;
 
 import java.util.List;
 
-public interface CustomerInfoDataSource {
+public interface ICustomerInfoDataSource {
 
     int addCustomerInfo(CustomerInfo customerInfo);
 

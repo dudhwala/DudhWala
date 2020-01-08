@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.CommonThreadPool;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
+import com.diary.android.dudhwala.model.customer.ICustomerInfoDataSource;
 import com.diary.android.dudhwala.modelimpl.dao.CustomerInfoDao;
 import com.diary.android.dudhwala.modelimpl.database.DudhwalaDatabase;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 
-public class CustomerInfoRepository implements CustomerInfoDataSource {
+public class CustomerInfoRepository implements ICustomerInfoDataSource {
 
     private final String TAG = _TAG + "CustomerInfoRepository";
 

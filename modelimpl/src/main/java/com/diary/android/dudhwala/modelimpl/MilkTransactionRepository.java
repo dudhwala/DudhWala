@@ -8,12 +8,12 @@ import androidx.room.Insert;
 
 import com.diary.android.dudhwala.common.CommonThreadPool;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.model.MilkTransactionDataSource;
+import com.diary.android.dudhwala.model.IMilkTransactionDataSource;
 import com.diary.android.dudhwala.modelimpl.database.DudhwalaDatabase;
 
 import java.util.List;
 
-public class MilkTransactionRepository implements MilkTransactionDataSource {
+public class MilkTransactionRepository implements IMilkTransactionDataSource {
 
     private static final String TAG = "DudhWala/MilkTransactionRepository";
     DudhwalaDatabase mDb;

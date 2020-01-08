@@ -22,7 +22,7 @@ import com.diary.android.dudhwala.viewmodel.ILiveDataSource.AddEditLiveDataSourc
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.AddEditViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 
-public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
+public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
 
     private final String TAG = "DudhWala/AddEditCustomerViewImpl";
 

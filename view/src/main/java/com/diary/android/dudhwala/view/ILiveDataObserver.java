@@ -7,7 +7,7 @@ import com.diary.android.dudhwala.viewmodel.IViewActionListener.AddEditViewActio
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.CustomerListViewActionListener;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 
-public interface LiveDataObserver {
+public interface ILiveDataObserver {
 
     interface CustomerListLiveDataObserver {
         void startObservingLiveData(CustomerListLiveDataSource liveDataSource,

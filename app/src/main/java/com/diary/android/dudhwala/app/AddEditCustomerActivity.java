@@ -12,7 +12,7 @@ import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.AddEditCustomerViewImpl;
 import com.diary.android.dudhwala.view.ViewFactory;
-import com.diary.android.dudhwala.viewmodel.AddEditCustomerViewModel;
+import com.diary.android.dudhwala.viewmodel.IAddEditCustomerViewModel;
 import com.diary.android.dudhwala.viewmodelimpl.viewmodel.AddEditCustomerViewModelImpl;
 
 import java.util.Optional;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class AddEditCustomerActivity extends BaseActivity {
 
     private static final String TAG = "DudhWala/AddEditCustomerActivity";
-    private AddEditCustomerViewModel mAddEditCustomerViewModel;
+    private IAddEditCustomerViewModel mAddEditCustomerViewModel;
 
     private ViewFactory mViewFactory;
 
@@ -59,7 +59,7 @@ public class AddEditCustomerActivity extends BaseActivity {
         super.onStart();
     }
 
-    private AddEditCustomerViewModel getAddEditCustomerViewModel() {
+    private IAddEditCustomerViewModel getAddEditCustomerViewModel() {
         return ViewModelProviders.of(this).get(AddEditCustomerViewModelImpl.class);
     }
 

@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.viewmodel.LiveDataManagerLifeCycle;
+import com.diary.android.dudhwala.viewmodel.ILiveDataManagerLifeCycle;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 
 import java.util.List;
 
-public interface MilkTransactionLiveDataManager extends LiveDataManagerLifeCycle {
+public interface IMilkTransactionLiveDataManager extends ILiveDataManagerLifeCycle {
 
     interface TransactionsListLiveDataManager {
         LiveData<List<MilkTransaction>> getTransactionsArrayListLiveData();

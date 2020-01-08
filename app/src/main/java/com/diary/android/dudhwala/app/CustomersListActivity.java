@@ -13,14 +13,14 @@ import androidx.lifecycle.ViewModelProviders;
 import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.ViewFactory;
-import com.diary.android.dudhwala.viewmodel.CustomerListViewModel;
+import com.diary.android.dudhwala.viewmodel.ICustomerListViewModel;
 import com.diary.android.dudhwala.viewmodelimpl.viewmodel.CustomerListViewModelImpl;
 
 public class CustomersListActivity extends BaseActivity {
 
     private static final String TAG = "DudhWala/CustomersListActivity";
 
-    private CustomerListViewModel mCustomerListViewModel;
+    private ICustomerListViewModel mCustomerListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class CustomersListActivity extends BaseActivity {
         //injectView();
     }
 
-    private CustomerListViewModel getViewModel() {
+    private ICustomerListViewModel getViewModel() {
         return ViewModelProviders.of(this).get(CustomerListViewModelImpl.class);
     }
 

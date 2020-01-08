@@ -3,19 +3,19 @@ package com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl;
 import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.model.RepositoryFactory;
-import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
-import com.diary.android.dudhwala.viewmodel.livedatamanager.CustomerListLiveDataManager;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
+import com.diary.android.dudhwala.model.customer.ICustomerInfoDataSource;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.ICustomerListLiveDataManager;
 
 import java.util.List;
 
-public class CustomerListLiveDataManagerImpl implements CustomerListLiveDataManager {
+public class CustomerListLiveDataManagerImpl implements ICustomerListLiveDataManager {
 
     private LiveData<List<CustomerInfo>> mCustomerListLiveData;
 
-    private CustomerInfoDataSource customerInfoDataSource;
+    private ICustomerInfoDataSource customerInfoDataSource;
 
-    public CustomerListLiveDataManagerImpl(RepositoryFactory repositoryFactory) {
+    public CustomerListLiveDataManagerImpl(IRepositoryFactory repositoryFactory) {
 
         customerInfoDataSource = repositoryFactory.getCustomerInfoRepository();
         mCustomerListLiveData = customerInfoDataSource.getAllCustomersList();
