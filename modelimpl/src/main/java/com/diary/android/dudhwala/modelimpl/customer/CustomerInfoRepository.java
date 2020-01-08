@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.CommonThreadPool;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
 import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
 import com.diary.android.dudhwala.modelimpl.dao.CustomerInfoDao;
 import com.diary.android.dudhwala.modelimpl.database.DudhwalaDatabase;
@@ -32,7 +31,7 @@ public class CustomerInfoRepository implements CustomerInfoDataSource {
 
     @Override
     public int addCustomerInfo(CustomerInfo customerInfo) {
-        Log.d(TAG, "addCustomerInfo " + customerInfo);
+        Log.d(TAG, "addCustomerInfo() customerInfo : " + customerInfo);
 
         CommonThreadPool.getThreadPool().execute(() -> {
             try {
@@ -56,21 +55,15 @@ public class CustomerInfoRepository implements CustomerInfoDataSource {
 
     @Override
     public LiveData<CustomerInfo> getCustomerInfo(int customerId) {
-        Log.d(TAG, "getCustomerInfo " + customerId);
 
+        Log.d(TAG, "getCustomerInfo() customerId : " + customerId);
         return mDb.customerInfoDao().getCustomerInfoByCustomerId(customerId);
     }
 
     @Override
     public LiveData<List<CustomerInfo>> getAllCustomersList() {
 
-        Log.d(TAG, "getAllCustomersList ");
-
+        Log.d(TAG, "getAllCustomersList()");
         return mDb.customerInfoDao().getAllCustomers();
-    }
-
-    @Override
-    public LiveData<CustomerInfoForMTActivity> getCustomerInfoForMTActivity(int customerId) {
-        return mDb.customerInfoDao().getCustomerInfoForMTActivity(customerId);
     }
 }

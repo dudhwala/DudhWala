@@ -7,8 +7,8 @@ public interface RepositoryFactoryLifecycle {
         int addEditCustomerVM = 0x00000001;
     }
 
-    boolean connected(int viewmodelType);
+    boolean connected(int viewModelType);
 
-    boolean disconnected(int viewmodelType);
+    boolean disconnected(int viewModelType);
 
 }

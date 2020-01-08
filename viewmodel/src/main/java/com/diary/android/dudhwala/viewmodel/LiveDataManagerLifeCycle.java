@@ -1,4 +1,4 @@
-package com.diary.android.dudhwala.viewmodel.executorlifecycle;
+package com.diary.android.dudhwala.viewmodel;
 
 public interface LiveDataManagerLifeCycle {
 

@@ -1,4 +1,4 @@
-package com.diary.android.dudhwala.viewmodel.executor;
+package com.diary.android.dudhwala.viewmodel.livedatamanager;
 
 import androidx.lifecycle.LiveData;
 

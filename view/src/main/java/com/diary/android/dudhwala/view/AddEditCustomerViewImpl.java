@@ -18,8 +18,8 @@ import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.MilkType;
 import com.diary.android.dudhwala.common.Utils;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource.AddEditLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener.AddEditViewActionListner;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource.AddEditLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.AddEditViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 
 public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
@@ -33,7 +33,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
     @NonNull
     private View mView;
 
-    private AddEditViewActionListner mViewActionListener;
+    private AddEditViewActionListener mViewActionListener;
     private CustomerInfo mCustomerInfo;
     private int mCustomerInfoMilkType = -1;
     private int mCustomerInfoMiltRate = -1;
@@ -92,7 +92,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
     }
 
     @Override
-    public void startObservingLiveData(AddEditLiveDataSource liveDataSource, AddEditViewActionListner viewActionListener) {
+    public void startObservingLiveData(AddEditLiveDataSource liveDataSource, AddEditViewActionListener viewActionListener) {
         mViewActionListener = viewActionListener;
         liveDataSource.provideCustomerInfoLiveData().ifPresent(this::setCustomerInfoLiveData);
 

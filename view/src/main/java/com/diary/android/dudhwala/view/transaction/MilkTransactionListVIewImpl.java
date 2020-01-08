@@ -15,8 +15,8 @@ import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 
 import java.util.List;
 

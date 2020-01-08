@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.CustomerListViewModel;
-import com.diary.android.dudhwala.viewmodel.executor.CustomerListLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.CustomerListLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.CustomerListLiveDataManagerImpl;
 
 import java.util.List;

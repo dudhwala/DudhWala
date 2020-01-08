@@ -11,9 +11,9 @@ import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.MilkTransactionViewModel;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.DialogLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.SummeryLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.DialogLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.SummeryLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.MilkTransactionLiveDataManagerImpl;
 
 import java.util.List;
@@ -69,10 +69,6 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void onListItemClicked(MilkTransaction milkTransaction) {
-    }
-
-    @Override
     public void onClickAddNewMilkTransaction(MilkTransaction newMilkTransaction) {
         mDialogLiveDataManager.insertNewMilkTransaction(newMilkTransaction);
     }
@@ -99,13 +95,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void onDurationChange(long fromTimeStamp, long toTimestamp) {
-
-    }
-
-    @Override
-    public void onClickChangeDuration(Constants.DurationDirection direction) {
-        Log.d(TAG, "onClickChangeDuration()  direction : " + direction);
+    public void onDurationChange(Constants.DurationDirection direction) {
+        Log.d(TAG, "onDurationChange()  direction : " + direction);
 
         //TODO calculate timestamp
         long fromTimestamp = 0;
@@ -126,16 +117,6 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     @Override
     public Optional<LiveData<SummeryData>> provideMilkTransactionSummeryLiveData() {
         return Optional.ofNullable(mSummeryLiveDataManager.getSummeryLiveData());
-    }
-
-    @Override
-    public Optional<LiveData<Boolean>> provideDialogVisibilityControllerLiveData() {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<LiveData<MilkTransaction>> provideDialogMilkTransactionLiveData() {
-        return Optional.empty();
     }
 
     @Override

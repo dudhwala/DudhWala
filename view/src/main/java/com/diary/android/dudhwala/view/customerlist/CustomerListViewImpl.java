@@ -19,8 +19,8 @@ import com.diary.android.dudhwala.view.LiveDataObserver;
 import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     @Nullable
     private List<CustomerInfo> mCustomerInfoList;
 
-    private ViewActionListener.CustomerListViewActionListener mViewActionListener;
+    private IViewActionListener.CustomerListViewActionListener mViewActionListener;
 
     public CustomerListViewImpl(Context context,
                                 LifecycleOwner lifecycleOwner,
@@ -70,8 +70,8 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     }
 
     @Override
-    public void startObservingLiveData(LiveDataSource.CustomerListLiveDataSource liveDataSource,
-                                       ViewActionListener.CustomerListViewActionListener viewActionListener) {
+    public void startObservingLiveData(ILiveDataSource.CustomerListLiveDataSource liveDataSource,
+                                       IViewActionListener.CustomerListViewActionListener viewActionListener) {
 
         mViewActionListener = viewActionListener;
         liveDataSource.provideCustomerListLiveData().ifPresent(this::setCustomerListLiveData);

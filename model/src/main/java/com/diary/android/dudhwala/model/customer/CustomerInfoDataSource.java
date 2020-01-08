@@ -3,7 +3,6 @@ package com.diary.android.dudhwala.model.customer;
 import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.common.entity.CustomerInfoForMTActivity;
 
 import java.util.List;
 
@@ -14,8 +13,6 @@ public interface CustomerInfoDataSource {
     int editCustomerInfo(CustomerInfo customerInfo);
 
     LiveData<CustomerInfo> getCustomerInfo(int customerId);
-
-    LiveData<CustomerInfoForMTActivity> getCustomerInfoForMTActivity(int customerId);
 
     LiveData<List<CustomerInfo>> getAllCustomersList();
 

@@ -13,8 +13,8 @@ import androidx.lifecycle.LiveData;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.R;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 
 public class MilkTransactionSummeryAndToolbarViewImpl implements

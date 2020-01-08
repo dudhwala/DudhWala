@@ -12,10 +12,10 @@ import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.DialogLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.SummeryLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.DialogLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.SummeryLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
 
 import java.util.HashMap;
 import java.util.Iterator;

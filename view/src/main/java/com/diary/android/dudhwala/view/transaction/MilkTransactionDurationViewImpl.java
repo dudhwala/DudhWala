@@ -11,8 +11,8 @@ import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.R;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 
 public class MilkTransactionDurationViewImpl
         implements MillTransactionLiveDataObserver {
@@ -38,8 +38,8 @@ public class MilkTransactionDurationViewImpl
     }
 
     private void onClickChangeDuration(Constants.DurationDirection direction) {
-        Log.d(TAG, "onClickChangeDuration() direction : " + direction);
-        mDurationViewActionListener.onClickChangeDuration(direction);
+        Log.d(TAG, "onDurationChange() direction : " + direction);
+        mDurationViewActionListener.onDurationChange(direction);
     }
 
     @Override

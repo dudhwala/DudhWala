@@ -2,8 +2,8 @@ package com.diary.android.dudhwala.viewmodel;
 
 public interface AddEditCustomerViewModel extends
         BaseViewModel,
-        LiveDataSource.AddEditLiveDataSource,
-        ViewActionListener.AddEditViewActionListner {
+        ILiveDataSource.AddEditLiveDataSource,
+        IViewActionListener.AddEditViewActionListener {
 
     void setCustomerId(int customerId);
 }

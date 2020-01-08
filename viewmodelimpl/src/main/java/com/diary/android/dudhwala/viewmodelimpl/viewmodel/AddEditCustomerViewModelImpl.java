@@ -8,7 +8,7 @@ import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.model.RepositoryFactoryLifecycle;
 import com.diary.android.dudhwala.viewmodel.AddEditCustomerViewModel;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
-import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.AddEditCustomerLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.AddEditCustomerLiveDataManagerImpl;
 
 import java.util.Optional;

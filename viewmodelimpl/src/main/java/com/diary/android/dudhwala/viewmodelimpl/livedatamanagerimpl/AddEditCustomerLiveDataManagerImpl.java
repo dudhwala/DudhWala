@@ -11,7 +11,7 @@ import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.model.RepositoryFactory;
 import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
-import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.AddEditCustomerLiveDataManager;
 
 
 public class AddEditCustomerLiveDataManagerImpl implements AddEditCustomerLiveDataManager {
