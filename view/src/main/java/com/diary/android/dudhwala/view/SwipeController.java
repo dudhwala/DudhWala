@@ -24,6 +24,7 @@ enum ButtonsState {
 public class SwipeController extends ItemTouchHelper.Callback {
 
     private static final float mButtonWidth = 300;
+    private static final float mSwipeExtraSpace = 16;
     private boolean mSwipeBack = false;
     private ButtonsState mButtonShowedState = ButtonsState.GONE;
     private RectF mButtonInstance = null;
@@ -69,10 +70,10 @@ public class SwipeController extends ItemTouchHelper.Callback {
         if (actionState == ACTION_STATE_SWIPE) {
             if (mButtonShowedState != ButtonsState.GONE) {
                 if (mButtonShowedState == ButtonsState.LEFT_VISIBLE) {
-                    dX = Math.max(dX, mButtonWidth);
+                    dX = dX > mButtonWidth + mSwipeExtraSpace ? mButtonWidth + mSwipeExtraSpace : mButtonWidth; //Math.max(dX, mButtonWidth);
                 }
                 if (mButtonShowedState == ButtonsState.RIGHT_VISIBLE) {
-                    dX = Math.min(dX, -mButtonWidth);
+                    dX = dX < -mButtonWidth - mSwipeExtraSpace ? -mButtonWidth - mSwipeExtraSpace : -mButtonWidth; // Math.min(dX, -mButtonWidth);
                 }
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             } else {
@@ -81,6 +82,11 @@ public class SwipeController extends ItemTouchHelper.Callback {
         }
 
         if (mButtonShowedState == ButtonsState.GONE) {
+            if (dX >= 0) {
+                dX = Math.min(dX, mButtonWidth + mSwipeExtraSpace);
+            } else {
+                dX = Math.max(dX, -mButtonWidth - mSwipeExtraSpace);
+            }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
         mCurrentItemViewHolder = viewHolder;
