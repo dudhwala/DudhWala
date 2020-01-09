@@ -5,10 +5,10 @@ public interface Constants {
         String EXTRA_CUSTOMER_ID = "extra_customer_id";
     }
 
-    enum DurationDirection {
-        NEXT,
-        PREVIOUS,
-        CENTER
+    interface ClickedButton {
+        int NEXT = 1;
+        int PREVIOUS = 2;
+        int CENTER = 3;
     }
 
     interface Customer {

@@ -15,4 +15,9 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/test_activity_launcher"
+        android:title="@string/launch_test_activity"
+        app:showAsAction="never" />
+
 </menu>

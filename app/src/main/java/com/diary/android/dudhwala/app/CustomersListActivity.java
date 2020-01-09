@@ -80,12 +80,22 @@ public class CustomersListActivity extends BaseActivity {
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
+            case R.id.test_activity_launcher:
+                launchTestActivity();
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private void launchTestActivity() {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+
     }
 
     @Override

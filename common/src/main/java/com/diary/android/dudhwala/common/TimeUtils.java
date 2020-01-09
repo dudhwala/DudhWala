@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 
 public class TimeUtils {
 
-    private final int FIRST_DAY_OF_MONTH = 1;
+    private static final int FIRST_DAY_OF_MONTH = 1;
 
     public static String convertTimestampToDateString(long timestamp) {
         return new SimpleDateFormat("dd/MM/yyyy").format(timestamp);
@@ -27,13 +27,13 @@ public class TimeUtils {
         }
     }
 
-    public long getMonthStartTimeStamp(int month, int year) {
+    public static long getMonthStartTimeStamp(int month, int year) {
 
         Calendar calendar = new GregorianCalendar(year, month, FIRST_DAY_OF_MONTH);
         return calendar.getTimeInMillis();
     }
 
-    public long getMonthEndTimeStamp(int month, int year) {
+    public static long getMonthEndTimeStamp(int month, int year) {
 
         Calendar calendar = new GregorianCalendar(year, month, FIRST_DAY_OF_MONTH);
         int lastDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);

@@ -16,7 +16,7 @@ import com.diary.android.dudhwala.viewmodelimpl.viewmodel.MilkTransactionViewMod
 
 import java.util.Optional;
 
-public class MilkTransactionsActivity extends BaseActivity {
+public class MilkTransactionsActivity extends BaseActivity implements CustomCalendarView.CalendarActionListener {
 
     private static final String TAG = "DudhWala/MilkTransactionsActivity";
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
@@ -95,8 +95,6 @@ public class MilkTransactionsActivity extends BaseActivity {
                 findViewById(R.id.summeryViewContainer), findViewById(R.id.toolbar))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
-        mViewFactory.provideMilkTransactionDurationView(this, this, findViewById(R.id.durationViewContainer))
-                .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
     }
 
     private MilkTransactionViewModelImpl getMilkTransactionViewModel() {
@@ -109,5 +107,10 @@ public class MilkTransactionsActivity extends BaseActivity {
         MilkTransactionDialogFragment milkTransactionDialogFragment = new MilkTransactionDialogFragment();
         milkTransactionDialogFragment.show(getSupportFragmentManager(),
                 "add_new_milk_transaction_dialog");
+    }
+
+    @Override
+    public void onUpdateDuration(int month, int year) {
+        mMilkTransactionsViewModel.onDurationChange(month, year);
     }
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.diary.android.dudhwala.view.customerlist.CustomerListViewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionDialogView;
-import com.diary.android.dudhwala.view.transaction.MilkTransactionDurationViewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionListVIewImpl;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionSummeryAndToolbarViewImpl;
 
@@ -53,11 +52,6 @@ public class ViewFactory {
     public MilkTransactionDialogView provideMilkTransactionDialogView(
             @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, AlertDialog dialog) {
         return new MilkTransactionDialogView(context, lifecycleOwner, dialog);
-    }
-
-    public MilkTransactionDurationViewImpl provideMilkTransactionDurationView(
-            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, View view) {
-        return new MilkTransactionDurationViewImpl(context, lifecycleOwner, view);
     }
 
 }

@@ -6,6 +6,7 @@
     <string name="action_search">Search</string>
     <string name="date_text">Date :</string>
     <string name="milk_quantity_text">Milk Quantity</string>
+    <string name="launch_test_activity">Launch Test Activity</string>
 
     <string-array name="milk_type">
         <item>Cow</item>

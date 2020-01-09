@@ -28,12 +28,13 @@
             android:id="@+id/topDivider"
             android:layout_width="0dp"
             android:layout_height="2dp"
+            android:layout_marginTop="64dp"
             android:background="@drawable/divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.110000014" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <include layout="@layout/duration_view" />
 

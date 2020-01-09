@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".app.TestActivity"></activity>
         <activity
             android:name=".app.CustomersListActivity"
             android:launchMode="singleTop">
@@ -19,8 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".app.AddEditCustomerActivity"
+        <activity
+            android:name=".app.AddEditCustomerActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,10 +29,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".app.MilkTransactionsActivity"
-            android:parentActivityName=".app.CustomersListActivity"
-            android:exported="false">
+        <activity
+            android:name=".app.MilkTransactionsActivity"
+            android:exported="false"
+            android:parentActivityName=".app.CustomersListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,8 +44,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".app.CustomersListActivity" />
         </activity>
-
-        <activity android:name=".app.PaymentsActivity"
+        <activity
+            android:name=".app.PaymentsActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,7 +53,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

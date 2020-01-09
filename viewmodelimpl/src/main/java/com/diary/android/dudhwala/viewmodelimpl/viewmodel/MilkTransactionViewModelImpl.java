@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diary.android.dudhwala.common.Constants;
+import com.diary.android.dudhwala.common.TimeUtils;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.IRepositoryFactory;
@@ -95,12 +96,12 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void onDurationChange(Constants.DurationDirection direction) {
-        Log.d(TAG, "onDurationChange()  direction : " + direction);
+    public void onDurationChange(int month, int year) {
+        Log.d(TAG, "onDurationChange()  month/year : " + month + "/" + year);
 
         //TODO calculate timestamp
-        long fromTimestamp = 0;
-        long toTimestamp = System.currentTimeMillis();
+        long fromTimestamp = TimeUtils.getMonthStartTimeStamp(month, year);
+        long toTimestamp = TimeUtils.getMonthEndTimeStamp(month, year);
         mTransactionsListLiveDataManager.updateMilkTransactionDuration(fromTimestamp, toTimestamp);
     }
 

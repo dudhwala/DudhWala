@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
+import com.diary.android.dudhwala.viewmodel.data.DurationData;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 
 import java.util.List;
@@ -42,6 +43,12 @@ public interface ILiveDataSource {
         }
 
         default Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
+            return Optional.empty();
+        }
+    }
+
+    interface ICustomCalendarLiveDataSource {
+        default Optional<LiveData<DurationData>> provideDurationLiveData() {
             return Optional.empty();
         }
     }
