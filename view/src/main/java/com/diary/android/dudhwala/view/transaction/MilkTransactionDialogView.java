@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,9 +37,10 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
     private final Context mContext;
     private final Button mPositiveButton;
     private final Button mNegativeButton;
+    private final LinearLayout mDatePickerLayout;
 
     private MilkTransactionViewActionListener mListener;
-    private EditText mDateEditText;
+    private TextView mDateTextView;
     private EditText mMilkQuantityEditText;
     private EditText mMilkPriceEditText;
     private Spinner mMilkTypeSpinner;
@@ -55,14 +58,15 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
         mPositiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         mNegativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         mPositiveButton.setOnClickListener(v -> createMilkTransactionAndInsert(dialog));
-        mDateEditText = dialog.findViewById(R.id.date);
-        mDateEditText.setOnClickListener(getOnClickDateListener());
+        mDatePickerLayout = dialog.findViewById(R.id.datePicker);
+        mDatePickerLayout.setOnClickListener(getOnClickDateListener());
+        mDateTextView = dialog.findViewById(R.id.date);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         Log.v(TAG, "onSaveInstanceState() pos : " + mMilkTypeSpinner.getSelectedItemPosition());
-        mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(mDateEditText.getText().toString()));
+        mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(mDateTextView.getText().toString()));
         mMilkTransaction.setPricePerLiter(Integer.parseInt(mMilkPriceEditText.getText().toString()));
         mMilkTransaction.setMilkQuantityLiters(Integer.parseInt(mMilkQuantityEditText.getText().toString()));
         mMilkTransaction.setMilkType(mMilkTypeSpinner.getSelectedItemPosition() + 1);
@@ -73,7 +77,7 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
 
         String quantity = mMilkQuantityEditText.getText().toString();
         String milkPrice = mMilkPriceEditText.getText().toString();
-        String date = mDateEditText.getText().toString();
+        String date = mDateTextView.getText().toString();
         int milkType = mMilkTypeSpinner.getSelectedItemPosition() + 1;
 
         if (TextUtils.isEmpty(quantity) || TextUtils.isEmpty(milkPrice) || TextUtils.isEmpty(date)) {
@@ -108,7 +112,7 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
         Log.d(TAG, "dataChangedUpdateDialogInfo()");
         mMilkTransaction = milkTransaction;
 
-        mDateEditText.setText(String.valueOf(TimeUtils.convertTimestampToDateString(mMilkTransaction.getTransactionDate())));
+        mDateTextView.setText(String.valueOf(TimeUtils.convertTimestampToDateString(mMilkTransaction.getTransactionDate())));
         mMilkQuantityEditText.setText((String.valueOf(mMilkTransaction.getMilkQuantityLiters())));
         mMilkTypeSpinner.setSelection(mMilkTransaction.getMilkType() - 1);
         mMilkPriceEditText.setText(String.valueOf(mMilkTransaction.getPricePerLiter()));
@@ -121,7 +125,7 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
                 //todo
 
                 mListener.updateMilkType(pos + 1,
-                        TimeUtils.convertStringToTimestamp(mDateEditText.getText().toString()),
+                        TimeUtils.convertStringToTimestamp(mDateTextView.getText().toString()),
                         Integer.parseInt(mMilkPriceEditText.getText().toString()),
                         Integer.parseInt(mMilkQuantityEditText.getText().toString()));
             }
@@ -144,7 +148,7 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
             DatePickerDialog datePickerDialog = new DatePickerDialog(mContext,
                     (view, year, monthOfYear, dayOfMonth) -> {
                         // set day of month , month and year value in the edit text
-                        mDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        mDateTextView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
 
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
