@@ -77,7 +77,7 @@ public class MilkTransactionLiveDataManagerImpl implements
         //old price not required any more
         price = getPriceOfMilkType(milkType);
         MilkTransaction milkTransaction = new MilkTransaction(
-                mCustomerId, quantity, milkType, price, price * quantity, date);
+                mCustomerId, quantity, milkType, price, price * quantity, date, System.currentTimeMillis());
         mSelectedMilkTransactionLiveData.setValue(milkTransaction);
     }
 
@@ -143,7 +143,8 @@ public class MilkTransactionLiveDataManagerImpl implements
                 customerInfo.getQuickAddMilkType(),
                 pricePerLiter,
                 transactionAmount,
-                transactionDate);
+                transactionDate,
+                System.currentTimeMillis());
 
         return milkTransaction;
     }

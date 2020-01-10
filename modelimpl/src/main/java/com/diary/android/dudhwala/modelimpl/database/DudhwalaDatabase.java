@@ -26,55 +26,35 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "dudhwala_database";
     private static volatile DudhwalaDatabase INSTANCE;
-    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
 
-            //insert dummy data
-          /*  CommonThreadPool.getThreadPool().execute(() -> {
-                        MilkTransactionDao milkTransactionDao = INSTANCE.milkTransactionDao();
-                        milkTransactionDao.insertMilkTransaction(new MilkTransaction(2,
-                                2, 1, 50, 100,
-                                System.currentTimeMillis()));
-                milkTransactionDao.insertMilkTransaction(new MilkTransaction(2,
-                        3, 1, 50, 100,
-                        System.currentTimeMillis()));
-                milkTransactionDao.insertMilkTransaction(new MilkTransaction(2,
-                        4, 1, 50, 100,
-                        System.currentTimeMillis()));
+    private static final String CREATE_TRIGGER_AFTER_INSERT_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME =
+            "CREATE TRIGGER update_customer_due_amount " +
+                    "AFTER INSERT ON milk_transaction_table " +
+                    "BEGIN " +
+                    "UPDATE customer_info_table " +
+                    "SET total_amount_due = total_amount_due + NEW.transaction_amount, " +
+                    "last_updated_timestamp = NEW.created_time_stamp " +
+                    "WHERE _id = NEW.customer_id; " +
+                    "END;";
 
+    private static final String CREATE_TRIGGER_AFTER_UPDATE_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME =
+            "CREATE TRIGGER update_customer_due_amount_after_update " +
+                    "AFTER UPDATE ON milk_transaction_table " +
+                    "BEGIN " +
+                    "UPDATE customer_info_table " +
+                    "SET total_amount_due = total_amount_due + NEW.transaction_amount - OLD.transaction_amount, " +
+                    "last_updated_timestamp = NEW.created_time_stamp " +
+                    "WHERE _id = NEW.customer_id; " +
+                    "END;";
 
-                        PaymentDao paymentDao = INSTANCE.paymentDao();
-
-                        paymentDao.insertPayment(new Payment(2, 600,
-                                System.currentTimeMillis()));
-
-                        MonthTransactionAmountDao monthTransactionAmountDao = INSTANCE.monthTransactionAmountDao();
-                        monthTransactionAmountDao.insertMonthTransactionAmount(new MonthTransactionAmount(2,
-                                1800, 12, 2019));
-
-                        CustomerInfoDao customerInfoDao = INSTANCE.customerInfoDao();
-                        customerInfoDao.insertCustomerInfo(new CustomerInfo("Rd Rundla",
-                                "9983262200",
-                                "rdrundla@gmail.com",
-                                "K 1007",
-                                50,
-                                60,
-                                55,
-                                2,
-                                2,
-                                600,
-                                System.currentTimeMillis()));
-                    }
-            );*/
-        }
-
-        @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
-        }
-    };
+    private static final String CREATE_TRIGGER_AFTER_DELETE_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME =
+            "CREATE TRIGGER update_customer_due_amount_after_delete " +
+                    "AFTER DELETE ON milk_transaction_table " +
+                    "BEGIN " +
+                    "UPDATE customer_info_table " +
+                    "SET total_amount_due = total_amount_due - OLD.transaction_amount " +
+                    "WHERE _id = OLD.customer_id; " +
+                    "END;";
 
     public static DudhwalaDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -90,6 +70,21 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            db.execSQL(CREATE_TRIGGER_AFTER_INSERT_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME);
+            db.execSQL(CREATE_TRIGGER_AFTER_UPDATE_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME);
+            db.execSQL(CREATE_TRIGGER_AFTER_DELETE_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME);
+        }
+
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+        }
+    };
 
     public abstract MilkTransactionDao milkTransactionDao();
 

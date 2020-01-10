@@ -86,6 +86,7 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
         mMilkTransaction.setPricePerLiter(Integer.parseInt(milkPrice));
         mMilkTransaction.setTransactionAmount(Integer.parseInt(quantity) * Integer.parseInt(milkPrice));
         mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(date));
+        mMilkTransaction.setCreatedTimeStamp(System.currentTimeMillis());
 
         mListener.onClickAddNewMilkTransaction(mMilkTransaction);
         dialog.dismiss();

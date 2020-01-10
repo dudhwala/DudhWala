@@ -33,15 +33,19 @@ public class MilkTransaction {
     @ColumnInfo(name = "transaction_date")
     private long transactionDate;
 
+    @ColumnInfo(name = "created_time_stamp")
+    private long createdTimeStamp;
+
     public MilkTransaction(int customerId, int milkQuantityLiters, int milkType,
                            int pricePerLiter, int transactionAmount,
-                           long transactionDate) {
+                           long transactionDate, long createdTimeStamp) {
         this.customerId = customerId;
         this.milkQuantityLiters = milkQuantityLiters;
         this.milkType = milkType;
         this.pricePerLiter = pricePerLiter;
         this.transactionAmount = transactionAmount;
         this.transactionDate = transactionDate;
+        this.createdTimeStamp = createdTimeStamp;
     }
 
     public int getId() {
@@ -98,5 +102,13 @@ public class MilkTransaction {
 
     public void setTransactionDate(long transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public long getCreatedTimeStamp() {
+        return createdTimeStamp;
+    }
+
+    public void setCreatedTimeStamp(long createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
     }
 }
