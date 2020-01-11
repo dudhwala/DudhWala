@@ -1,4 +1,4 @@
-package com.diary.android.dudhwala.app;
+package com.diary.android.dudhwala.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,17 +8,14 @@ import android.widget.TextSwitcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.diary.android.dudhwala.common.Constants;
-import com.diary.android.dudhwala.viewmodel.ICustomCalendarViewModel;
-import com.diary.android.dudhwala.viewmodel.ILiveDataSource;
-import com.diary.android.dudhwala.viewmodel.IViewActionListener;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource.ICustomCalendarLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.ICustomCalendarActionListener;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.DurationData;
-import com.diary.android.dudhwala.viewmodelimpl.viewmodel.CustomCalendarViewModelImpl;
 
 public class CustomCalendarView extends FrameLayout {
 
@@ -29,19 +26,18 @@ public class CustomCalendarView extends FrameLayout {
             "August", "September", "October", "November", "December"
     };
     private Context mContext;
+    private LifecycleOwner mLifeCycleOwner;
     private TextSwitcher mSwitcher;
-    private CalendarActionListener mCalendarActionListener;
     private ImageButton mPreviousButton;
     private ImageButton mNextButton;
 
-    private ICustomCalendarViewModel mCustomCalendarViewModel;
-
-    private ILiveDataSource.ICustomCalendarLiveDataSource mLiveDataSource;
-    private IViewActionListener.ICustomCalendarActionListener mViewActionListener;
+    private ICustomCalendarLiveDataSource mLiveDataSource;
+    private ICustomCalendarActionListener mCustomCalendarActionListener;
+    private MilkTransactionViewActionListener mMilkTransactionViewActionListener;
 
     public CustomCalendarView(Context context) {
         super(context);
-        mContext = context;
+        this.mContext = context;
         init();
     }
 
@@ -57,31 +53,39 @@ public class CustomCalendarView extends FrameLayout {
         init();
     }
 
-    private ICustomCalendarViewModel getViewModel() {
-        return ViewModelProviders.of((AppCompatActivity) mContext).get(CustomCalendarViewModelImpl.class);
-    }
-
     private void init() {
         inflate(mContext, com.diary.android.dudhwala.view.R.layout.custom_calendar_view, this);
 
-        mCustomCalendarViewModel = getViewModel();
-        if (mCustomCalendarViewModel.isNewInstance()) {
-            mCustomCalendarViewModel.markAsOldInstance();
-        }
-        mLiveDataSource = mCustomCalendarViewModel;
-        mViewActionListener = mCustomCalendarViewModel;
-        mCalendarActionListener = (CalendarActionListener) mContext;
-
-        startObservingLiveData();
-
-        mViewActionListener.setCurrentMonthAndYear();
-
         mSwitcher = findViewById(com.diary.android.dudhwala.view.R.id.textSwitcher);
         mNextButton = findViewById(com.diary.android.dudhwala.view.R.id.navigateNextButton);
-        mPreviousButton = findViewById(com.diary.android.dudhwala.view.R.id.navigatePreviousButton);
         mNextButton.setOnClickListener(v -> showNextMonth());
+        mPreviousButton = findViewById(com.diary.android.dudhwala.view.R.id.navigatePreviousButton);
         mPreviousButton.setOnClickListener(v -> showPreviousMonth());
+    }
 
+    public void injectLifeCycleOwner(Context context, LifecycleOwner lifecycleOwner) {
+        mLifeCycleOwner = lifecycleOwner;
+    }
+
+    public void startObservingLiveData(
+            ICustomCalendarLiveDataSource liveDataSource,
+            ICustomCalendarActionListener customCalendarViewActionListener,
+            MilkTransactionViewActionListener milkTransactionViewActionListener) {
+
+        mLiveDataSource = liveDataSource;
+        mCustomCalendarActionListener = customCalendarViewActionListener;
+        mMilkTransactionViewActionListener = milkTransactionViewActionListener;
+
+        mCustomCalendarActionListener.initializeCalendar();
+        mLiveDataSource.provideDurationLiveData().ifPresent(this::setDurationObserver);
+    }
+
+    private void setDurationObserver(LiveData<DurationData> durationDataLiveData) {
+
+        durationDataLiveData.observe(mLifeCycleOwner, durationData -> {
+            updateTextAndButtonEnabledState(durationData);
+            mMilkTransactionViewActionListener.onDurationChange(durationData.getSelectedMonth(), durationData.getSelectedYear());
+        });
     }
 
     private boolean isSelectedMonthCurrent(DurationData durationData) {
@@ -92,35 +96,18 @@ public class CustomCalendarView extends FrameLayout {
     private void showPreviousMonth() {
         mSwitcher.setInAnimation(mContext, android.R.anim.slide_in_left);
         mSwitcher.setOutAnimation(mContext, android.R.anim.slide_out_right);
-        mViewActionListener.clickButton(Constants.ClickedButton.PREVIOUS);
+        mCustomCalendarActionListener.onClickButton(Constants.ClickedButton.PREVIOUS);
     }
 
 
     public void showNextMonth() {
-
         mSwitcher.setInAnimation(mContext, com.diary.android.dudhwala.view.R.anim.slide_in_right);
         mSwitcher.setOutAnimation(mContext, com.diary.android.dudhwala.view.R.anim.slide_out_left);
-
-        mViewActionListener.clickButton(Constants.ClickedButton.NEXT);
+        mCustomCalendarActionListener.onClickButton(Constants.ClickedButton.NEXT);
     }
-
-    public void startObservingLiveData() {
-        mLiveDataSource.provideDurationLiveData().ifPresent(this::setDurationStringObserver);
-    }
-
-    private void setDurationStringObserver(LiveData<DurationData> durationDataLiveData) {
-
-        durationDataLiveData.observe((LifecycleOwner) mContext, durationData -> {
-            updateTextAndButtonEnabledState(durationData);
-            mCalendarActionListener.onUpdateDuration(durationData.getSelectedMonth(), durationData.getSelectedYear());
-        });
-    }
-
 
     private void updateTextAndButtonEnabledState(DurationData durationData) {
-
         mSwitcher.setText(mMonths[durationData.getSelectedMonth()] + " " + durationData.getSelectedYear());
-
         if (isSelectedMonthCurrent(durationData)) {
             mNextButton.setAlpha(0.4f);
             mNextButton.setEnabled(false);
@@ -137,10 +124,5 @@ public class CustomCalendarView extends FrameLayout {
             mPreviousButton.setAlpha(1f);
             mPreviousButton.setEnabled(true);
         }
-    }
-
-    interface CalendarActionListener {
-
-        void onUpdateDuration(int month, int year);
     }
 }

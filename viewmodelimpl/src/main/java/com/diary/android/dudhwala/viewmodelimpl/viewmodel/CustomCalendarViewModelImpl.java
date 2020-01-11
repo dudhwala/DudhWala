@@ -19,11 +19,12 @@ public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCal
     private static final int NO_OF_MONTHS = 12;
     private static final String TAG = "DudhWala/CustomCalendarViewModelImpl";
     private boolean isNewInstance = true;
-    private MutableLiveData<DurationData> mDurationLiveData = new MutableLiveData<>();
     private int mCurrentMonth;
     private int mCurrentYear;
-    private int mSelectedMonth;
-    private int mSelectedYear;
+    private int mSelectedMonth = 0;
+    private int mSelectedYear = 0;
+
+    private MutableLiveData<DurationData> mDurationLiveData = new MutableLiveData<>();
 
     @Override
     public boolean isNewInstance() {
@@ -46,8 +47,8 @@ public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCal
     }
 
     @Override
-    public void clickButton(int button) {
-        Log.d(TAG, "clickButton() button : " + button);
+    public void onClickButton(int button) {
+        Log.d(TAG, "onClickButton() button : " + button);
         if (Constants.ClickedButton.NEXT == button) {
             mSelectedMonth = (mSelectedMonth + 1) % NO_OF_MONTHS;
             if (mSelectedMonth == 0) {
@@ -65,6 +66,14 @@ public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCal
     }
 
     private void updateDurationLiveData() {
+
+        if (mSelectedMonth == 0) {
+            mSelectedMonth = mCurrentMonth;
+        }
+        if (mSelectedYear == 0) {
+            mSelectedYear = mCurrentYear;
+        }
+
         DurationData durationData = new DurationData();
         durationData.setCurrentMonth(mCurrentMonth);
         durationData.setCurrentYear(mCurrentYear);
@@ -76,7 +85,7 @@ public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCal
     }
 
     @Override
-    public void setCurrentMonthAndYear() {
+    public void initializeCalendar() {
         getCurrentMonthAndYear();
         updateDurationLiveData();
     }
@@ -94,7 +103,7 @@ public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCal
     private void getCurrentMonthAndYear() {
 
         Calendar calendar = Calendar.getInstance();
-        mSelectedMonth = mCurrentMonth = calendar.get(Calendar.MONTH);
-        mSelectedYear = mCurrentYear = calendar.get(Calendar.YEAR);
+        mCurrentMonth = calendar.get(Calendar.MONTH);
+        mCurrentYear = calendar.get(Calendar.YEAR);
     }
 }

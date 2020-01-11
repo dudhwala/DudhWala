@@ -12,15 +12,17 @@ import androidx.lifecycle.ViewModelProviders;
 import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.ViewFactory;
+import com.diary.android.dudhwala.viewmodelimpl.viewmodel.CustomCalendarViewModelImpl;
 import com.diary.android.dudhwala.viewmodelimpl.viewmodel.MilkTransactionViewModelImpl;
 
 import java.util.Optional;
 
-public class MilkTransactionsActivity extends BaseActivity implements CustomCalendarView.CalendarActionListener {
+public class MilkTransactionsActivity extends BaseActivity {
 
     private static final String TAG = "DudhWala/MilkTransactionsActivity";
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
     private MilkTransactionViewModelImpl mMilkTransactionsViewModel;
+    private CustomCalendarViewModelImpl mCustomCalendarViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +83,8 @@ public class MilkTransactionsActivity extends BaseActivity implements CustomCale
             mMilkTransactionsViewModel.injectLiveDataManager();
 
         }
+
+        mCustomCalendarViewModel = getCustomCalendarViewModelImpl();
     }
 
     @Override
@@ -95,10 +99,16 @@ public class MilkTransactionsActivity extends BaseActivity implements CustomCale
                 findViewById(R.id.summeryViewContainer), findViewById(R.id.toolbar))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
+        mViewFactory.provideCustomCalendarView(this, this, findViewById(R.id.calendarView))
+                .startObservingLiveData(mCustomCalendarViewModel, mCustomCalendarViewModel, mMilkTransactionsViewModel);
     }
 
     private MilkTransactionViewModelImpl getMilkTransactionViewModel() {
         return ViewModelProviders.of(this).get(MilkTransactionViewModelImpl.class);
+    }
+
+    private CustomCalendarViewModelImpl getCustomCalendarViewModelImpl() {
+        return ViewModelProviders.of(this).get(CustomCalendarViewModelImpl.class);
     }
 
     private void showAddNewTransactionDialog(int transactionId) {
@@ -107,10 +117,5 @@ public class MilkTransactionsActivity extends BaseActivity implements CustomCale
         MilkTransactionDialogFragment milkTransactionDialogFragment = new MilkTransactionDialogFragment();
         milkTransactionDialogFragment.show(getSupportFragmentManager(),
                 "add_new_milk_transaction_dialog");
-    }
-
-    @Override
-    public void onUpdateDuration(int month, int year) {
-        mMilkTransactionsViewModel.onDurationChange(month, year);
     }
 }

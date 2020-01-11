@@ -34,8 +34,8 @@ public interface IViewActionListener {
     }
 
     interface ICustomCalendarActionListener {
-        void clickButton(int button);
+        void onClickButton(int button);
 
-        void setCurrentMonthAndYear();
+        void initializeCalendar();
     }
 }

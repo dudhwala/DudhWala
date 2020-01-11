@@ -54,4 +54,10 @@ public class ViewFactory {
         return new MilkTransactionDialogView(context, lifecycleOwner, dialog);
     }
 
+    public CustomCalendarView provideCustomCalendarView(
+            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, CustomCalendarView calendarView) {
+        calendarView.injectLifeCycleOwner(context, lifecycleOwner);
+        return calendarView;
+    }
+
 }

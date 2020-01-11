@@ -12,6 +12,7 @@ import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.IRepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.IMilkTransactionViewModel;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.MilkTransactionLiveDataManagerImpl;
 
 import java.util.List;
@@ -95,21 +96,25 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
 
     @Override
     public Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionListLiveData() {
-        return Optional.ofNullable(mMilkTransactionLiveDataManager.getTransactionsArrayListLiveData());
+        return Optional.ofNullable(mMilkTransactionLiveDataManager)
+                .map(IMilkTransactionLiveDataManager::getTransactionsArrayListLiveData);
     }
 
     @Override
     public Optional<LiveData<MilkTransaction>> provideSelectedMilkTransactionLiveData() {
-        return Optional.ofNullable(mMilkTransactionLiveDataManager.getSelectedMilkTransaction());
+        return Optional.ofNullable(mMilkTransactionLiveDataManager)
+                .map(IMilkTransactionLiveDataManager::getSelectedMilkTransaction);
     }
 
     @Override
     public Optional<LiveData<SummeryData>> provideMilkTransactionSummeryLiveData() {
-        return Optional.ofNullable(mMilkTransactionLiveDataManager.getSummeryLiveData());
+        return Optional.ofNullable(mMilkTransactionLiveDataManager)
+                .map(IMilkTransactionLiveDataManager::getSummeryLiveData);
     }
 
     @Override
     public Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
-        return Optional.ofNullable(mMilkTransactionLiveDataManager.getCustomerInfoLiveData());
+        return Optional.ofNullable(mMilkTransactionLiveDataManager)
+                .map(IMilkTransactionLiveDataManager::getCustomerInfoLiveData);
     }
 }

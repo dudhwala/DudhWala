@@ -43,7 +43,7 @@ public class CustomerListViewModelImpl extends ViewModel implements ICustomerLis
     @Override
     public Optional<LiveData<List<CustomerInfo>>> provideCustomerListLiveData() {
         return Optional.ofNullable(mCustomerListLiveDataManager)
-                .map(cl -> cl.provideCustomerListLiveData());
+                .map(ICustomerListLiveDataManager::provideCustomerListLiveData);
     }
 
     @Override

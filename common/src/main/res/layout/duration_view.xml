@@ -13,7 +13,7 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:showIn="@layout/milk_transaction_activity">
 
-    <com.diary.android.dudhwala.app.CustomCalendarView
+    <com.diary.android.dudhwala.view.CustomCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
