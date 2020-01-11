@@ -36,8 +36,8 @@ public class TimeUtils {
     public static long getMonthEndTimeStamp(int month, int year) {
 
         Calendar calendar = new GregorianCalendar(year, month, FIRST_DAY_OF_MONTH);
-        int lastDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        calendar = new GregorianCalendar(year, month, lastDate);
+        int lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        calendar = new GregorianCalendar(year, month, lastDayOfMonth);
         return calendar.getTimeInMillis();
     }
 }

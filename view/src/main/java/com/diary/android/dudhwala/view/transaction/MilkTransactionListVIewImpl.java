@@ -84,7 +84,7 @@ public class MilkTransactionListVIewImpl implements
     public void onDeleteClicked(int position) {
         mViewActionListener.onClickDelete(mAdapter.getItem(position));
 
-        //TODO show confirmation dialog
+        //TODO show snack bar to undo
         Toast.makeText(mContext, "Transaction Deleted.", Toast.LENGTH_LONG).show();
     }
 }

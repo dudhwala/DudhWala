@@ -1,5 +1,7 @@
 package com.diary.android.dudhwala.viewmodelimpl.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCalendarViewModel {
 
     private static final int NO_OF_MONTHS = 12;
+    private static final String TAG = "DudhWala/CustomCalendarViewModelImpl";
     private boolean isNewInstance = true;
     private MutableLiveData<DurationData> mDurationLiveData = new MutableLiveData<>();
     private int mCurrentMonth;
@@ -44,7 +47,7 @@ public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCal
 
     @Override
     public void clickButton(int button) {
-
+        Log.d(TAG, "clickButton() button : " + button);
         if (Constants.ClickedButton.NEXT == button) {
             mSelectedMonth = (mSelectedMonth + 1) % NO_OF_MONTHS;
             if (mSelectedMonth == 0) {
@@ -67,7 +70,8 @@ public class CustomCalendarViewModelImpl extends ViewModel implements ICustomCal
         durationData.setCurrentYear(mCurrentYear);
         durationData.setSelectedMonth(mSelectedMonth);
         durationData.setSelectedYear(mSelectedYear);
-
+        Log.d(TAG, "updateDurationLiveData() mSelectedMonth : " + mSelectedMonth
+                + ", mSelectedYear : " + mSelectedYear);
         mDurationLiveData.setValue(durationData);
     }
 

@@ -1,6 +1,5 @@
 package com.diary.android.dudhwala.common.entity;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -147,7 +146,9 @@ public class CustomerInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerName, mobileNumber, emailAddress, address, pricePerLiterCow, pricePerLiterBuffalo, pricePerLiterMix, quickAddMilkType, quickAddQuantity, totalAmountDue, lastUpdatedTimestamp);
+        return Objects.hash(id, customerName, mobileNumber, emailAddress, address, pricePerLiterCow,
+                pricePerLiterBuffalo, pricePerLiterMix, quickAddMilkType, quickAddQuantity,
+                totalAmountDue, lastUpdatedTimestamp);
     }
 
     @Override

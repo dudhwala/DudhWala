@@ -1,5 +1,6 @@
 package com.diary.android.dudhwala.common.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -110,5 +111,20 @@ public class MilkTransaction {
 
     public void setCreatedTimeStamp(long createdTimeStamp) {
         this.createdTimeStamp = createdTimeStamp;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "MilkTransaction{" +
+                "id : " + id +
+                ", customerId : " + customerId +
+                ", milkQuantityLiters : " + milkQuantityLiters +
+                ", milkType : " + milkType +
+                ", pricePerLiter : " + pricePerLiter +
+                ", transactionAmount : " + transactionAmount +
+                ", transactionDate: " + transactionDate +
+                ", createdTimeStamp : " + createdTimeStamp +
+                "}";
     }
 }

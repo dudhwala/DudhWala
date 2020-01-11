@@ -39,6 +39,7 @@ public class MilkTransactionRepository implements IMilkTransactionDataSource {
 
     @Insert
     public void insertMilkTransaction(MilkTransaction milkTransaction) {
+        Log.d(TAG, "insertMilkTransaction() milkTransaction : " + milkTransaction.toString());
         CommonThreadPool.getThreadPool().execute(() -> mDb.milkTransactionDao()
                 .insertMilkTransaction(milkTransaction));
 

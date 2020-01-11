@@ -11,33 +11,23 @@ import java.util.List;
 
 public interface IMilkTransactionLiveDataManager extends ILiveDataManagerLifeCycle {
 
-    interface TransactionsListLiveDataManager {
-        LiveData<List<MilkTransaction>> getTransactionsArrayListLiveData();
+    LiveData<List<MilkTransaction>> getTransactionsArrayListLiveData();
 
-        LiveData<MilkTransaction> getSelectedMilkTransaction();
+    LiveData<MilkTransaction> getSelectedMilkTransaction();
 
-        void updateTransactionId(int transactionId);
+    LiveData<SummeryData> getSummeryLiveData();
 
-        void updateCurrentMilkTransaction(MilkTransaction milkTransaction);
+    LiveData<CustomerInfo> getCustomerInfoLiveData();
 
-        void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp);
+    void updateTransactionId(int transactionId);
 
-        void deleteMilkTransaction(MilkTransaction milkTransaction);
-    }
+    void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp);
 
-    interface DialogLiveDataManager {
-        LiveData<MilkTransaction> getMilkTransactionLiveData(int milkTransactionId);
+    void deleteMilkTransaction(MilkTransaction milkTransaction);
 
-        void insertNewMilkTransaction(MilkTransaction milkTransaction);
+    void insertNewMilkTransaction(MilkTransaction milkTransaction);
 
-        void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
+    void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
 
-        void updateMilkType(int milkType, long date, int price, int quantity);
-    }
-
-    interface SummeryLiveDataManager {
-        LiveData<SummeryData> getSummeryLiveData();
-
-        LiveData<CustomerInfo> getCustomerInfoLiveData();
-    }
+    void updateMilkType(int milkType, long date, int price, int quantity);
 }

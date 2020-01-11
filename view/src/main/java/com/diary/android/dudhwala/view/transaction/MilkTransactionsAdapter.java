@@ -42,11 +42,7 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
         String milkPricePerLiter = "Price/Liter : " + milkTransaction.getPricePerLiter();
         String totalAmount = "Amount : " + milkTransaction.getTransactionAmount();
 
-        Log.d(TAG, "transactionDate : " + transactionDate
-                + " milkType : " + milkType
-                + " milkQuantity : " + milkQuantity
-                + " milkPricePerLiter : " + milkPricePerLiter
-                + " totalAmount " + totalAmount);
+        //Log.d(TAG, milkTransaction.toString());
 
         holder.dateTextView.setText(transactionDate);
         holder.milkType.setText(milkType);
