@@ -2,19 +2,19 @@ package com.diary.android.dudhwala.modelimpl;
 
 import android.app.Application;
 
-import com.diary.android.dudhwala.model.MilkTransactionDataSource;
-import com.diary.android.dudhwala.model.RepositoryFactory;
-import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
+import com.diary.android.dudhwala.model.IMilkTransactionDataSource;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
+import com.diary.android.dudhwala.model.customer.ICustomerInfoDataSource;
 import com.diary.android.dudhwala.modelimpl.customer.CustomerInfoRepository;
 
-public class RepositoryFactoryImpl implements RepositoryFactory {
+public class RepositoryFactoryImpl implements IRepositoryFactory {
 
     private Application mApplication;
 
     private int connectedViewModels = ViewModelType.noVM;
     private MilkTransactionRepository mMilkTransactionRepository;
 
-    private CustomerInfoDataSource mCustomerInfoDataSource;
+    private ICustomerInfoDataSource mCustomerInfoDataSource;
 
     public RepositoryFactoryImpl(Application application) {
         this.mApplication = application;
@@ -38,7 +38,7 @@ public class RepositoryFactoryImpl implements RepositoryFactory {
 
 
     @Override
-    public CustomerInfoDataSource getCustomerInfoRepository() {
+    public ICustomerInfoDataSource getCustomerInfoRepository() {
 
         if (mCustomerInfoDataSource == null) {
             mCustomerInfoDataSource = new CustomerInfoRepository(mApplication);
@@ -47,7 +47,7 @@ public class RepositoryFactoryImpl implements RepositoryFactory {
     }
 
     @Override
-    public MilkTransactionDataSource getMilkTransactionRepository() {
+    public IMilkTransactionDataSource getMilkTransactionRepository() {
         if (mMilkTransactionRepository == null) {
             mMilkTransactionRepository = new MilkTransactionRepository(mApplication);
         }

@@ -1,6 +1,6 @@
 package com.diary.android.dudhwala.viewmodel;
 
-import com.diary.android.dudhwala.model.RepositoryFactory;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
 
 public interface BaseViewModel {
 
@@ -8,5 +8,7 @@ public interface BaseViewModel {
 
     void markAsOldInstance();
 
-    void injectRepositoryFactory(RepositoryFactory repositoryFactory);
+    void injectRepositoryFactory(IRepositoryFactory repositoryFactory);
+
+    void injectLiveDataManager();
 }

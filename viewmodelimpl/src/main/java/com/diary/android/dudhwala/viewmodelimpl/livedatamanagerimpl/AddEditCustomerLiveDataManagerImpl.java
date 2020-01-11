@@ -8,34 +8,29 @@ import androidx.lifecycle.LiveData;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.MilkType;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.model.RepositoryFactory;
-import com.diary.android.dudhwala.model.customer.CustomerInfoDataSource;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
+import com.diary.android.dudhwala.model.customer.ICustomerInfoDataSource;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
-import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IAddEditCustomerLiveDataManager;
 
 
-public class AddEditCustomerLiveDataManagerImpl implements AddEditCustomerLiveDataManager {
+public class AddEditCustomerLiveDataManagerImpl implements IAddEditCustomerLiveDataManager {
 
     private static final String TAG = Constants.Log._TAG + "AddEditCustomerExecutorImpl";
-    private RepositoryFactory mRepositoryFactory;
 
     @Nullable
     private LiveData<CustomerInfo> mCustomerInfoLiveData;
 
-    private CustomerInfoDataSource mCustomerInfoDataSource;
+    private ICustomerInfoDataSource mCustomerInfoDataSource;
 
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
 
-    public AddEditCustomerLiveDataManagerImpl(RepositoryFactory repositoryFactory, int customerId) {
-
-        mRepositoryFactory = repositoryFactory;
+    public AddEditCustomerLiveDataManagerImpl(IRepositoryFactory repositoryFactory, int customerId) {
         mCustomerId = customerId;
 
-        mCustomerInfoDataSource = mRepositoryFactory.getCustomerInfoRepository();
+        mCustomerInfoDataSource = repositoryFactory.getCustomerInfoRepository();
 
-        if (mCustomerId != Constants.Customer.UNKNOWN_CUSTOMER_ID) {
-            mCustomerInfoLiveData = mCustomerInfoDataSource.getCustomerInfo(mCustomerId);
-        }
+        mCustomerInfoLiveData = mCustomerInfoDataSource.getCustomerInfo(mCustomerId);
     }
 
     @Override

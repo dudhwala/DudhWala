@@ -4,12 +4,13 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.diary.android.dudhwala.view.transaction.MilkTransactionDetailDialogViewImpl;
-import com.diary.android.dudhwala.view.transaction.MilkTransactionDurationViewImpl;
+import com.diary.android.dudhwala.view.customerlist.CustomerListViewImpl;
+import com.diary.android.dudhwala.view.transaction.MilkTransactionDialogView;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionListVIewImpl;
-import com.diary.android.dudhwala.view.transaction.MilkTransactionSummeryViewImpl;
+import com.diary.android.dudhwala.view.transaction.MilkTransactionSummeryAndToolbarViewImpl;
 
 public class ViewFactory {
 
@@ -26,25 +27,31 @@ public class ViewFactory {
         return INSTANCE;
     }
 
-    public AddEditCustomerViewImpl provideAddEditCustomerView(@NonNull View view, @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {
+    public AddEditCustomerViewImpl provideAddEditCustomerView(
+            @NonNull View view, @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {
         return new AddEditCustomerViewImpl(view, context, lifecycleOwner);
     }
 
-    public MilkTransactionListVIewImpl provideMilkTransactionListView(@NonNull Context context,
-                                                                      @NonNull LifecycleOwner lifecycleOwner, View view) {
+    public CustomerListViewImpl provideCustomerListView(@NonNull Context context,
+                                                        @NonNull LifecycleOwner lifecycleOwner,
+                                                        @NonNull View recyclerView) {
+        return new CustomerListViewImpl(context, lifecycleOwner, recyclerView);
+    }
+
+    public MilkTransactionListVIewImpl provideMilkTransactionListView(
+            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, View view) {
         return new MilkTransactionListVIewImpl(context, lifecycleOwner, view);
     }
 
-    public MilkTransactionSummeryViewImpl provideMilkTransactionSummeryView(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, View view) {
-        return new MilkTransactionSummeryViewImpl(context, lifecycleOwner, view);
+    public MilkTransactionSummeryAndToolbarViewImpl provideMilkTransactionSummeryAndToolbarView(
+            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, View summeryView, View toolbarView) {
+        return new MilkTransactionSummeryAndToolbarViewImpl(
+                context, lifecycleOwner, summeryView, toolbarView);
     }
 
-    public MilkTransactionDetailDialogViewImpl provideMilkTransactionDetailView(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {
-        return new MilkTransactionDetailDialogViewImpl(context, lifecycleOwner);
-    }
-
-    public MilkTransactionDurationViewImpl provideMilkTransactionDurationView(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, View view) {
-        return new MilkTransactionDurationViewImpl(context, lifecycleOwner, view);
+    public MilkTransactionDialogView provideMilkTransactionDialogView(
+            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, AlertDialog dialog) {
+        return new MilkTransactionDialogView(context, lifecycleOwner, dialog);
     }
 
 }

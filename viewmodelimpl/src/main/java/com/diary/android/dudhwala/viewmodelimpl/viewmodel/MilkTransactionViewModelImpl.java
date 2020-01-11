@@ -6,28 +6,24 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diary.android.dudhwala.common.Constants;
+import com.diary.android.dudhwala.common.TimeUtils;
+import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.model.RepositoryFactory;
-import com.diary.android.dudhwala.viewmodel.MilkTransactionViewModel;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
+import com.diary.android.dudhwala.viewmodel.IMilkTransactionViewModel;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.DetailDialogLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.SummeryLiveDataManager;
-import com.diary.android.dudhwala.viewmodel.executor.MilkTransactionLiveDataManager.TransactionsListLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.MilkTransactionLiveDataManagerImpl;
 
 import java.util.List;
 import java.util.Optional;
 
-public class MilkTransactionViewModelImpl extends ViewModel implements
-        MilkTransactionViewModel {
+public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTransactionViewModel {
 
     private static final String TAG = "DudhWala/MilkTransactionViewModelImpl";
-    private RepositoryFactory mRepositoryFactory;
-    private TransactionsListLiveDataManager mTransactionsListLiveDataManager;
-    private DetailDialogLiveDataManager mDetailDialogLiveDataManager;
-    private SummeryLiveDataManager mSummeryLiveDataManager;
+    private IRepositoryFactory mRepositoryFactory;
     private boolean mIsNewInstance = true;
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
+    private MilkTransactionLiveDataManagerImpl mMilkTransactionLiveDataManager;
 
     @Override
     public boolean isNewInstance() {
@@ -42,13 +38,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     @Override
     public void injectLiveDataManager() {
         Log.d(TAG, "injectLiveDataManager()");
-        MilkTransactionLiveDataManagerImpl milkTransactionLiveDataManager =
+        mMilkTransactionLiveDataManager =
                 new MilkTransactionLiveDataManagerImpl(mRepositoryFactory, mCustomerId);
-
-        mTransactionsListLiveDataManager = milkTransactionLiveDataManager;
-        mDetailDialogLiveDataManager = milkTransactionLiveDataManager;
-        mSummeryLiveDataManager = milkTransactionLiveDataManager;
-
     }
 
     @Override
@@ -57,18 +48,19 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void injectRepositoryFactory(RepositoryFactory repositoryFactory) {
+    public void setTransactionId(int transactionId) {
+        mMilkTransactionLiveDataManager.updateTransactionId(transactionId);
+    }
+
+    @Override
+    public void injectRepositoryFactory(IRepositoryFactory repositoryFactory) {
         Log.d(TAG, "injectRepositoryFactory()");
         mRepositoryFactory = repositoryFactory;
     }
 
     @Override
-    public void onListItemClicked(MilkTransaction milkTransaction) {
-    }
-
-    @Override
-    public void onClickDialogPositiveButton(MilkTransaction newMilkTransaction) {
-
+    public void onClickAddNewMilkTransaction(MilkTransaction newMilkTransaction) {
+        mMilkTransactionLiveDataManager.insertNewMilkTransaction(newMilkTransaction);
     }
 
     @Override
@@ -77,47 +69,47 @@ public class MilkTransactionViewModelImpl extends ViewModel implements
     }
 
     @Override
-    public void onClickDeleteButton() {
+    public void onClickDelete(MilkTransaction milkTransaction) {
+        mMilkTransactionLiveDataManager.deleteMilkTransaction(milkTransaction);
 
     }
 
     @Override
-    public void onClickAddNewTransactionFab() {
-
+    public void saveCurrentMilkTransactionState(MilkTransaction milkTransaction) {
+        mMilkTransactionLiveDataManager.saveCurrentMilkTransactionState(milkTransaction);
     }
 
     @Override
-    public void onDurationChange(long fromTimeStamp, long toTimestamp) {
-
+    public void updateMilkType(int milkType, long date, int price, int quantity) {
+        mMilkTransactionLiveDataManager.updateMilkType(milkType, date, price, quantity);
     }
 
     @Override
-    public void onClickChangeDuration(Constants.DurationDirection direction) {
-        Log.d(TAG, "onClickChangeDuration()  direction : " + direction);
+    public void onDurationChange(int month, int year) {
+        Log.d(TAG, "onDurationChange()  month/year : " + month + "/" + year);
 
-        //TODO calculate timestamp
-        long fromTimestamp = 0;
-        long toTimestamp = System.currentTimeMillis();
-        mTransactionsListLiveDataManager.updateMilkTransactionDuration(fromTimestamp, toTimestamp);
+        long fromTimestamp = TimeUtils.getMonthStartTimeStamp(month, year);
+        long toTimestamp = TimeUtils.getMonthEndTimeStamp(month, year);
+        mMilkTransactionLiveDataManager.updateMilkTransactionDuration(fromTimestamp, toTimestamp);
     }
 
     @Override
-    public Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionLiveData() {
-        return Optional.ofNullable(mTransactionsListLiveDataManager.getTransactionsArrayListLiveData());
+    public Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionListLiveData() {
+        return Optional.ofNullable(mMilkTransactionLiveDataManager.getTransactionsArrayListLiveData());
+    }
+
+    @Override
+    public Optional<LiveData<MilkTransaction>> provideSelectedMilkTransactionLiveData() {
+        return Optional.ofNullable(mMilkTransactionLiveDataManager.getSelectedMilkTransaction());
     }
 
     @Override
     public Optional<LiveData<SummeryData>> provideMilkTransactionSummeryLiveData() {
-        return Optional.ofNullable(mSummeryLiveDataManager.getSummeryLiveData());
+        return Optional.ofNullable(mMilkTransactionLiveDataManager.getSummeryLiveData());
     }
 
     @Override
-    public Optional<LiveData<Boolean>> provideDialogVisibilityControllerLiveData() {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<LiveData<MilkTransaction>> provideDialogMilkTransactionLiveData() {
-        return Optional.empty();
+    public Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
+        return Optional.ofNullable(mMilkTransactionLiveDataManager.getCustomerInfoLiveData());
     }
 }

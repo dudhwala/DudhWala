@@ -3,6 +3,8 @@ package com.diary.android.dudhwala.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -14,11 +16,10 @@ import com.diary.android.dudhwala.viewmodelimpl.viewmodel.MilkTransactionViewMod
 
 import java.util.Optional;
 
-public class MilkTransactionsActivity extends BaseActivity {
+public class MilkTransactionsActivity extends BaseActivity implements CustomCalendarView.CalendarActionListener {
 
     private static final String TAG = "DudhWala/MilkTransactionsActivity";
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
-    private ViewFactory mViewFactory;
     private MilkTransactionViewModelImpl mMilkTransactionsViewModel;
 
     @Override
@@ -33,6 +34,39 @@ public class MilkTransactionsActivity extends BaseActivity {
 
         createViewModelAndInjectRepositoryFactory();
         injectView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        findViewById(R.id.fab).setOnClickListener(v ->
+                showAddNewTransactionDialog(Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.milk_transaction_activity_menus, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_show_payments:
+                // User chose the "Payment" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -52,19 +86,31 @@ public class MilkTransactionsActivity extends BaseActivity {
     @Override
     void injectView() {
         Log.d(TAG, "injectView()");
-        mViewFactory = ViewFactory.getViewFactoryInstance();
+        ViewFactory mViewFactory = ViewFactory.getViewFactoryInstance();
 
         mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.recyclerView))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
-        mViewFactory.provideMilkTransactionSummeryView(this, this, findViewById(R.id.summeryViewContainer))
+        mViewFactory.provideMilkTransactionSummeryAndToolbarView(this, this,
+                findViewById(R.id.summeryViewContainer), findViewById(R.id.toolbar))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
-        mViewFactory.provideMilkTransactionDurationView(this, this, findViewById(R.id.durationViewContainer))
-                .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
     }
 
     private MilkTransactionViewModelImpl getMilkTransactionViewModel() {
         return ViewModelProviders.of(this).get(MilkTransactionViewModelImpl.class);
+    }
+
+    private void showAddNewTransactionDialog(int transactionId) {
+        Log.d(TAG, "showAddNewTransactionDialog()");
+        mMilkTransactionsViewModel.setTransactionId(transactionId);
+        MilkTransactionDialogFragment milkTransactionDialogFragment = new MilkTransactionDialogFragment();
+        milkTransactionDialogFragment.show(getSupportFragmentManager(),
+                "add_new_milk_transaction_dialog");
+    }
+
+    @Override
+    public void onUpdateDuration(int month, int year) {
+        mMilkTransactionsViewModel.onDurationChange(month, year);
     }
 }

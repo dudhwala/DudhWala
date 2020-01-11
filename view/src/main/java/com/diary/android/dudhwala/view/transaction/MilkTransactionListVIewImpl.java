@@ -3,27 +3,28 @@ package com.diary.android.dudhwala.view.transaction;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.view.LiveDataObserver.MillTransactionLiveDataObserver;
-import com.diary.android.dudhwala.view.R;
+import com.diary.android.dudhwala.view.ILiveDataObserver.MillTransactionLiveDataObserver;
+import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource.MilkTransactionLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener.MilkTransactionViewActionListener;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 
 import java.util.List;
 
 public class MilkTransactionListVIewImpl implements
-        MillTransactionLiveDataObserver {
-
+        MillTransactionLiveDataObserver, SwipeController.SwipeActionListener {
 
     private static final String TAG = "DudhWala/MilkTransactionListVIewImpl";
-    private static final int VERTICAL_ITEM_SPACE = 30;
+    private static final int VERTICAL_ITEM_SPACE = 0;
     private final Context mContext;
     private final LifecycleOwner mLifecycleOwner;
     private final RecyclerView mRecyclerView;
@@ -41,12 +42,20 @@ public class MilkTransactionListVIewImpl implements
 
     private void configureRecyclerView() {
         Log.d(TAG, "configureRecyclerVIew()");
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
 
-        //add ItemDecoration vertical Space
-        //Add Custom Divider
-        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider, VERTICAL_ITEM_SPACE));
+        //Reverse View Show latest transaction at bottom
+        linearLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        //Add swipe actions
+        SwipeController swipeController = new SwipeController(this);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        //Add Custom Divider and ItemDecoration vertical Space and dismiss swipe action on scroll
+        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, swipeController, VERTICAL_ITEM_SPACE));
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -55,7 +64,7 @@ public class MilkTransactionListVIewImpl implements
                                        MilkTransactionViewActionListener viewActionListener) {
         Log.d(TAG, "startObservingLiveData()");
         mViewActionListener = viewActionListener;
-        liveDataSource.provideMilkTransactionLiveData().ifPresent(this::observeMilkTransactionLiveData);
+        liveDataSource.provideMilkTransactionListLiveData().ifPresent(this::observeMilkTransactionLiveData);
     }
 
     private void observeMilkTransactionLiveData(LiveData<List<MilkTransaction>> arrayListLiveData) {
@@ -64,5 +73,18 @@ public class MilkTransactionListVIewImpl implements
                     Log.d(TAG, "onChangeMilkTransactions()");
                     mAdapter.updateMilkTransactionsData(milkTransactions);
                 });
+    }
+
+    @Override
+    public void onEditClicked(int position) {
+        //todo
+    }
+
+    @Override
+    public void onDeleteClicked(int position) {
+        mViewActionListener.onClickDelete(mAdapter.getItem(position));
+
+        //TODO show snack bar to undo
+        Toast.makeText(mContext, "Transaction Deleted.", Toast.LENGTH_LONG).show();
     }
 }

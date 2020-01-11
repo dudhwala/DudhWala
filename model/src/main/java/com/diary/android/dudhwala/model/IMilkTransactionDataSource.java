@@ -6,9 +6,13 @@ import com.diary.android.dudhwala.common.entity.MilkTransaction;
 
 import java.util.List;
 
-public interface MilkTransactionDataSource {
+public interface IMilkTransactionDataSource {
 
     LiveData<List<MilkTransaction>> getMilkTransactions(int customerId, long fromTimestamp, long toTimestamp);
 
     void updateMilkTransaction(MilkTransaction milkTransaction);
+
+    void insertMilkTransaction(MilkTransaction milkTransaction);
+
+    void deleteMilkTransaction(MilkTransaction milkTransaction);
 }

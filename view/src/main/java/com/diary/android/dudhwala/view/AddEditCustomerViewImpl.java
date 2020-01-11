@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
@@ -17,13 +18,13 @@ import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.MilkType;
 import com.diary.android.dudhwala.common.Utils;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.viewmodel.LiveDataSource.AddEditLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.ViewActionListener.AddEditViewActionListner;
+import com.diary.android.dudhwala.viewmodel.ILiveDataSource.AddEditLiveDataSource;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.AddEditViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 
-public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
+public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
 
-    private final String TAG = " AddEditCustomerViewImpl : ";
+    private final String TAG = "DudhWala/AddEditCustomerViewImpl";
 
     @NonNull
     private Context mContext;
@@ -32,7 +33,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
     @NonNull
     private View mView;
 
-    private AddEditViewActionListner mViewActionListener;
+    private AddEditViewActionListener mViewActionListener;
     private CustomerInfo mCustomerInfo;
     private int mCustomerInfoMilkType = -1;
     private int mCustomerInfoMiltRate = -1;
@@ -43,7 +44,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
             mAddress,
             mRate;
     private Spinner mMilktype;
-    private Button mAddButton;
+    private Button mAddUpdateButton;
 
 
     AddEditCustomerViewImpl(@NonNull View view, @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {
@@ -59,8 +60,8 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
         mMilktype = view.findViewById(R.id.spn_milktype);
         mRate = view.findViewById(R.id.et_rate);
 
-        mAddButton = view.findViewById(R.id.btn_Add);
-        mAddButton.setOnClickListener(this);
+        mAddUpdateButton = view.findViewById(R.id.btn_Add);
+        mAddUpdateButton.setOnClickListener(this);
 
         mMilktype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -91,7 +92,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
     }
 
     @Override
-    public void startObservingLiveData(AddEditLiveDataSource liveDataSource, AddEditViewActionListner viewActionListener) {
+    public void startObservingLiveData(AddEditLiveDataSource liveDataSource, AddEditViewActionListener viewActionListener) {
         mViewActionListener = viewActionListener;
         liveDataSource.provideCustomerInfoLiveData().ifPresent(this::setCustomerInfoLiveData);
 
@@ -109,6 +110,7 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
     }
 
     private void assignCustomerInfo() {
+        Log.d(TAG, "assignCustomerInfo()");
         mName.setText(mCustomerInfo.getCustomerName());
         mNumber.setText(mCustomerInfo.getMobileNumber());
         mEmail.setText(mCustomerInfo.getEmailAddress());
@@ -125,16 +127,20 @@ public class AddEditCustomerViewImpl implements LiveDataObserver.AddEditLiveData
         }
         mMilktype.setSelection(mCustomerInfoMilkType - 1);
         mRate.setText(Integer.toString(mCustomerInfoMiltRate));
+
+        mAddUpdateButton.setText("Update");
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == mAddButton.getId()) {
+        if (view.getId() == mAddUpdateButton.getId()) {
             CustomerData customerData = makeCustomerData();
             if (customerData == null) {
                 Toast.makeText(mContext, "Please Check Info Entered", Toast.LENGTH_LONG).show(); //TOCHECK //String
             } else {
                 mViewActionListener.onAddCustomerClicked(customerData);
+                Toast.makeText(mContext, "Customer Added", Toast.LENGTH_LONG).show();
+                ((AppCompatActivity) mContext).finish();
             }
         }
     }

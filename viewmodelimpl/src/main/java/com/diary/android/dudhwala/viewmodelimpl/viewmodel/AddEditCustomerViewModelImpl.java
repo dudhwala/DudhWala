@@ -4,30 +4,30 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.model.RepositoryFactory;
-import com.diary.android.dudhwala.model.RepositoryFactoryLifecycle;
-import com.diary.android.dudhwala.viewmodel.AddEditCustomerViewModel;
+import com.diary.android.dudhwala.model.IRepositoryFactory;
+import com.diary.android.dudhwala.model.IRepositoryFactoryLifecycle;
+import com.diary.android.dudhwala.viewmodel.IAddEditCustomerViewModel;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
-import com.diary.android.dudhwala.viewmodel.executor.AddEditCustomerLiveDataManager;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.IAddEditCustomerLiveDataManager;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.AddEditCustomerLiveDataManagerImpl;
 
 import java.util.Optional;
 
 
-public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCustomerViewModel {
+public class AddEditCustomerViewModelImpl extends ViewModel implements IAddEditCustomerViewModel {
 
     private boolean isMarked = true;
 
-    private RepositoryFactory mRepositoryFactory;
+    private IRepositoryFactory mRepositoryFactory;
 
-    private AddEditCustomerLiveDataManager mAddEditCustomerLiveDataManager;
+    private IAddEditCustomerLiveDataManager mAddEditCustomerLiveDataManager;
 
     private int mCustomerId = -1;
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        mRepositoryFactory.disconnected(RepositoryFactoryLifecycle.ViewModelType.addEditCustomerVM);
+        mRepositoryFactory.disconnected(IRepositoryFactoryLifecycle.ViewModelType.addEditCustomerVM);
     }
 
     @Override
@@ -46,9 +46,9 @@ public class AddEditCustomerViewModelImpl extends ViewModel implements AddEditCu
     }
 
     @Override
-    public void injectRepositoryFactory(RepositoryFactory repositoryFactory) {
+    public void injectRepositoryFactory(IRepositoryFactory repositoryFactory) {
         mRepositoryFactory = repositoryFactory;
-        repositoryFactory.connected(RepositoryFactoryLifecycle.ViewModelType.addEditCustomerVM);
+        repositoryFactory.connected(IRepositoryFactoryLifecycle.ViewModelType.addEditCustomerVM);
     }
 
     @Override

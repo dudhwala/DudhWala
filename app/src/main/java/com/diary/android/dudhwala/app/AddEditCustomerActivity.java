@@ -2,22 +2,25 @@ package com.diary.android.dudhwala.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.AddEditCustomerViewImpl;
 import com.diary.android.dudhwala.view.ViewFactory;
-import com.diary.android.dudhwala.viewmodel.AddEditCustomerViewModel;
+import com.diary.android.dudhwala.viewmodel.IAddEditCustomerViewModel;
 import com.diary.android.dudhwala.viewmodelimpl.viewmodel.AddEditCustomerViewModelImpl;
 
 import java.util.Optional;
 
 public class AddEditCustomerActivity extends BaseActivity {
 
-    private AddEditCustomerViewModel mAddEditCustomerViewModel;
+    private static final String TAG = "DudhWala/AddEditCustomerActivity";
+    private IAddEditCustomerViewModel mAddEditCustomerViewModel;
 
     private ViewFactory mViewFactory;
 
@@ -26,6 +29,7 @@ public class AddEditCustomerActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_add_edit_customer);
 
         mCustomerId = Optional.ofNullable(getIntent())
@@ -33,9 +37,21 @@ public class AddEditCustomerActivity extends BaseActivity {
                 .map(extras -> extras.getInt(Constants.Extra.EXTRA_CUSTOMER_ID))
                 .orElse(Constants.Customer.UNKNOWN_CUSTOMER_ID);
 
+        updateActionBar();
+
         createViewModelAndInjectRepositoryFactory();
         injectView();
 
+    }
+
+    private void updateActionBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (mCustomerId == Constants.Customer.UNKNOWN_CUSTOMER_ID) {
+            toolbar.setTitle("Add New Customer");
+        } else {
+            toolbar.setTitle("Update Customer");
+        }
     }
 
     @Override
@@ -43,13 +59,14 @@ public class AddEditCustomerActivity extends BaseActivity {
         super.onStart();
     }
 
-    private AddEditCustomerViewModel getAddEditCustomerViewModel() {
+    private IAddEditCustomerViewModel getAddEditCustomerViewModel() {
         return ViewModelProviders.of(this).get(AddEditCustomerViewModelImpl.class);
     }
 
 
     @Override
     void createViewModelAndInjectRepositoryFactory() {
+        Log.d(TAG, "createViewModelAndInjectRepositoryFactory()");
         mAddEditCustomerViewModel = getAddEditCustomerViewModel();
 
         if (mAddEditCustomerViewModel.isNewInstance()) {

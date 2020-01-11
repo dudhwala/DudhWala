@@ -5,12 +5,19 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
+import com.diary.android.dudhwala.viewmodel.data.DurationData;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface LiveDataSource {
+public interface ILiveDataSource {
+
+    interface CustomerListLiveDataSource {
+        default Optional<LiveData<List<CustomerInfo>>> provideCustomerListLiveData() {
+            return Optional.empty();
+        }
+    }
 
     interface AddEditLiveDataSource {
         default Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
@@ -19,7 +26,11 @@ public interface LiveDataSource {
     }
 
     interface MilkTransactionLiveDataSource {
-        default Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionLiveData() {
+        default Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionListLiveData() {
+            return Optional.empty();
+        }
+
+        default Optional<LiveData<MilkTransaction>> provideSelectedMilkTransactionLiveData() {
             return Optional.empty();
         }
 
@@ -31,11 +42,13 @@ public interface LiveDataSource {
             return Optional.empty();
         }
 
-        default Optional<LiveData<Boolean>> provideDialogVisibilityControllerLiveData() {
+        default Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
             return Optional.empty();
         }
+    }
 
-        default Optional<LiveData<MilkTransaction>> provideDialogMilkTransactionLiveData() {
+    interface ICustomCalendarLiveDataSource {
+        default Optional<LiveData<DurationData>> provideDurationLiveData() {
             return Optional.empty();
         }
     }

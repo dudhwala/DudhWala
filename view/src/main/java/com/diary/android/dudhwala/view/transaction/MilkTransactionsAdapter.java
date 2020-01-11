@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.android.dudhwala.common.TimeUtils;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.R;
 
@@ -34,17 +35,14 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
 
         MilkTransaction milkTransaction = milkTransactionsArrayList.get(position);
 
-        String transactionDate = "Date : " + milkTransaction.getTransactionDate();
+        String transactionDate = "Date : " + TimeUtils.convertTimestampToDateString(
+                milkTransaction.getTransactionDate());
         String milkType = "Milk Type : " + milkTransaction.getMilkType();
         String milkQuantity = "Milk Quantity : " + milkTransaction.getMilkQuantityLiters();
         String milkPricePerLiter = "Price/Liter : " + milkTransaction.getPricePerLiter();
         String totalAmount = "Amount : " + milkTransaction.getTransactionAmount();
 
-        Log.d(TAG, "transactionDate : " + transactionDate
-                + " milkType : " + milkType
-                + " milkQuantity : " + milkQuantity
-                + " milkPricePerLiter : " + milkPricePerLiter
-                + " totalAmount " + totalAmount);
+        //Log.d(TAG, milkTransaction.toString());
 
         holder.dateTextView.setText(transactionDate);
         holder.milkType.setText(milkType);
@@ -55,13 +53,20 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
 
     @Override
     public int getItemCount() {
-        return milkTransactionsArrayList.size();
+        if (milkTransactionsArrayList != null) {
+            return milkTransactionsArrayList.size();
+        }
+        return 0;
     }
 
     public void updateMilkTransactionsData(List<MilkTransaction> milkTransactions) {
         Log.d(TAG, "updateMilkTransactionsData() size : " + milkTransactions.size());
         milkTransactionsArrayList = milkTransactions;
         notifyDataSetChanged();
+    }
+
+    public MilkTransaction getItem(int position) {
+        return milkTransactionsArrayList.get(position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

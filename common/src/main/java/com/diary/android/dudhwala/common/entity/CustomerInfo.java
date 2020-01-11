@@ -146,6 +146,26 @@ public class CustomerInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerName, mobileNumber, emailAddress, address, pricePerLiterCow, pricePerLiterBuffalo, pricePerLiterMix, quickAddMilkType, quickAddQuantity, totalAmountDue, lastUpdatedTimestamp);
+        return Objects.hash(id, customerName, mobileNumber, emailAddress, address, pricePerLiterCow,
+                pricePerLiterBuffalo, pricePerLiterMix, quickAddMilkType, quickAddQuantity,
+                totalAmountDue, lastUpdatedTimestamp);
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerInfo{" +
+                "id=" + id +
+                ", customerName='" + customerName + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", address='" + address + '\'' +
+                ", pricePerLiterCow=" + pricePerLiterCow +
+                ", pricePerLiterBuffalo=" + pricePerLiterBuffalo +
+                ", pricePerLiterMix=" + pricePerLiterMix +
+                ", quickAddMilkType=" + quickAddMilkType +
+                ", quickAddQuantity=" + quickAddQuantity +
+                ", totalAmountDue=" + totalAmountDue +
+                ", lastUpdatedTimestamp=" + lastUpdatedTimestamp +
+                '}';
     }
 }
