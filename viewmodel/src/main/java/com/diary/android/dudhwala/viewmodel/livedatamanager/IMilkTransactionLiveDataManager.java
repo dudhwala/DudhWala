@@ -29,5 +29,5 @@ public interface IMilkTransactionLiveDataManager extends ILiveDataManagerLifeCyc
 
     void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
 
-    void updateMilkType(int milkType, long date, int price, int quantity);
+    void updateMilkType(int milkType, long date, float price, float quantity);
 }

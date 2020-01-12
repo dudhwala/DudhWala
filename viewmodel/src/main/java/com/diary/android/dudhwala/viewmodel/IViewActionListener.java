@@ -30,7 +30,7 @@ public interface IViewActionListener {
 
         void saveCurrentMilkTransactionState(MilkTransaction mMilkTransaction);
 
-        void updateMilkType(int milkType, long date, int price, int quantity);
+        void updateMilkType(int milkType, long date, float price, float quantity);
     }
 
     interface ICustomCalendarActionListener {

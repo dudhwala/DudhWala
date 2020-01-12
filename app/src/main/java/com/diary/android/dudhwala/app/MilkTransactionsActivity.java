@@ -92,7 +92,7 @@ public class MilkTransactionsActivity extends BaseActivity {
         Log.d(TAG, "injectView()");
         ViewFactory mViewFactory = ViewFactory.getViewFactoryInstance();
 
-        mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.recyclerView))
+        mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.transactionListContainer))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
         mViewFactory.provideMilkTransactionSummeryAndToolbarView(this, this,

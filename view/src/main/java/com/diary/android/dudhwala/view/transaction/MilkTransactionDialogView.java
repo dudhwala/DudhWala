@@ -67,8 +67,8 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
     public void onSaveInstanceState(@NonNull Bundle outState) {
         Log.v(TAG, "onSaveInstanceState() pos : " + mMilkTypeSpinner.getSelectedItemPosition());
         mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(mDateTextView.getText().toString()));
-        mMilkTransaction.setPricePerLiter(Integer.parseInt(mMilkPriceEditText.getText().toString()));
-        mMilkTransaction.setMilkQuantityLiters(Integer.parseInt(mMilkQuantityEditText.getText().toString()));
+        mMilkTransaction.setPricePerLiter(Float.parseFloat(mMilkPriceEditText.getText().toString()));
+        mMilkTransaction.setMilkQuantityLiters(Float.parseFloat(mMilkQuantityEditText.getText().toString()));
         mMilkTransaction.setMilkType(mMilkTypeSpinner.getSelectedItemPosition() + 1);
         mListener.saveCurrentMilkTransactionState(mMilkTransaction);
     }
@@ -85,10 +85,10 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
             return;
         }
 
-        mMilkTransaction.setMilkQuantityLiters(Integer.parseInt(quantity));
+        mMilkTransaction.setMilkQuantityLiters(Float.parseFloat(quantity));
         mMilkTransaction.setMilkType(milkType);
-        mMilkTransaction.setPricePerLiter(Integer.parseInt(milkPrice));
-        mMilkTransaction.setTransactionAmount(Integer.parseInt(quantity) * Integer.parseInt(milkPrice));
+        mMilkTransaction.setPricePerLiter(Float.parseFloat(milkPrice));
+        mMilkTransaction.setTransactionAmount(Float.parseFloat(quantity) * Float.parseFloat(milkPrice));
         mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(date));
         mMilkTransaction.setCreatedTimeStamp(System.currentTimeMillis());
 
@@ -126,8 +126,8 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
 
                 mListener.updateMilkType(pos + 1,
                         TimeUtils.convertStringToTimestamp(mDateTextView.getText().toString()),
-                        Integer.parseInt(mMilkPriceEditText.getText().toString()),
-                        Integer.parseInt(mMilkQuantityEditText.getText().toString()));
+                        Float.parseFloat(mMilkPriceEditText.getText().toString()),
+                        Float.parseFloat(mMilkQuantityEditText.getText().toString()));
             }
 
             @Override

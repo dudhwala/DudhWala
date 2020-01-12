@@ -3,6 +3,7 @@ package com.diary.android.dudhwala.view.transaction;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.LifecycleOwner;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.ILiveDataObserver.MillTransactionLiveDataObserver;
+import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
@@ -28,15 +30,17 @@ public class MilkTransactionListVIewImpl implements
     private final Context mContext;
     private final LifecycleOwner mLifecycleOwner;
     private final RecyclerView mRecyclerView;
+    private final TextView mEmptyView;
     private MilkTransactionViewActionListener mViewActionListener;
     private MilkTransactionsAdapter mAdapter;
 
     public MilkTransactionListVIewImpl(Context context, LifecycleOwner lifecycleOwner, View view) {
         mContext = context;
         mLifecycleOwner = lifecycleOwner;
-        mRecyclerView = (RecyclerView) view;
         mAdapter = new MilkTransactionsAdapter();
 
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mEmptyView = view.findViewById(R.id.empty_view);
         configureRecyclerView();
     }
 
@@ -71,6 +75,13 @@ public class MilkTransactionListVIewImpl implements
         arrayListLiveData.observe(mLifecycleOwner,
                 milkTransactions -> {
                     Log.d(TAG, "onChangeMilkTransactions()");
+                    if (milkTransactions.size() == 0) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        mEmptyView.setVisibility(View.VISIBLE);
+                    } else {
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        mEmptyView.setVisibility(View.GONE);
+                    }
                     mAdapter.updateMilkTransactionsData(milkTransactions);
                 });
     }

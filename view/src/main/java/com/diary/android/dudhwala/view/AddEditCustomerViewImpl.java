@@ -36,14 +36,14 @@ public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDat
     private AddEditViewActionListener mViewActionListener;
     private CustomerInfo mCustomerInfo;
     private int mCustomerInfoMilkType = -1;
-    private int mCustomerInfoMiltRate = -1;
+    private float mCustomerInfoMiltRate = -1f;
 
     private EditText mName,
             mNumber,
             mEmail,
             mAddress,
             mRate;
-    private Spinner mMilktype;
+    private Spinner mMilkTypeSpinner;
     private Button mAddUpdateButton;
 
 
@@ -57,13 +57,13 @@ public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDat
         mNumber = view.findViewById(R.id.et_number);
         mEmail = view.findViewById(R.id.et_email);
         mAddress = view.findViewById(R.id.et_address);
-        mMilktype = view.findViewById(R.id.spn_milktype);
+        mMilkTypeSpinner = view.findViewById(R.id.spn_milktype);
         mRate = view.findViewById(R.id.et_rate);
 
         mAddUpdateButton = view.findViewById(R.id.btn_Add);
         mAddUpdateButton.setOnClickListener(this);
 
-        mMilktype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mMilkTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (mCustomerInfo != null) {
@@ -125,8 +125,8 @@ public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDat
             mCustomerInfoMilkType = MilkType.MIX.intValue();
             mCustomerInfoMiltRate = mCustomerInfo.getPricePerLiterMix();
         }
-        mMilktype.setSelection(mCustomerInfoMilkType - 1);
-        mRate.setText(Integer.toString(mCustomerInfoMiltRate));
+        mMilkTypeSpinner.setSelection(mCustomerInfoMilkType - 1);
+        mRate.setText(String.format("%d", mCustomerInfoMiltRate));
 
         mAddUpdateButton.setText("Update");
     }
@@ -151,21 +151,21 @@ public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDat
 
         Log.d(TAG, "makeCustomerData : name " + mName.getText()
                 + " rate - " + mRate.getText()
-                + " milktype - " + mMilktype.getSelectedItemPosition()
+                + " milktype - " + mMilkTypeSpinner.getSelectedItemPosition()
                 + " mail - " + mEmail.getText()
                 + " address - " + mAddress.getText()
                 + " number - " + mNumber.getText());
 
         if (Utils.isStringNotEmpty(mName.getText().toString())
                 && Utils.isStringNotEmpty(mRate.getText().toString())
-                && mMilktype.getSelectedItemPosition() >= 0) {
+                && mMilkTypeSpinner.getSelectedItemPosition() >= 0) {
 
             customerData = new CustomerData(mName.getText().toString(),
                     mNumber.getText().toString(),
                     mEmail.getText().toString(),
                     mAddress.getText().toString(),
-                    mMilktype.getSelectedItemPosition() + 1,
-                    Integer.parseInt(mRate.getText().toString())
+                    mMilkTypeSpinner.getSelectedItemPosition() + 1,
+                    Float.parseFloat(mRate.getText().toString())
             );
         }
 

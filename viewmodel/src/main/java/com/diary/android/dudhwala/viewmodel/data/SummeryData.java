@@ -2,8 +2,8 @@ package com.diary.android.dudhwala.viewmodel.data;
 
 public class SummeryData {
 
-    private int mTotalMilkQuantityInLitersForDuration;
-    private int mTotalAmountForDuration;
+    private float mTotalMilkQuantityInLitersForDuration;
+    private float mTotalAmountForDuration;
     private int mTotalAmountDue;
 
     public SummeryData() {
@@ -16,19 +16,19 @@ public class SummeryData {
         this.mTotalAmountDue = totalAmountDue;
     }
 
-    public int getTotalMilkQuantityInLitersForDuration() {
+    public float getTotalMilkQuantityInLitersForDuration() {
         return mTotalMilkQuantityInLitersForDuration;
     }
 
-    public void setTotalMilkQuantityInLitersForDuration(int totalMilkQuantityInLitersForDuration) {
+    public void setTotalMilkQuantityInLitersForDuration(float totalMilkQuantityInLitersForDuration) {
         this.mTotalMilkQuantityInLitersForDuration = totalMilkQuantityInLitersForDuration;
     }
 
-    public int getTotalAmountForDuration() {
+    public float getTotalAmountForDuration() {
         return mTotalAmountForDuration;
     }
 
-    public void setTotalAmountForDuration(int totalAmountForDuration) {
+    public void setTotalAmountForDuration(float totalAmountForDuration) {
         this.mTotalAmountForDuration = totalAmountForDuration;
     }
 

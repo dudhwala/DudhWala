@@ -81,7 +81,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     }
 
     @Override
-    public void updateMilkType(int milkType, long date, int price, int quantity) {
+    public void updateMilkType(int milkType, long date, float price, float quantity) {
         mMilkTransactionLiveDataManager.updateMilkType(milkType, date, price, quantity);
     }
 

@@ -59,7 +59,7 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
     }
 
     @Override
-    public void updateMilkType(int milkType, long date, int price, int quantity) {
+    public void updateMilkType(int milkType, long date, float price, float quantity) {
 
         //update price also
         price = getPriceOfMilkType(milkType);
@@ -123,8 +123,8 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
 
     private MilkTransaction getDefaultMilkTransaction() {
         CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
-        int pricePerLiter = getPriceOfDefaultMilkType(customerInfo);
-        int transactionAmount = customerInfo.getQuickAddMilkType() * pricePerLiter;
+        float pricePerLiter = getPriceOfDefaultMilkType(customerInfo);
+        float transactionAmount = customerInfo.getQuickAddMilkType() * pricePerLiter;
         long transactionDate = System.currentTimeMillis();
 
         MilkTransaction milkTransaction = new MilkTransaction(
@@ -139,7 +139,7 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
         return milkTransaction;
     }
 
-    private int getPriceOfDefaultMilkType(CustomerInfo customerInfo) {
+    private float getPriceOfDefaultMilkType(CustomerInfo customerInfo) {
 
         if (customerInfo.getQuickAddMilkType() == MilkType.COW.intValue()) {
             return customerInfo.getPricePerLiterCow();
@@ -160,8 +160,8 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
             return;
         }
         Iterator<MilkTransaction> iterator = value.iterator();
-        int totalMilkQuantity = 0;
-        int totalAmount = 0;
+        float totalMilkQuantity = 0;
+        float totalAmount = 0;
 
         while (iterator.hasNext()) {
             MilkTransaction milkTransaction = iterator.next();
@@ -175,7 +175,7 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
         mSummeryLiveData.setValue(summeryData);
     }
 
-    private int getPriceOfMilkType(int milkType) {
+    private float getPriceOfMilkType(int milkType) {
         CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
         if (customerInfo != null) {
             if (milkType == MilkType.COW.intValue()) {

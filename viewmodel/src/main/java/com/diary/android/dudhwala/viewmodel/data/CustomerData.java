@@ -1,7 +1,5 @@
 package com.diary.android.dudhwala.viewmodel.data;
 
-import android.text.Editable;
-
 public class CustomerData {
 
     private String mName;
@@ -9,9 +7,9 @@ public class CustomerData {
     private String mEmail;
     private String mAddress;
     private int mMilkType;
-    private int mRate;
+    private float mRate;
 
-    public CustomerData(String mName, String mNumber, String mEmail, String mAddress, int mMilkType, int mRate) {
+    public CustomerData(String mName, String mNumber, String mEmail, String mAddress, int mMilkType, float mRate) {
         this.mName = mName;
         this.mNumber = mNumber;
         this.mEmail = mEmail;
@@ -40,7 +38,7 @@ public class CustomerData {
         return mMilkType;
     }
 
-    public int getRate() {
+    public float getRate() {
         return mRate;
     }
 }

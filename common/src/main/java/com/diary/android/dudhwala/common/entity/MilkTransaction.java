@@ -17,7 +17,7 @@ public class MilkTransaction {
     private int customerId;
 
     @ColumnInfo(name = "milk_quantity_liters")
-    private int milkQuantityLiters;
+    private float milkQuantityLiters;
 
     //Cow = 1
     //Buffalo = 2
@@ -26,10 +26,10 @@ public class MilkTransaction {
     private int milkType;
 
     @ColumnInfo(name = "price_per_liter")
-    private int pricePerLiter;
+    private float pricePerLiter;
 
     @ColumnInfo(name = "transaction_amount")
-    private int transactionAmount;
+    private float transactionAmount;
 
     @ColumnInfo(name = "transaction_date")
     private long transactionDate;
@@ -37,8 +37,8 @@ public class MilkTransaction {
     @ColumnInfo(name = "created_time_stamp")
     private long createdTimeStamp;
 
-    public MilkTransaction(int customerId, int milkQuantityLiters, int milkType,
-                           int pricePerLiter, int transactionAmount,
+    public MilkTransaction(int customerId, float milkQuantityLiters, int milkType,
+                           float pricePerLiter, float transactionAmount,
                            long transactionDate, long createdTimeStamp) {
         this.customerId = customerId;
         this.milkQuantityLiters = milkQuantityLiters;
@@ -61,7 +61,7 @@ public class MilkTransaction {
         return customerId;
     }
 
-    public int getMilkQuantityLiters() {
+    public float getMilkQuantityLiters() {
         return milkQuantityLiters;
     }
 
@@ -69,12 +69,12 @@ public class MilkTransaction {
         return milkType;
     }
 
-    public int getPricePerLiter() {
-        return pricePerLiter;
+    public void setMilkQuantityLiters(float milkQuantityLiters) {
+        this.milkQuantityLiters = milkQuantityLiters;
     }
 
-    public int getTransactionAmount() {
-        return transactionAmount;
+    public float getPricePerLiter() {
+        return pricePerLiter;
     }
 
     public long getTransactionDate() {
@@ -85,19 +85,19 @@ public class MilkTransaction {
         this.customerId = customerId;
     }
 
-    public void setMilkQuantityLiters(int milkQuantityLiters) {
-        this.milkQuantityLiters = milkQuantityLiters;
+    public void setPricePerLiter(float pricePerLiter) {
+        this.pricePerLiter = pricePerLiter;
     }
 
     public void setMilkType(int milkType) {
         this.milkType = milkType;
     }
 
-    public void setPricePerLiter(int pricePerLiter) {
-        this.pricePerLiter = pricePerLiter;
+    public float getTransactionAmount() {
+        return transactionAmount;
     }
 
-    public void setTransactionAmount(int transactionAmount) {
+    public void setTransactionAmount(float transactionAmount) {
         this.transactionAmount = transactionAmount;
     }
 

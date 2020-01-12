@@ -26,13 +26,13 @@ public class CustomerInfo {
     private String address;
 
     @ColumnInfo(name = "price_per_liter_cow")
-    private int pricePerLiterCow;
+    private float pricePerLiterCow;
 
     @ColumnInfo(name = "price_per_liter_buffalo")
-    private int pricePerLiterBuffalo;
+    private float pricePerLiterBuffalo;
 
     @ColumnInfo(name = "price_per_liter_mix")
-    private int pricePerLiterMix;
+    private float pricePerLiterMix;
 
     //Cow = 1
     //Buffalo = 2
@@ -41,10 +41,10 @@ public class CustomerInfo {
     private int quickAddMilkType;
 
     @ColumnInfo(name = "quick_add_quantity")
-    private int quickAddQuantity;
+    private float quickAddQuantity;
 
     @ColumnInfo(name = "total_amount_due")
-    private int totalAmountDue;
+    private float totalAmountDue;
 
     @ColumnInfo(name = "last_updated_timestamp")
     private long lastUpdatedTimestamp;
@@ -53,12 +53,12 @@ public class CustomerInfo {
                         String mobileNumber,
                         String emailAddress,
                         String address,
-                        int pricePerLiterCow,
-                        int pricePerLiterBuffalo,
-                        int pricePerLiterMix,
+                        float pricePerLiterCow,
+                        float pricePerLiterBuffalo,
+                        float pricePerLiterMix,
                         int quickAddMilkType,
-                        int quickAddQuantity,
-                        int totalAmountDue,
+                        float quickAddQuantity,
+                        float totalAmountDue,
                         long lastUpdatedTimestamp) {
         this.customerName = customerName;
         this.mobileNumber = mobileNumber;
@@ -97,15 +97,15 @@ public class CustomerInfo {
         return address;
     }
 
-    public int getPricePerLiterCow() {
+    public float getPricePerLiterCow() {
         return pricePerLiterCow;
     }
 
-    public int getPricePerLiterBuffalo() {
+    public float getPricePerLiterBuffalo() {
         return pricePerLiterBuffalo;
     }
 
-    public int getPricePerLiterMix() {
+    public float getPricePerLiterMix() {
         return pricePerLiterMix;
     }
 
@@ -113,11 +113,11 @@ public class CustomerInfo {
         return quickAddMilkType;
     }
 
-    public int getQuickAddQuantity() {
+    public float getQuickAddQuantity() {
         return quickAddQuantity;
     }
 
-    public int getTotalAmountDue() {
+    public float getTotalAmountDue() {
         return totalAmountDue;
     }
 
