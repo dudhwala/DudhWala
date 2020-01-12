@@ -25,8 +25,7 @@ public class MilkTransactionRepository implements IMilkTransactionDataSource {
     @Override
     public LiveData<List<MilkTransaction>> getMilkTransactions(int customerId,
                                                                long fromTimestamp, long toTimestamp) {
-        Log.d(TAG, "getMilkTransactions() fromTimestamp : " + fromTimestamp
-                + ", toTimestamp : " + toTimestamp);
+        //Log.d(TAG, "getMilkTransactions() fromTimestamp : " + fromTimestamp + ", toTimestamp : " + toTimestamp);
         return mDb.milkTransactionDao().getMilkTransactionsForDuration(customerId,
                 fromTimestamp, toTimestamp);
     }

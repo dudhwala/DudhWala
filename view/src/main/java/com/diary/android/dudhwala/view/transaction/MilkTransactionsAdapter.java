@@ -15,6 +15,7 @@ import com.diary.android.dudhwala.view.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactionsAdapter.ViewHolder> {
 
@@ -31,7 +32,7 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder() position : " + position);
+        //Log.d(TAG, "onBindViewHolder() position : " + position);
 
         MilkTransaction milkTransaction = milkTransactionsArrayList.get(position);
 
@@ -53,10 +54,9 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
 
     @Override
     public int getItemCount() {
-        if (milkTransactionsArrayList != null) {
-            return milkTransactionsArrayList.size();
-        }
-        return 0;
+        return Optional.ofNullable(milkTransactionsArrayList)
+                .map(List::size)
+                .orElse(0);
     }
 
     public void updateMilkTransactionsData(List<MilkTransaction> milkTransactions) {
@@ -66,7 +66,9 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
     }
 
     public MilkTransaction getItem(int position) {
-        return milkTransactionsArrayList.get(position);
+        return Optional.ofNullable(milkTransactionsArrayList)
+                .map(milkTransactions -> milkTransactions.get(position))
+                .orElse(null);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

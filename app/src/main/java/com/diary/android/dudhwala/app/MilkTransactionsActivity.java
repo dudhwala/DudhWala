@@ -29,6 +29,8 @@ public class MilkTransactionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.milk_transaction_activity);
+        Log.d(TAG, "onCreate() setContentView");
+
         mCustomerId = Optional.ofNullable(getIntent())
                 .map(Intent::getExtras)
                 .map(extras -> extras.getInt(Constants.Extra.EXTRA_CUSTOMER_ID))
@@ -36,13 +38,15 @@ public class MilkTransactionsActivity extends BaseActivity {
 
         createViewModelAndInjectRepositoryFactory();
         injectView();
+
+        findViewById(R.id.fab).setOnClickListener(v ->
+                showAddNewTransactionDialog(Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        findViewById(R.id.fab).setOnClickListener(v ->
-                showAddNewTransactionDialog(Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID));
+        Log.d(TAG, "onResume()");
     }
 
     @Override

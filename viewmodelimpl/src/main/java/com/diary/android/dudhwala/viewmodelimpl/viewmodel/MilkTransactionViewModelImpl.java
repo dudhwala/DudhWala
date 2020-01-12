@@ -87,7 +87,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
 
     @Override
     public void onDurationChange(int month, int year) {
-        Log.d(TAG, "onDurationChange()  month/year : " + month + "/" + year);
+        //Log.d(TAG, "onDurationChange()  month/year : " + month + "/" + year);
 
         long fromTimestamp = TimeUtils.getMonthStartTimeStamp(month, year);
         long toTimestamp = TimeUtils.getMonthEndTimeStamp(month, year);

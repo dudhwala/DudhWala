@@ -51,7 +51,7 @@ public class MilkTransactionSummeryAndToolbarViewImpl implements
     @Override
     public void startObservingLiveData(MilkTransactionLiveDataSource liveDataSource,
                                        MilkTransactionViewActionListener viewActionListener) {
-        Log.d(TAG, "startObservingLiveData()");
+        //Log.d(TAG, "startObservingLiveData()");
         liveDataSource.provideMilkTransactionSummeryLiveData().ifPresent(this::setSummeryDataObserver);
         liveDataSource.provideCustomerInfoLiveData().ifPresent(this::setCustomerDataObserver);
     }
@@ -65,14 +65,13 @@ public class MilkTransactionSummeryAndToolbarViewImpl implements
     }
 
     private void updateSummeryView(SummeryData summeryData) {
-        Log.d(TAG, "updateSummeryView()");
-        mSummeryQuantityTextView.setText(summeryData.getTotalMilkQuantityInLitersForDuration() + " Litters");
+        mSummeryQuantityTextView.setText(String.format("%s Litters", summeryData.getTotalMilkQuantityInLitersForDuration()));
         mSummeryAmountTextView.setText(String.valueOf(summeryData.getTotalAmountForDuration()));
     }
 
     private void updateCustomerViews(CustomerInfo customerData) {
-        Log.d(TAG, "due amount : " + customerData.getTotalAmountDue()
-                + " customer name : " + customerData.getCustomerName());
+        Log.d(TAG, "updateCustomerViews() Amount due : " + customerData.getTotalAmountDue()
+                + " Customer name : " + customerData.getCustomerName());
         mSummeryTotalDueAmountTextView.setText(String.valueOf(customerData.getTotalAmountDue()));
         mToolbar.setTitle(customerData.getCustomerName());
 

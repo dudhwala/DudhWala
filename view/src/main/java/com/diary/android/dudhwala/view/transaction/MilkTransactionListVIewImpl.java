@@ -25,7 +25,7 @@ import java.util.List;
 public class MilkTransactionListVIewImpl implements
         MillTransactionLiveDataObserver, SwipeController.SwipeActionListener {
 
-    private static final String TAG = "DudhWala/MilkTransactionListVIewImpl";
+    private static final String TAG = "DudhWala/MilkTransactionListViewImpl";
     private static final int VERTICAL_ITEM_SPACE = 0;
     private final Context mContext;
     private final LifecycleOwner mLifecycleOwner;
@@ -47,11 +47,11 @@ public class MilkTransactionListVIewImpl implements
     }
 
     private void configureRecyclerView() {
-        Log.d(TAG, "configureRecyclerVIew()");
+        //Log.d(TAG, "configureRecyclerVIew()");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
 
         //Reverse View Show latest transaction at bottom
-        linearLayoutManager.setStackFromEnd(true);
+        //linearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
@@ -68,7 +68,7 @@ public class MilkTransactionListVIewImpl implements
     @Override
     public void startObservingLiveData(MilkTransactionLiveDataSource liveDataSource,
                                        MilkTransactionViewActionListener viewActionListener) {
-        Log.d(TAG, "startObservingLiveData()");
+        //Log.d(TAG, "startObservingLiveData()");
         mViewActionListener = viewActionListener;
         liveDataSource.provideMilkTransactionListLiveData().ifPresent(this::observeMilkTransactionLiveData);
     }

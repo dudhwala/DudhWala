@@ -16,10 +16,11 @@ import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLive
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveDataManager {
     private static final String TAG = "DudhWala/MilkTransactionLiveDataManagerImpl";
-    private static final int DEFAULT_MILK_PRICE = 50;
+    private static final float DEFAULT_MILK_PRICE = 50;
     private final int mCustomerId;
 
     private IRepositoryFactory mRepositoryFactory;
@@ -109,7 +110,6 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
 
     @Override
     public LiveData<List<MilkTransaction>> getTransactionsArrayListLiveData() {
-        Log.d(TAG, "getTransactionsArrayListLiveData()");
         return mTransactionsArrayListLiveData;
     }
 
@@ -125,7 +125,7 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
         float transactionAmount = customerInfo.getQuickAddMilkType() * pricePerLiter;
         long transactionDate = System.currentTimeMillis();
 
-        MilkTransaction milkTransaction = new MilkTransaction(
+        return new MilkTransaction(
                 customerInfo.getId(),
                 customerInfo.getQuickAddQuantity(),
                 customerInfo.getQuickAddMilkType(),
@@ -133,19 +133,23 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
                 transactionAmount,
                 transactionDate,
                 System.currentTimeMillis());
-
-        return milkTransaction;
     }
 
     private float getPriceOfDefaultMilkType(CustomerInfo customerInfo) {
 
-        if (customerInfo.getQuickAddMilkType() == MilkType.COW.intValue()) {
-            return customerInfo.getPricePerLiterCow();
-        } else if (customerInfo.getQuickAddMilkType() == MilkType.BUFF.intValue()) {
-            return customerInfo.getPricePerLiterBuffalo();
-        } else {
-            return customerInfo.getPricePerLiterMix();
-        }
+        return Optional.ofNullable(customerInfo)
+                .map(info -> {
+                    float price;
+                    if (info.getQuickAddMilkType() == MilkType.COW.intValue()) {
+                        price = info.getPricePerLiterCow();
+                    } else if (info.getQuickAddMilkType() == MilkType.BUFF.intValue()) {
+                        price = info.getPricePerLiterBuffalo();
+                    } else {
+                        price = info.getPricePerLiterMix();
+                    }
+                    return price;
+                }).orElse(DEFAULT_MILK_PRICE);
+
     }
 
     private MilkTransaction getMTForTransactionId(int transactionId) {
@@ -170,20 +174,23 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
         summeryData.setTotalMilkQuantityInLitersForDuration(totalMilkQuantity);
         summeryData.setTotalAmountForDuration(totalAmount);
 
-        mSummeryLiveData.setValue(summeryData);
+        Optional.ofNullable(mSummeryLiveData)
+                .ifPresent(summeryLiveData -> summeryLiveData.setValue(summeryData));
     }
 
     private float getPriceOfMilkType(int milkType) {
         CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
-        if (customerInfo != null) {
-            if (milkType == MilkType.COW.intValue()) {
-                return customerInfo.getPricePerLiterCow();
-            } else if (milkType == MilkType.BUFF.intValue()) {
-                return customerInfo.getPricePerLiterBuffalo();
-            } else if (milkType == MilkType.MIX.intValue()) {
-                return customerInfo.getPricePerLiterMix();
-            }
-        }
-        return DEFAULT_MILK_PRICE;
+        return Optional.ofNullable(customerInfo)
+                .map(info -> {
+                    float price;
+                    if (milkType == MilkType.COW.intValue()) {
+                        price = info.getPricePerLiterCow();
+                    } else if (milkType == MilkType.BUFF.intValue()) {
+                        price = info.getPricePerLiterBuffalo();
+                    } else {
+                        price = info.getPricePerLiterMix();
+                    }
+                    return price;
+                }).orElse(DEFAULT_MILK_PRICE);
     }
 }
