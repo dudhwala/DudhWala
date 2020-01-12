@@ -21,15 +21,12 @@ import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionV
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MilkTransactionListVIewImpl implements
         MillTransactionLiveDataObserver, SwipeController.SwipeActionListener {
 
     private static final String TAG = "DudhWala/MilkTransactionListVIewImpl";
     private static final int VERTICAL_ITEM_SPACE = 0;
-    public static final int SNACK_BAR_DURATION_SHORT = 2000;
     private final Context mContext;
     private final LifecycleOwner mLifecycleOwner;
     private final RecyclerView mRecyclerView;
@@ -98,25 +95,16 @@ public class MilkTransactionListVIewImpl implements
 
     @Override
     public void onDeleteClicked(int position) {
-        Log.d(TAG, "onDeleteClicked() show snack com.google.android.materialbar to undo");
+        Log.d(TAG, "onDeleteClicked() show snack bar to undo");
+
         MilkTransaction milkTransaction = mAdapter.getItem(position);
-        mViewActionListener.removeItemAtPosition(position);
+        mViewActionListener.onClickDelete(milkTransaction);
 
-        Timer timer = new Timer();
-        Snackbar snackbar = Snackbar.make(mView, "Item deleted", Snackbar.LENGTH_SHORT);
-        snackbar.setAction(R.string.undo, v -> {
-            Log.d(TAG, "Snack bar clicked undo delete");
-            timer.cancel();
-            mViewActionListener.addItemAtPosition(position, milkTransaction);
-        });
-        snackbar.show();
-
-        timer.schedule(new TimerTask() {
-            public void run() {
-                Log.d(TAG, "Snack bar disappeared, run delete task.");
-                mViewActionListener.onClickDelete(milkTransaction);
-            }
-        }, SNACK_BAR_DURATION_SHORT);
-
+        Snackbar.make(mView, R.string.item_deleted_text, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo, v -> {
+                    Log.d(TAG, "onClickUndo delete");
+                    mViewActionListener.onClickAddMilkTransaction(milkTransaction);
+                })
+                .show();
     }
 }

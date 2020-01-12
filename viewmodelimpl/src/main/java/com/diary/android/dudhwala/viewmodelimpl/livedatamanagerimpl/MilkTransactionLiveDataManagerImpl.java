@@ -16,7 +16,6 @@ import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLive
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveDataManager {
     private static final String TAG = "DudhWala/MilkTransactionLiveDataManagerImpl";
@@ -49,7 +48,7 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
     }
 
     @Override
-    public void insertNewMilkTransaction(MilkTransaction milkTransaction) {
+    public void insertMilkTransaction(MilkTransaction milkTransaction) {
         mRepositoryFactory.getMilkTransactionRepository().insertMilkTransaction(milkTransaction);
     }
 
@@ -67,46 +66,6 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
                 mCustomerId, quantity, milkType, price, price * quantity, date, System.currentTimeMillis());
         mSelectedMilkTransactionLiveData.setValue(milkTransaction);
     }
-
-    @Override
-    public void removeItemAtPosition(int position) {
-        Log.d(TAG, "removeItemAtPosition() position : " + position);
-        Optional.ofNullable(mTransactionsArrayListLiveData)
-                .ifPresent(listMediatorLiveData -> {
-
-                    listMediatorLiveData.removeSource(source);
-                    Optional.ofNullable(source)
-                            .map(LiveData::getValue)
-                            .ifPresent(milkTransactions -> milkTransactions.remove(position));
-                    if (source != null) {
-                        listMediatorLiveData.addSource(source, value -> {
-                            updateSummery(value);
-                            listMediatorLiveData.setValue(value);
-                        });
-                    }
-                });
-
-    }
-
-    @Override
-    public void addItemAtPosition(int position, MilkTransaction milkTransaction) {
-        Log.d(TAG, "addItemAtPosition() position : " + position);
-        Optional.ofNullable(mTransactionsArrayListLiveData)
-                .ifPresent(listMediatorLiveData -> {
-
-                    listMediatorLiveData.removeSource(source);
-                    Optional.ofNullable(source)
-                            .map(LiveData::getValue)
-                            .ifPresent(milkTransactions -> milkTransactions.add(position, milkTransaction));
-                    if (source != null) {
-                        listMediatorLiveData.addSource(source, value -> {
-                            updateSummery(value);
-                            listMediatorLiveData.setValue(value);
-                        });
-                    }
-                });
-    }
-
 
     @Override
     public void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp) {

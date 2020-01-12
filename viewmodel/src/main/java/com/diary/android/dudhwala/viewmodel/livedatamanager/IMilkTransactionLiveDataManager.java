@@ -30,8 +30,4 @@ public interface IMilkTransactionLiveDataManager extends ILiveDataManagerLifeCyc
     void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
 
     void updateMilkType(int milkType, long date, float price, float quantity);
-
-    void removeItemAtPosition(int position);
-
-    void addItemAtPosition(int position, MilkTransaction milkTransaction);
 }

@@ -92,7 +92,7 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
         mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(date));
         mMilkTransaction.setCreatedTimeStamp(System.currentTimeMillis());
 
-        mListener.onClickAddNewMilkTransaction(mMilkTransaction);
+        mListener.onClickAddMilkTransaction(mMilkTransaction);
         dialog.dismiss();
     }
 

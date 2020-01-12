@@ -60,8 +60,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     }
 
     @Override
-    public void onClickAddNewMilkTransaction(MilkTransaction newMilkTransaction) {
-        mMilkTransactionLiveDataManager.insertNewMilkTransaction(newMilkTransaction);
+    public void onClickAddMilkTransaction(MilkTransaction newMilkTransaction) {
+        mMilkTransactionLiveDataManager.insertMilkTransaction(newMilkTransaction);
     }
 
     @Override
@@ -83,16 +83,6 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     @Override
     public void updateMilkType(int milkType, long date, float price, float quantity) {
         mMilkTransactionLiveDataManager.updateMilkType(milkType, date, price, quantity);
-    }
-
-    @Override
-    public void removeItemAtPosition(int position) {
-        mMilkTransactionLiveDataManager.removeItemAtPosition(position);
-    }
-
-    @Override
-    public void addItemAtPosition(int position, MilkTransaction milkTransaction) {
-        mMilkTransactionLiveDataManager.addItemAtPosition(position, milkTransaction);
     }
 
     @Override
