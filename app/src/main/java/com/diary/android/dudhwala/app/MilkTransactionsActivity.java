@@ -92,11 +92,11 @@ public class MilkTransactionsActivity extends BaseActivity {
         Log.d(TAG, "injectView()");
         ViewFactory mViewFactory = ViewFactory.getViewFactoryInstance();
 
-        mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.transactionListContainer))
-                .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
-
         mViewFactory.provideMilkTransactionSummeryAndToolbarView(this, this,
                 findViewById(R.id.summeryViewContainer), findViewById(R.id.toolbar))
+                .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
+
+        mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.transactionListContainer))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
         mViewFactory.provideCustomCalendarView(this, this, findViewById(R.id.calendarView))

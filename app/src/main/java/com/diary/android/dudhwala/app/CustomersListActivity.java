@@ -28,9 +28,9 @@ public class CustomersListActivity extends BaseActivity {
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.customers_list_activity);
 
+        configureToolbar();
         createViewModelAndInjectRepositoryFactory();
         injectView();
-        configureToolbar();
 
         findViewById(R.id.fab_add_new_customer).setOnClickListener(v -> {
             Intent intent = new Intent(this, AddEditCustomerActivity.class);
@@ -42,7 +42,7 @@ public class CustomersListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //injectView();
+        Log.d(TAG, "onResume()");
     }
 
     private ICustomerListViewModel getViewModel() {

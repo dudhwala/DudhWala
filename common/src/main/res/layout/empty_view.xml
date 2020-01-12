@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:text="@string/no_data_available"
-    tools:listitem="@layout/transaction_list_item"
+    tools:listitem="@layout/milk_transaction_list_item"
     tools:showIn="@layout/milk_transaction_activity" />

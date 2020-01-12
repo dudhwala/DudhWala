@@ -31,7 +31,7 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
 
     private final String TAG = _TAG + "CustomerListViewImpl";
 
-    private static final int VERTICAL_ITEM_SPACE = 30;
+    private static final int VERTICAL_ITEM_SPACE = 0;
 
     private Context mContext;
     private LifecycleOwner mLifecycleOwner;
@@ -55,16 +55,19 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     }
 
     private void configureRecyclerView() {
+        Log.d(TAG, "configureRecyclerView()");
+
         mCustomerListAdapter = new CustomerListAdapter(this);
-        Log.d(TAG, "configureRecyclerVIew()");
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
         //Add swipe actions
         SwipeController swipeController = new SwipeController(this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider, VERTICAL_ITEM_SPACE, swipeController));
+        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider,
+                VERTICAL_ITEM_SPACE, swipeController));
         mRecyclerView.setAdapter(mCustomerListAdapter);
 
     }
@@ -87,7 +90,8 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
 
     @Override
     public void onClickListItem(int customerId) {
-       // mViewActionListener.onCustomerListItemClicked(customerId);
+        Log.d(TAG, "onClickListItem() customerId : " + customerId);
+        // mViewActionListener.onCustomerListItemClicked(customerId);
         Intent intent = new Intent().setComponent(
                 new ComponentName(mContext, Constants.ActivityIntent.MilkTransactionActivity));
         intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, customerId);

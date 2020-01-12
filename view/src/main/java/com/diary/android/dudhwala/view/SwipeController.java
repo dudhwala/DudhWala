@@ -22,7 +22,7 @@ enum ButtonsState {
 public class SwipeController extends ItemTouchHelper.Callback {
 
     private static final float mDeleteButtonWidth = 250;
-    private static final float mEditButtonWidth = 200;
+    private static final float mEditButtonWidth = 250;
 
     private boolean mSwipeBack = false;
     private ButtonsState mButtonShowedState = ButtonsState.GONE;

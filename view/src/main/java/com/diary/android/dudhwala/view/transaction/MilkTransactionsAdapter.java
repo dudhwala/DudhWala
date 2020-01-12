@@ -25,7 +25,7 @@ public class MilkTransactionsAdapter extends RecyclerView.Adapter<MilkTransactio
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem = layoutInflater.inflate(R.layout.transaction_list_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.milk_transaction_list_item, parent, false);
         return new ViewHolder(listItem);
     }
 
