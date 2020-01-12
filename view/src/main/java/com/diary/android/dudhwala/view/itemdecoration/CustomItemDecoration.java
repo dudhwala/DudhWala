@@ -8,14 +8,19 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.android.dudhwala.view.SwipeController;
 
+import java.util.Optional;
+
 public class CustomItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+
+    @Nullable
     private final SwipeController swipeController;
 
     private Drawable divider;
@@ -25,7 +30,7 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * Default divider will be used
      */
-    public CustomItemDecoration(Context context, SwipeController swipeController, int verticalSpaceHeight) {
+    public CustomItemDecoration(Context context, @Nullable SwipeController swipeController, int verticalSpaceHeight) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         divider = styledAttributes.getDrawable(0);
         styledAttributes.recycle();
@@ -36,10 +41,10 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * Custom divider will be used
      */
-    public CustomItemDecoration(Context context, int resId, int verticalSpaceHeight, SwipeController swipeController) {
+    public CustomItemDecoration(Context context, int resId, int verticalSpaceHeight) {
         divider = ContextCompat.getDrawable(context, resId);
         this.verticalSpaceHeight = verticalSpaceHeight;
-        this.swipeController = swipeController;
+        swipeController = null;
     }
 
     @Override
@@ -59,7 +64,7 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
             divider.setBounds(left, top, right, bottom);
             //divider.draw(c);
         }
-        swipeController.onDraw(c);
+        Optional.ofNullable(swipeController).ifPresent(sc -> sc.onDraw(c));
     }
 
     @Override

@@ -26,6 +26,9 @@ public interface Constants {
     }
     interface ActivityIntent{
         String MilkTransactionActivity = "com.diary.android.dudhwala.app.MilkTransactionsActivity";
+        String AddEditCustomerActivity = "com.diary.android.dudhwala.app.AddEditCustomerActivity";
+        String PaymentsActivity = "com.diary.android.dudhwala.app.PaymentsActivity";
+
     }
 
 }

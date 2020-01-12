@@ -9,7 +9,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +22,7 @@ import com.diary.android.dudhwala.viewmodel.ILiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 
@@ -61,15 +61,8 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        //Add swipe actions
-        SwipeController swipeController = new SwipeController(this);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
-        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider,
-                VERTICAL_ITEM_SPACE, swipeController));
+        mRecyclerView.addItemDecoration(new CustomItemDecoration(mContext, R.drawable.divider, VERTICAL_ITEM_SPACE));
         mRecyclerView.setAdapter(mCustomerListAdapter);
-
     }
 
     @Override
@@ -88,15 +81,10 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
                 });
     }
 
-    @Override
-    public void onClickListItem(int customerId) {
-        Log.d(TAG, "onClickListItem() customerId : " + customerId);
-        // mViewActionListener.onCustomerListItemClicked(customerId);
-        Intent intent = new Intent().setComponent(
-                new ComponentName(mContext, Constants.ActivityIntent.MilkTransactionActivity));
-        intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, customerId);
-        mContext.startActivity(intent);
-    }
+
+//    @Override
+//    public void onClickListItem(int position) {
+//    }
 
     @Override
     public void onClickQuickAdd() {
@@ -104,8 +92,63 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     }
 
     @Override
-    public void onClickAdd() {
-        mViewActionListener.onAddMilkTransactionClicked();
+    public void onClickActionCustomer(int position) {
+
+        int customerId = Optional.ofNullable(mCustomerInfoList)
+                .map(customerInfoList -> customerInfoList.get(position))
+                .map(CustomerInfo::getId)
+                .orElse(Constants.Customer.UNKNOWN_CUSTOMER_ID);
+        //TODO check logic of data and position.
+
+        Intent intent = new Intent().setComponent(
+                new ComponentName(mContext, Constants.ActivityIntent.AddEditCustomerActivity));
+        intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, customerId);
+        mContext.startActivity(intent);
+
+    }
+
+    @Override
+    public void onClickActionMilk(int position) {
+        int customerId = Optional.ofNullable(mCustomerInfoList)
+                .map(customerInfoList -> customerInfoList.get(position))
+                .map(CustomerInfo::getId)
+                .orElse(Constants.Customer.UNKNOWN_CUSTOMER_ID);
+
+        Intent intent = new Intent().setComponent(
+                new ComponentName(mContext, Constants.ActivityIntent.MilkTransactionActivity));
+        intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, customerId);
+        mContext.startActivity(intent);
+    }
+
+    @Override
+    public void onClickActionPayment(int position) {
+        int customerId = Optional.ofNullable(mCustomerInfoList)
+                .map(customerInfoList -> customerInfoList.get(position))
+                .map(CustomerInfo::getId)
+                .orElse(Constants.Customer.UNKNOWN_CUSTOMER_ID);
+
+        Intent intent = new Intent().setComponent(
+                new ComponentName(mContext, Constants.ActivityIntent.PaymentsActivity));
+        intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, customerId);
+        mContext.startActivity(intent);
+
+
+    }
+
+    @Override
+    public boolean removeActionContainerForPositionIfPossible(int position) {
+
+        CustomerListAdapter.ViewHolder vH = (CustomerListAdapter.ViewHolder) Optional.ofNullable(mRecyclerView)
+                .map(r -> r.findViewHolderForLayoutPosition(position))
+                .orElse(null);
+
+        if (vH == null) {
+            return false;
+        } else {
+            vH.hideActionContainer();
+        }
+
+        return true;
     }
 
     @Override

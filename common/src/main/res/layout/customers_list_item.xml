@@ -3,58 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/customer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/pending_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending Amount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customer_name" />
+
+
+        <ImageView
+            android:id="@+id/quick_add_milk"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/action_button_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/baseline_add_circle_outline_24"
+            android:tint="#ff0000"/>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:id="@+id/action_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/pending_amount"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/customer_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Name" />
+            <ImageView
+                android:id="@+id/action_customer"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:src="@drawable/sharp_person_outline_24"
+                android:tint="#ff0000"
+                android:text="Customer"
+                />
 
-            <TextView
-                android:id="@+id/pending_amount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="TextView" />
+            <ImageView
+                android:id="@+id/action_milk"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:src="@drawable/sharp_date_range_24"
+                android:tint="#ff0000"
+                android:text="Milk"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:id="@+id/action_payment"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:src="@drawable/sharp_money_24"
+                android:tint="#ff0000"
+                android:text="Money" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <ImageView
-                android:id="@+id/quick_add_milk"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_input_add" />
-
-            <ImageView
-                android:id="@+id/add_milk"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_menu_add" />
-        </LinearLayout>
-
-
-    </LinearLayout>
 </androidx.cardview.widget.CardView>
