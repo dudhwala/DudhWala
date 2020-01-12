@@ -86,6 +86,16 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     }
 
     @Override
+    public void removeItemAtPosition(int position) {
+        mMilkTransactionLiveDataManager.removeItemAtPosition(position);
+    }
+
+    @Override
+    public void addItemAtPosition(int position, MilkTransaction milkTransaction) {
+        mMilkTransactionLiveDataManager.addItemAtPosition(position, milkTransaction);
+    }
+
+    @Override
     public void onDurationChange(int month, int year) {
         Log.d(TAG, "onDurationChange()  month/year : " + month + "/" + year);
 

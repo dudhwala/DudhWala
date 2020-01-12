@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -19,18 +18,23 @@ import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MilkTransactionListVIewImpl implements
         MillTransactionLiveDataObserver, SwipeController.SwipeActionListener {
 
     private static final String TAG = "DudhWala/MilkTransactionListVIewImpl";
     private static final int VERTICAL_ITEM_SPACE = 0;
+    public static final int SNACK_BAR_DURATION_SHORT = 2000;
     private final Context mContext;
     private final LifecycleOwner mLifecycleOwner;
     private final RecyclerView mRecyclerView;
     private final TextView mEmptyView;
+    private final View mView;
     private MilkTransactionViewActionListener mViewActionListener;
     private MilkTransactionsAdapter mAdapter;
 
@@ -39,6 +43,7 @@ public class MilkTransactionListVIewImpl implements
         mLifecycleOwner = lifecycleOwner;
         mAdapter = new MilkTransactionsAdapter();
 
+        mView = view;
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mEmptyView = view.findViewById(R.id.empty_view);
         configureRecyclerView();
@@ -93,9 +98,25 @@ public class MilkTransactionListVIewImpl implements
 
     @Override
     public void onDeleteClicked(int position) {
-        mViewActionListener.onClickDelete(mAdapter.getItem(position));
+        Log.d(TAG, "onDeleteClicked() show snack com.google.android.materialbar to undo");
+        MilkTransaction milkTransaction = mAdapter.getItem(position);
+        mViewActionListener.removeItemAtPosition(position);
 
-        //TODO show snack bar to undo
-        Toast.makeText(mContext, "Transaction Deleted.", Toast.LENGTH_LONG).show();
+        Timer timer = new Timer();
+        Snackbar snackbar = Snackbar.make(mView, "Item deleted", Snackbar.LENGTH_SHORT);
+        snackbar.setAction(R.string.undo, v -> {
+            Log.d(TAG, "Snack bar clicked undo delete");
+            timer.cancel();
+            mViewActionListener.addItemAtPosition(position, milkTransaction);
+        });
+        snackbar.show();
+
+        timer.schedule(new TimerTask() {
+            public void run() {
+                Log.d(TAG, "Snack bar disappeared, run delete task.");
+                mViewActionListener.onClickDelete(milkTransaction);
+            }
+        }, SNACK_BAR_DURATION_SHORT);
+
     }
 }
