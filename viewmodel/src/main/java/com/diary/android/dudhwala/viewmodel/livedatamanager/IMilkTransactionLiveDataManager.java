@@ -25,7 +25,7 @@ public interface IMilkTransactionLiveDataManager extends ILiveDataManagerLifeCyc
 
     void deleteMilkTransaction(MilkTransaction milkTransaction);
 
-    void insertNewMilkTransaction(MilkTransaction milkTransaction);
+    void insertMilkTransaction(MilkTransaction milkTransaction);
 
     void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
 
