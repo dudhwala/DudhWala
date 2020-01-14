@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +39,9 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     private Context mContext;
     private LifecycleOwner mLifecycleOwner;
     private RecyclerView mRecyclerView;
+    private FrameLayout mCustomerListContainer;
+    private NestedScrollView mEmptyView;
+    private TextView mEmptyTextView;
 
     private CustomerListAdapter mCustomerListAdapter;
 
@@ -46,12 +52,20 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
 
     public CustomerListViewImpl(Context context,
                                 LifecycleOwner lifecycleOwner,
-                                View recyclerView) {
+                                View customerListContainer) {
         mContext = context;
         mLifecycleOwner = lifecycleOwner;
-        mRecyclerView = (RecyclerView) recyclerView;
+        mCustomerListContainer = (FrameLayout) customerListContainer;
 
+        initializeViews();
         configureRecyclerView();
+    }
+
+    private void initializeViews() {
+        mRecyclerView = mCustomerListContainer.findViewById(R.id.recyclerView_customer_list);
+        mEmptyView = mCustomerListContainer.findViewById(R.id.empty_view);
+        mEmptyTextView = mCustomerListContainer.findViewById(R.id.emptyTextView);
+        mEmptyTextView.setText(R.string.no_customers);
     }
 
     private void configureRecyclerView() {
@@ -76,6 +90,15 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
     private void setCustomerListLiveData(LiveData<List<CustomerInfo>> customerListLiveData) {
         customerListLiveData.observe(mLifecycleOwner,
                 customerInfoList -> {
+
+                    if (customerInfoList.size() == 0) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        mEmptyView.setVisibility(View.VISIBLE);
+                    } else {
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        mEmptyView.setVisibility(View.GONE);
+                    }
+
                     mCustomerInfoList = customerInfoList;
                     mCustomerListAdapter.updateCustomerList(customerInfoList);
                 });

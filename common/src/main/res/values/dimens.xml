@@ -2,7 +2,7 @@
 <resources>
     <dimen name="duration_view_height">70</dimen>
     <dimen name="toolbar_height">48dp</dimen>
-    <dimen name="fab_margin">20dp</dimen>
+    <dimen name="fab_margin">24dp</dimen>
     <dimen name="summery_view_height">64dp</dimen>
     <dimen name="app_bar_height">250dp</dimen>
     <dimen name="calendar_view_height">48dp</dimen>

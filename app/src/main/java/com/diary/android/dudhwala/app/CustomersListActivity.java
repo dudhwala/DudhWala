@@ -32,7 +32,7 @@ public class CustomersListActivity extends BaseActivity {
         createViewModelAndInjectRepositoryFactory();
         injectView();
 
-        findViewById(R.id.fab_add_new_customer).setOnClickListener(v -> {
+        findViewById(R.id.add_fab).setOnClickListener(v -> {
             Intent intent = new Intent(this, AddEditCustomerActivity.class);
             intent.putExtra(Constants.Extra.EXTRA_CUSTOMER_ID, -1);
             startActivity(intent);
@@ -115,7 +115,7 @@ public class CustomersListActivity extends BaseActivity {
 
         viewFactory.provideCustomerListView(this,
                 this,
-                findViewById(R.id.recyclerView_customer_list))
+                findViewById(R.id.customerListContainer))
                 .startObservingLiveData(mCustomerListViewModel, mCustomerListViewModel);
 
     }

@@ -10,6 +10,7 @@
     <string name="no_data_available">No milk transactions available for selected duration.</string>
     <string name="undo">UNDO</string>
     <string name="item_deleted_text">Item deleted</string>
+    <string name="no_customers">No customers added, click + to add new customer.</string>
 
     <string-array name="milk_type">
         <item>Cow</item>

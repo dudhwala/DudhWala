@@ -34,8 +34,8 @@ public class ViewFactory {
 
     public CustomerListViewImpl provideCustomerListView(@NonNull Context context,
                                                         @NonNull LifecycleOwner lifecycleOwner,
-                                                        @NonNull View recyclerView) {
-        return new CustomerListViewImpl(context, lifecycleOwner, recyclerView);
+                                                        @NonNull View customerListContainer) {
+        return new CustomerListViewImpl(context, lifecycleOwner, customerListContainer);
     }
 
     public MilkTransactionListVIewImpl provideMilkTransactionListView(
