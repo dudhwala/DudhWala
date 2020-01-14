@@ -3,8 +3,8 @@ package com.diary.android.dudhwala.view.transaction;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -30,7 +30,7 @@ public class MilkTransactionListVIewImpl implements
     private final Context mContext;
     private final LifecycleOwner mLifecycleOwner;
     private final RecyclerView mRecyclerView;
-    private final TextView mEmptyView;
+    private final NestedScrollView mEmptyView;
     private final View mView;
     private MilkTransactionViewActionListener mViewActionListener;
     private MilkTransactionsAdapter mAdapter;

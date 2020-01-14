@@ -16,6 +16,7 @@ import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class MilkTransactionSummeryAndToolbarViewImpl implements
         MillTransactionLiveDataObserver {
@@ -27,6 +28,7 @@ public class MilkTransactionSummeryAndToolbarViewImpl implements
     private TextView mSummeryAmountTextView;
     private TextView mSummeryTotalDueAmountTextView;
 
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private Toolbar mToolbar;
 
     public MilkTransactionSummeryAndToolbarViewImpl(Context context, LifecycleOwner lifecycleOwner, View summeryView, View toolbarView) {
@@ -35,7 +37,8 @@ public class MilkTransactionSummeryAndToolbarViewImpl implements
         mSummeryQuantityTextView = summeryView.findViewById(R.id.summeryQuantityTextView);
         mSummeryAmountTextView = summeryView.findViewById(R.id.summeryAmountTextView);
         mSummeryTotalDueAmountTextView = summeryView.findViewById(R.id.summeryTotalAmountDueTextView);
-        mToolbar = (Toolbar) toolbarView;
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) toolbarView;
+        mToolbar = mCollapsingToolbarLayout.findViewById(R.id.toolbar);
 
         configureToolbar();
     }
@@ -73,7 +76,7 @@ public class MilkTransactionSummeryAndToolbarViewImpl implements
         Log.d(TAG, "updateCustomerViews() Amount due : " + customerData.getTotalAmountDue()
                 + " Customer name : " + customerData.getCustomerName());
         mSummeryTotalDueAmountTextView.setText(String.valueOf(customerData.getTotalAmountDue()));
-        mToolbar.setTitle(customerData.getCustomerName());
+        mCollapsingToolbarLayout.setTitle(customerData.getCustomerName());
 
     }
 }

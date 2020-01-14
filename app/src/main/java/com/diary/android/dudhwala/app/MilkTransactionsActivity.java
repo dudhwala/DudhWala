@@ -1,6 +1,7 @@
 package com.diary.android.dudhwala.app;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.ViewFactory;
 import com.diary.android.dudhwala.viewmodelimpl.viewmodel.MilkTransactionViewModelImpl;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.Optional;
 
@@ -21,6 +23,7 @@ public class MilkTransactionsActivity extends BaseActivity {
     private static final String TAG = "DudhWala/MilkTransactionsActivity";
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
     private MilkTransactionViewModelImpl mMilkTransactionsViewModel;
+    private AppBarLayout mAppBarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +40,8 @@ public class MilkTransactionsActivity extends BaseActivity {
         createViewModelAndInjectRepositoryFactory();
         injectView();
 
-        findViewById(R.id.fab).setOnClickListener(v ->
+        mAppBarLayout = findViewById(R.id.appBar);
+        findViewById(R.id.add_fab).setOnClickListener(v ->
                 showAddNewTransactionDialog(Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID));
     }
 
@@ -45,6 +49,8 @@ public class MilkTransactionsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
+
+        updateAppBarExpendedState(getResources().getConfiguration().orientation);
     }
 
     @Override
@@ -73,6 +79,15 @@ public class MilkTransactionsActivity extends BaseActivity {
         }
     }
 
+    private void updateAppBarExpendedState(int orientation) {
+        Log.d(TAG, "updateAppBarExpendedState() orientation : " + orientation);
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mAppBarLayout.setExpanded(false);
+        } else {
+            mAppBarLayout.setExpanded(true);
+        }
+    }
+
     @Override
     void createViewModelAndInjectRepositoryFactory() {
         Log.d(TAG, "createViewModelAndInjectRepositoryFactory()");
@@ -93,7 +108,7 @@ public class MilkTransactionsActivity extends BaseActivity {
         ViewFactory mViewFactory = ViewFactory.getViewFactoryInstance();
 
         mViewFactory.provideMilkTransactionSummeryAndToolbarView(this, this,
-                findViewById(R.id.summeryViewContainer), findViewById(R.id.toolbar))
+                findViewById(R.id.summeryViewContainer), findViewById(R.id.collapsingToolbar))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
         mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.transactionListContainer))
