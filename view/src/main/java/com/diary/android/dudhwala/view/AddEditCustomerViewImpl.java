@@ -22,9 +22,11 @@ import com.diary.android.dudhwala.viewmodel.ILiveDataSource.AddEditLiveDataSourc
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.AddEditViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.CustomerData;
 
+import static com.diary.android.dudhwala.common.Constants.Log._TAG;
+
 public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDataObserver, View.OnClickListener {
 
-    private final String TAG = "DudhWala/AddEditCustomerViewImpl";
+    private final String TAG = _TAG + "AddEditCustomerViewImpl";
 
     @NonNull
     private Context mContext;
@@ -126,7 +128,7 @@ public class AddEditCustomerViewImpl implements ILiveDataObserver.AddEditLiveDat
             mCustomerInfoMiltRate = mCustomerInfo.getPricePerLiterMix();
         }
         mMilkTypeSpinner.setSelection(mCustomerInfoMilkType - 1);
-        mRate.setText(String.format("%d", mCustomerInfoMiltRate));
+        mRate.setText(String.format("%f", mCustomerInfoMiltRate));
 
         mAddUpdateButton.setText("Update");
     }

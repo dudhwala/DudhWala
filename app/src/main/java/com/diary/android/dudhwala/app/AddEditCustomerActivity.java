@@ -71,9 +71,9 @@ public class AddEditCustomerActivity extends BaseActivity {
 
         if (mAddEditCustomerViewModel.isNewInstance()) {
             mAddEditCustomerViewModel.markAsOldInstance();
+            mAddEditCustomerViewModel.setCustomerId(mCustomerId);
             mAddEditCustomerViewModel.injectRepositoryFactory(App.getInstance().getRepositoryFactory());
             mAddEditCustomerViewModel.injectLiveDataManager();
-            mAddEditCustomerViewModel.setCustomerId(mCustomerId);
         }
     }
 

@@ -13,7 +13,7 @@ import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.ICustomCalendarLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.IViewActionListener.ICustomCalendarActionListener;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.ICustomCalendarViewActionListener;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.DurationData;
 
@@ -32,8 +32,7 @@ public class CustomCalendarView extends FrameLayout {
     private ImageButton mNextButton;
 
     private ICustomCalendarLiveDataSource mLiveDataSource;
-    private ICustomCalendarActionListener mCustomCalendarActionListener;
-    private MilkTransactionViewActionListener mMilkTransactionViewActionListener;
+    private ICustomCalendarViewActionListener mCustomCalendarActionListener;
 
     public CustomCalendarView(Context context) {
         super(context);
@@ -69,12 +68,10 @@ public class CustomCalendarView extends FrameLayout {
 
     public void startObservingLiveData(
             ICustomCalendarLiveDataSource liveDataSource,
-            ICustomCalendarActionListener customCalendarViewActionListener,
-            MilkTransactionViewActionListener milkTransactionViewActionListener) {
+            ICustomCalendarViewActionListener customCalendarViewActionListener) {
 
         mLiveDataSource = liveDataSource;
         mCustomCalendarActionListener = customCalendarViewActionListener;
-        mMilkTransactionViewActionListener = milkTransactionViewActionListener;
 
         mCustomCalendarActionListener.initializeCalendar();
         mLiveDataSource.provideDurationLiveData().ifPresent(this::setDurationObserver);
@@ -84,7 +81,7 @@ public class CustomCalendarView extends FrameLayout {
 
         durationDataLiveData.observe(mLifeCycleOwner, durationData -> {
             updateTextAndButtonEnabledState(durationData);
-            mMilkTransactionViewActionListener.onDurationChange(durationData.getSelectedMonth(), durationData.getSelectedYear());
+            mCustomCalendarActionListener.onDurationChange(durationData.getSelectedMonth(), durationData.getSelectedYear());
         });
     }
 
@@ -96,14 +93,14 @@ public class CustomCalendarView extends FrameLayout {
     private void showPreviousMonth() {
         mSwitcher.setInAnimation(mContext, android.R.anim.slide_in_left);
         mSwitcher.setOutAnimation(mContext, android.R.anim.slide_out_right);
-        mCustomCalendarActionListener.onClickButton(Constants.ClickedButton.PREVIOUS);
+        mCustomCalendarActionListener.onClickCustomCalenderButton(Constants.ClickedButton.PREVIOUS);
     }
 
 
     public void showNextMonth() {
         mSwitcher.setInAnimation(mContext, com.diary.android.dudhwala.view.R.anim.slide_in_right);
         mSwitcher.setOutAnimation(mContext, com.diary.android.dudhwala.view.R.anim.slide_out_left);
-        mCustomCalendarActionListener.onClickButton(Constants.ClickedButton.NEXT);
+        mCustomCalendarActionListener.onClickCustomCalenderButton(Constants.ClickedButton.NEXT);
     }
 
     private void updateTextAndButtonEnabledState(DurationData durationData) {

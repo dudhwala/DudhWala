@@ -20,8 +20,6 @@ public interface IViewActionListener {
 
     interface MilkTransactionViewActionListener {
 
-        void onDurationChange(int month, int year);
-
         void onClickAddMilkTransaction(MilkTransaction newMilkTransaction);
 
         void onClickEditButton();
@@ -33,9 +31,11 @@ public interface IViewActionListener {
         void updateMilkType(int milkType, long date, float price, float quantity);
     }
 
-    interface ICustomCalendarActionListener {
-        void onClickButton(int button);
-
+    interface ICustomCalendarViewActionListener {
         void initializeCalendar();
+
+        void onClickCustomCalenderButton(int button);
+
+        void onDurationChange(int month, int year);
     }
 }

@@ -11,8 +11,11 @@ import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.IRepositoryFactory;
 import com.diary.android.dudhwala.viewmodel.IMilkTransactionViewModel;
+import com.diary.android.dudhwala.viewmodel.data.DurationData;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;
+import com.diary.android.dudhwala.viewmodel.livedatamanager.ICustomCalenderLiveDataManager;
 import com.diary.android.dudhwala.viewmodel.livedatamanager.IMilkTransactionLiveDataManager;
+import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.CustomCalenderLiveDataManagerImpl;
 import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.MilkTransactionLiveDataManagerImpl;
 
 import java.util.List;
@@ -24,7 +27,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     private IRepositoryFactory mRepositoryFactory;
     private boolean mIsNewInstance = true;
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
-    private MilkTransactionLiveDataManagerImpl mMilkTransactionLiveDataManager;
+    private IMilkTransactionLiveDataManager mMilkTransactionLiveDataManager;
+    private ICustomCalenderLiveDataManager mCustomCalenderLiveDataManager;
 
     @Override
     public boolean isNewInstance() {
@@ -41,6 +45,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
         Log.d(TAG, "injectLiveDataManager()");
         mMilkTransactionLiveDataManager =
                 new MilkTransactionLiveDataManagerImpl(mRepositoryFactory, mCustomerId);
+        mCustomCalenderLiveDataManager = new CustomCalenderLiveDataManagerImpl();
     }
 
     @Override
@@ -94,6 +99,25 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
         mMilkTransactionLiveDataManager.updateMilkTransactionDuration(fromTimestamp, toTimestamp);
     }
 
+
+    @Override
+    public void onClickCustomCalenderButton(int button) {
+        mCustomCalenderLiveDataManager.onClickCustomCalenderButton(button);
+
+    }
+
+    @Override
+    public void initializeCalendar() {
+        mCustomCalenderLiveDataManager.initializeCalendar();
+
+    }
+
+    @Override
+    public Optional<LiveData<DurationData>> provideDurationLiveData() {
+        return Optional.ofNullable(mCustomCalenderLiveDataManager)
+                .map(ICustomCalenderLiveDataManager::provideDurationLiveData);
+    }
+
     @Override
     public Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionListLiveData() {
         return Optional.ofNullable(mMilkTransactionLiveDataManager)
@@ -116,5 +140,10 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     public Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
         return Optional.ofNullable(mMilkTransactionLiveDataManager)
                 .map(IMilkTransactionLiveDataManager::getCustomerInfoLiveData);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }

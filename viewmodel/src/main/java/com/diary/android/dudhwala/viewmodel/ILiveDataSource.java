@@ -38,10 +38,6 @@ public interface ILiveDataSource {
             return Optional.empty();
         }
 
-        default Optional<LiveData<MilkTransaction>> provideMilkTransactionDurationLiveData() {
-            return Optional.empty();
-        }
-
         default Optional<LiveData<CustomerInfo>> provideCustomerInfoLiveData() {
             return Optional.empty();
         }
