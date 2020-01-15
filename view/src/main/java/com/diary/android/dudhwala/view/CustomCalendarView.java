@@ -12,12 +12,12 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.diary.android.dudhwala.common.Constants;
+import com.diary.android.dudhwala.view.ILiveDataObserver.ICustomCalendarLiveDataObserver;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.ICustomCalendarLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.ICustomCalendarViewActionListener;
-import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.DurationData;
 
-public class CustomCalendarView extends FrameLayout {
+public class CustomCalendarView extends FrameLayout implements ICustomCalendarLiveDataObserver {
 
     private static final int MIN_YEARS = 20;
     private static final int NO_OF_MONTHS = 12;
@@ -66,6 +66,7 @@ public class CustomCalendarView extends FrameLayout {
         mLifeCycleOwner = lifecycleOwner;
     }
 
+    @Override
     public void startObservingLiveData(
             ICustomCalendarLiveDataSource liveDataSource,
             ICustomCalendarViewActionListener customCalendarViewActionListener) {
