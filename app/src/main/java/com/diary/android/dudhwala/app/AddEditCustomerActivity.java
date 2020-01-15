@@ -14,6 +14,7 @@ import com.diary.android.dudhwala.view.AddEditCustomerViewImpl;
 import com.diary.android.dudhwala.view.ViewFactory;
 import com.diary.android.dudhwala.viewmodel.IAddEditCustomerViewModel;
 import com.diary.android.dudhwala.viewmodelimpl.viewmodel.AddEditCustomerViewModelImpl;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Optional;
 
@@ -46,11 +47,12 @@ public class AddEditCustomerActivity extends BaseActivity {
 
     private void updateActionBar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbar);
         setSupportActionBar(toolbar);
         if (mCustomerId == Constants.Customer.UNKNOWN_CUSTOMER_ID) {
-            toolbar.setTitle("Add New Customer");
+            collapsingToolbarLayout.setTitle(getResources().getString(R.string.add_new_customer_action_bar_title));
         } else {
-            toolbar.setTitle("Update Customer");
+            collapsingToolbarLayout.setTitle(getResources().getString(R.string.update_customer_action_bar_title));
         }
     }
 

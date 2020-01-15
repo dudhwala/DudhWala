@@ -5,7 +5,6 @@
     android:id="@+id/appBar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_bar_height"
-    android:theme="@style/ThemeOverlay.MaterialComponents.Light"
     tools:showIn="@layout/milk_transaction_activity">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -14,8 +13,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:contentScrim="?attr/colorPrimary"
-        app:expandedTitleMarginEnd="56dp"
-        app:expandedTitleMarginStart="40dp"
+        app:expandedTitleGravity="center"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         app:title="Dudh Wala">
 
@@ -23,7 +21,6 @@
             android:id="@+id/toolbarImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
             android:fitsSystemWindows="true"
             android:scaleType="centerCrop"
             app:layout_collapseMode="parallax" />
@@ -32,7 +29,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:layout_collapseMode="pin" />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>

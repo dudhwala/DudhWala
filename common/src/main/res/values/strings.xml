@@ -11,6 +11,9 @@
     <string name="undo">UNDO</string>
     <string name="item_deleted_text">Item deleted</string>
     <string name="no_customers">No customers added, click + to add new customer.</string>
+    <string name="update_customer_action_bar_title">Update Customer</string>
+    <string name="add_new_customer_action_bar_title">Add New Customer</string>
+
 
     <string-array name="milk_type">
         <item>Cow</item>
