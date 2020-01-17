@@ -12,12 +12,14 @@ public interface Constants {
     }
 
     interface Customer {
+        String CUSTOMER_ID = "customer_id";
         int UNKNOWN_CUSTOMER_ID = -1;
         int PRICE_UNKNOWN = 0;
         int DEFAULT_QUICK_ADD_QUANTITY = 2;
     }
 
     interface MilkTransactionConstants {
+        String TRANSACTION_STRING = "transaction_id";
         int UNKNOWN_TRANSACTION_ID = -1;
     }
 

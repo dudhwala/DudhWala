@@ -30,10 +30,6 @@ public interface ILiveDataSource {
             return Optional.empty();
         }
 
-        default Optional<LiveData<MilkTransaction>> provideSelectedMilkTransactionLiveData() {
-            return Optional.empty();
-        }
-
         default Optional<LiveData<SummeryData>> provideMilkTransactionSummeryLiveData() {
             return Optional.empty();
         }
@@ -45,6 +41,12 @@ public interface ILiveDataSource {
 
     interface ICustomCalendarLiveDataSource {
         default Optional<LiveData<DurationData>> provideDurationLiveData() {
+            return Optional.empty();
+        }
+    }
+
+    interface MilkTransactionDFLiveDataSource {
+        default Optional<LiveData<MilkTransaction>> provideSelectedMilkTransactionLiveData() {
             return Optional.empty();
         }
     }

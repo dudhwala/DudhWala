@@ -110,8 +110,13 @@ public class CustomerListViewImpl implements CustomerListAdapter.CustomerListIte
 //    }
 
     @Override
-    public void onClickQuickAdd() {
+    public void onClickQuickAdd(int position) {
         mViewActionListener.onQuickAddMilkTransactionClicked();
+
+        int customerId = Optional.ofNullable(mCustomerInfoList)
+                .map(customerInfoList -> customerInfoList.get(position))
+                .map(CustomerInfo::getId)
+                .orElse(Constants.Customer.UNKNOWN_CUSTOMER_ID);
     }
 
     @Override

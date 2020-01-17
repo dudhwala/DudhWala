@@ -20,15 +20,22 @@ public interface IViewActionListener {
 
     interface MilkTransactionViewActionListener {
 
-        void onClickAddMilkTransaction(MilkTransaction newMilkTransaction);
-
         void onClickEditButton();
 
         void onClickDelete(MilkTransaction milkTransaction);
 
+        void onClickUNDOMilkTransaction(MilkTransaction milkTransaction);
+
+    }
+
+    interface MilkTransactionDFViewActionListender{
+
+        void onClickAddMilkTransaction(MilkTransaction newMilkTransaction);
+
         void saveCurrentMilkTransactionState(MilkTransaction mMilkTransaction);
 
         void updateMilkType(int milkType, long date, float price, float quantity);
+
     }
 
     interface ICustomCalendarViewActionListener {

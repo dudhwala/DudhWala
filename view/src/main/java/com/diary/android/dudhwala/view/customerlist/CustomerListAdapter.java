@@ -98,7 +98,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         }
 
         private void setClickListeners() {
-            quickAdd.setOnClickListener(v -> mCustomerListItemClickListener.onClickQuickAdd());
+            quickAdd.setOnClickListener(v -> mCustomerListItemClickListener.onClickQuickAdd(position));
             action_customer.setOnClickListener(v -> mCustomerListItemClickListener.onClickActionCustomer(position));
             action_milk_transaction.setOnClickListener(v -> mCustomerListItemClickListener.onClickActionMilk(position));
             action_payment.setOnClickListener(v -> mCustomerListItemClickListener.onClickActionPayment(position));
@@ -150,7 +150,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
         //void onClickListItem(int position);
 
-        void onClickQuickAdd();
+        void onClickQuickAdd(int position);
 
         void onClickActionCustomer(int position);
 

@@ -124,9 +124,13 @@ public class MilkTransactionsActivity extends BaseActivity {
 
     private void showAddNewTransactionDialog(int transactionId) {
         Log.d(TAG, "showAddNewTransactionDialog()");
-        mMilkTransactionsViewModel.setTransactionId(transactionId);
         MilkTransactionDialogFragment milkTransactionDialogFragment = new MilkTransactionDialogFragment();
-        milkTransactionDialogFragment.show(getSupportFragmentManager(),
-                "add_new_milk_transaction_dialog");
+
+        Bundle args = new Bundle();
+        args.putInt(Constants.Customer.CUSTOMER_ID, mCustomerId);
+        args.putInt(Constants.MilkTransactionConstants.TRANSACTION_STRING, transactionId);
+        milkTransactionDialogFragment.setArguments(args);
+
+        milkTransactionDialogFragment.show(getSupportFragmentManager(), "add_new_milk_transaction_dialog");
     }
 }

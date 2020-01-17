@@ -104,7 +104,7 @@ public class MilkTransactionListVIewImpl implements
         Snackbar.make(mView, R.string.item_deleted_text, Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo, v -> {
                     Log.d(TAG, "onClickUndo delete");
-                    mViewActionListener.onClickAddMilkTransaction(milkTransaction);
+                    mViewActionListener.onClickUNDOMilkTransaction(milkTransaction);
                 })
                 .show();
     }

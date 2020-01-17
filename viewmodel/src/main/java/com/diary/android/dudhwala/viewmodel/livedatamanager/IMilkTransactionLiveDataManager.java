@@ -13,21 +13,11 @@ public interface IMilkTransactionLiveDataManager extends ILiveDataManagerLifeCyc
 
     LiveData<List<MilkTransaction>> getTransactionsArrayListLiveData();
 
-    LiveData<MilkTransaction> getSelectedMilkTransaction();
-
     LiveData<SummeryData> getSummeryLiveData();
 
     LiveData<CustomerInfo> getCustomerInfoLiveData();
 
-    void updateTransactionId(int transactionId);
-
     void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp);
 
     void deleteMilkTransaction(MilkTransaction milkTransaction);
-
-    void insertMilkTransaction(MilkTransaction milkTransaction);
-
-    void saveCurrentMilkTransactionState(MilkTransaction milkTransaction);
-
-    void updateMilkType(int milkType, long date, float price, float quantity);
 }

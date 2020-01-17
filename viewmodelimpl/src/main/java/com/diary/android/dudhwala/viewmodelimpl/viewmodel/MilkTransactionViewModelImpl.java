@@ -21,9 +21,11 @@ import com.diary.android.dudhwala.viewmodelimpl.livedatamanagerimpl.MilkTransact
 import java.util.List;
 import java.util.Optional;
 
+import static com.diary.android.dudhwala.common.Constants.Log._TAG;
+
 public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTransactionViewModel {
 
-    private static final String TAG = "DudhWala/MilkTransactionViewModelImpl";
+    private static final String TAG = _TAG + "MilkTransactionViewModelImpl";
     private IRepositoryFactory mRepositoryFactory;
     private boolean mIsNewInstance = true;
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
@@ -54,19 +56,9 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     }
 
     @Override
-    public void setTransactionId(int transactionId) {
-        mMilkTransactionLiveDataManager.updateTransactionId(transactionId);
-    }
-
-    @Override
     public void injectRepositoryFactory(IRepositoryFactory repositoryFactory) {
         Log.d(TAG, "injectRepositoryFactory()");
         mRepositoryFactory = repositoryFactory;
-    }
-
-    @Override
-    public void onClickAddMilkTransaction(MilkTransaction newMilkTransaction) {
-        mMilkTransactionLiveDataManager.insertMilkTransaction(newMilkTransaction);
     }
 
     @Override
@@ -81,13 +73,8 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     }
 
     @Override
-    public void saveCurrentMilkTransactionState(MilkTransaction milkTransaction) {
-        mMilkTransactionLiveDataManager.saveCurrentMilkTransactionState(milkTransaction);
-    }
-
-    @Override
-    public void updateMilkType(int milkType, long date, float price, float quantity) {
-        mMilkTransactionLiveDataManager.updateMilkType(milkType, date, price, quantity);
+    public void onClickUNDOMilkTransaction(MilkTransaction milkTransaction) {
+        mRepositoryFactory.getMilkTransactionRepository().insertMilkTransaction(milkTransaction);
     }
 
     @Override
@@ -122,12 +109,6 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     public Optional<LiveData<List<MilkTransaction>>> provideMilkTransactionListLiveData() {
         return Optional.ofNullable(mMilkTransactionLiveDataManager)
                 .map(IMilkTransactionLiveDataManager::getTransactionsArrayListLiveData);
-    }
-
-    @Override
-    public Optional<LiveData<MilkTransaction>> provideSelectedMilkTransactionLiveData() {
-        return Optional.ofNullable(mMilkTransactionLiveDataManager)
-                .map(IMilkTransactionLiveDataManager::getSelectedMilkTransaction);
     }
 
     @Override

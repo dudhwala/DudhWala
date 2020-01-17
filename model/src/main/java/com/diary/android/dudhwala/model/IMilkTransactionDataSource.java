@@ -15,4 +15,6 @@ public interface IMilkTransactionDataSource {
     void insertMilkTransaction(MilkTransaction milkTransaction);
 
     void deleteMilkTransaction(MilkTransaction milkTransaction);
+
+   //TODO LiveData<MilkTransaction> getMilkTransactionForId(int mMilkTransationId);
 }

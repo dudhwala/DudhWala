@@ -4,43 +4,51 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.diary.android.dudhwala.R;
-import com.diary.android.dudhwala.view.IActivityActionListener;
+import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.ViewFactory;
 import com.diary.android.dudhwala.view.transaction.MilkTransactionDialogView;
-import com.diary.android.dudhwala.viewmodelimpl.viewmodel.MilkTransactionViewModelImpl;
+import com.diary.android.dudhwala.viewmodel.MilkTransactionDFViewModel;
+import com.diary.android.dudhwala.viewmodelimpl.viewmodel.MilkTransactionDFViewModelImpl;
+
+import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 
 public class MilkTransactionDialogFragment extends DialogFragment {
 
-    private final static String TAG = "DudhWala/IDialogFragmentActionListener";
-    private MilkTransactionViewModelImpl mMilkTransactionsViewModel;
+    private final static String TAG = _TAG + "IDialogFragmentActionListener";
     private Context mContext;
-    private IActivityActionListener.IDialogFragmentActionListener mIDialogFragmentActionListener;
+    private MilkTransactionDFViewModel mMilkTransactionDFViewModel;
+    private MilkTransactionDialogView mMilkTransactionDialogView;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
-        mMilkTransactionsViewModel = ViewModelProviders.of(((AppCompatActivity) context)).get(MilkTransactionViewModelImpl.class);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ViewFactory viewFactory = ViewFactory.getViewFactoryInstance();
-        MilkTransactionDialogView mMilkTransactionDialogView = viewFactory.provideMilkTransactionDialogView(mContext, ((LifecycleOwner) mContext), (AlertDialog) getDialog());
-        mMilkTransactionDialogView.startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
-
-        mIDialogFragmentActionListener = mMilkTransactionDialogView;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arg = getArguments();
+        if (arg == null) {
+            //TODO arguments can not be null
+        }
+        int customerId = arg.getInt(Constants.Customer.CUSTOMER_ID);
+        int transactionId = arg.getInt(Constants.MilkTransactionConstants.TRANSACTION_STRING);
+        mMilkTransactionDFViewModel = getMilkTransactionDFViewModel();
+        if (mMilkTransactionDFViewModel.isNewInstance()) {
+            mMilkTransactionDFViewModel.markAsOldInstance();
+            mMilkTransactionDFViewModel.setCustomerId(customerId);
+            mMilkTransactionDFViewModel.setMilkTransactionId(transactionId);
+            mMilkTransactionDFViewModel.injectRepositoryFactory(App.getInstance().getRepositoryFactory());
+            mMilkTransactionDFViewModel.injectLiveDataManager();
+        }
     }
 
     @NonNull
@@ -48,18 +56,28 @@ public class MilkTransactionDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Log.d(TAG, "onCreateDialog()");
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        ViewFactory viewFactory = ViewFactory.getViewFactoryInstance();
+        mMilkTransactionDialogView = viewFactory.provideMilkTransactionDialogView(mContext, ((LifecycleOwner) mContext));
+        mMilkTransactionDialogView.startObservingLiveData(mMilkTransactionDFViewModel, mMilkTransactionDFViewModel);
 
-        builder.setView(inflater.inflate(R.layout.dialog_add_new_milk_transaction, null))
-                .setPositiveButton(R.string.add, null)
-                .setNegativeButton(R.string.cancel, (dialog, whichButton) -> dialog.dismiss());
-        return builder.create();
+        return mMilkTransactionDialogView.createDialog();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("nainaa", "onActivityCreated");
+
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mIDialogFragmentActionListener.onSaveInstanceState(outState);
+        mMilkTransactionDialogView.onSaveInstanceState(outState);
     }
+
+    private MilkTransactionDFViewModel getMilkTransactionDFViewModel() {
+        return ViewModelProviders.of(this).get(MilkTransactionDFViewModelImpl.class);
+    }
+
 }

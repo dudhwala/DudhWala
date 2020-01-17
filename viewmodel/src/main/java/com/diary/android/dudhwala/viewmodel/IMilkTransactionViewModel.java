@@ -8,6 +8,4 @@ public interface IMilkTransactionViewModel extends
         ILiveDataSource.ICustomCalendarLiveDataSource {
 
     void setCustomerId(int customerId);
-
-    void setTransactionId(int unknownTransactionId);
 }

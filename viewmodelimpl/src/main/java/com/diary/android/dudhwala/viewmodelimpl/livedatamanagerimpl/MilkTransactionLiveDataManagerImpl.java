@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.diary.android.dudhwala.common.Constants;
-import com.diary.android.dudhwala.common.MilkType;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.model.IRepositoryFactory;
@@ -18,9 +16,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import static com.diary.android.dudhwala.common.Constants.Log._TAG;
+
 public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveDataManager {
-    private static final String TAG = "DudhWala/MilkTransactionLiveDataManagerImpl";
-    private static final float DEFAULT_MILK_PRICE = 50;
+    private static final String TAG = _TAG + "MilkTransactionLiveDataManagerImpl";
     private final int mCustomerId;
 
     private IRepositoryFactory mRepositoryFactory;
@@ -49,26 +48,6 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
     }
 
     @Override
-    public void insertMilkTransaction(MilkTransaction milkTransaction) {
-        mRepositoryFactory.getMilkTransactionRepository().insertMilkTransaction(milkTransaction);
-    }
-
-    @Override
-    public void saveCurrentMilkTransactionState(MilkTransaction milkTransaction) {
-        mSelectedMilkTransactionLiveData.setValue(milkTransaction);
-    }
-
-    @Override
-    public void updateMilkType(int milkType, long date, float price, float quantity) {
-
-        //update price also
-        price = getPriceOfMilkType(milkType);
-        MilkTransaction milkTransaction = new MilkTransaction(
-                mCustomerId, quantity, milkType, price, price * quantity, date, System.currentTimeMillis());
-        mSelectedMilkTransactionLiveData.setValue(milkTransaction);
-    }
-
-    @Override
     public void updateMilkTransactionDuration(long fromTimestamp, long toTimestamp) {
         Log.d(TAG, "updateMilkTransactionDuration() fromTimestamp : " + fromTimestamp
                 + ", toTimestamp : " + toTimestamp);
@@ -90,15 +69,6 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
     }
 
     @Override
-    public void updateTransactionId(int transactionId) {
-        if (transactionId == Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID) {
-            mSelectedMilkTransactionLiveData.setValue(getDefaultMilkTransaction());
-        } else {
-            mSelectedMilkTransactionLiveData.setValue(getMTForTransactionId(transactionId));
-        }
-    }
-
-    @Override
     public LiveData<SummeryData> getSummeryLiveData() {
         return mSummeryLiveData;
     }
@@ -111,49 +81,6 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
     @Override
     public LiveData<List<MilkTransaction>> getTransactionsArrayListLiveData() {
         return mTransactionsArrayListLiveData;
-    }
-
-    @Override
-    public LiveData<MilkTransaction> getSelectedMilkTransaction() {
-        Log.d(TAG, "getSelectedMilkTransaction()");
-        return mSelectedMilkTransactionLiveData;
-    }
-
-    private MilkTransaction getDefaultMilkTransaction() {
-        CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
-        float pricePerLiter = getPriceOfDefaultMilkType(customerInfo);
-        float transactionAmount = customerInfo.getQuickAddMilkType() * pricePerLiter;
-        long transactionDate = System.currentTimeMillis();
-
-        return new MilkTransaction(
-                customerInfo.getId(),
-                customerInfo.getQuickAddQuantity(),
-                customerInfo.getQuickAddMilkType(),
-                pricePerLiter,
-                transactionAmount,
-                transactionDate,
-                System.currentTimeMillis());
-    }
-
-    private float getPriceOfDefaultMilkType(CustomerInfo customerInfo) {
-
-        return Optional.ofNullable(customerInfo)
-                .map(info -> {
-                    float price;
-                    if (info.getQuickAddMilkType() == MilkType.COW.intValue()) {
-                        price = info.getPricePerLiterCow();
-                    } else if (info.getQuickAddMilkType() == MilkType.BUFF.intValue()) {
-                        price = info.getPricePerLiterBuffalo();
-                    } else {
-                        price = info.getPricePerLiterMix();
-                    }
-                    return price;
-                }).orElse(DEFAULT_MILK_PRICE);
-
-    }
-
-    private MilkTransaction getMTForTransactionId(int transactionId) {
-        return null;
     }
 
     private void updateSummery(List<MilkTransaction> value) {
@@ -176,21 +103,5 @@ public class MilkTransactionLiveDataManagerImpl implements IMilkTransactionLiveD
 
         Optional.ofNullable(mSummeryLiveData)
                 .ifPresent(summeryLiveData -> summeryLiveData.setValue(summeryData));
-    }
-
-    private float getPriceOfMilkType(int milkType) {
-        CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
-        return Optional.ofNullable(customerInfo)
-                .map(info -> {
-                    float price;
-                    if (milkType == MilkType.COW.intValue()) {
-                        price = info.getPricePerLiterCow();
-                    } else if (milkType == MilkType.BUFF.intValue()) {
-                        price = info.getPricePerLiterBuffalo();
-                    } else {
-                        price = info.getPricePerLiterMix();
-                    }
-                    return price;
-                }).orElse(DEFAULT_MILK_PRICE);
     }
 }

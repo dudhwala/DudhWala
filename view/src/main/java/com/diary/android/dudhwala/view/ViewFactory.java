@@ -50,8 +50,8 @@ public class ViewFactory {
     }
 
     public MilkTransactionDialogView provideMilkTransactionDialogView(
-            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, AlertDialog dialog) {
-        return new MilkTransactionDialogView(context, lifecycleOwner, dialog);
+            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner) {
+        return new MilkTransactionDialogView(context, lifecycleOwner);
     }
 
     public CustomCalendarView provideCustomCalendarView(
