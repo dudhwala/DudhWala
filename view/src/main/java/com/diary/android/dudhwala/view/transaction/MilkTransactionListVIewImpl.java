@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -31,7 +32,7 @@ public class MilkTransactionListVIewImpl implements
     private final LifecycleOwner mLifecycleOwner;
     private final RecyclerView mRecyclerView;
     private final NestedScrollView mEmptyView;
-    private final View mView;
+    private final CoordinatorLayout mView;
     private MilkTransactionViewActionListener mViewActionListener;
     private MilkTransactionsAdapter mAdapter;
 
@@ -40,7 +41,7 @@ public class MilkTransactionListVIewImpl implements
         mLifecycleOwner = lifecycleOwner;
         mAdapter = new MilkTransactionsAdapter();
 
-        mView = view;
+        mView = (CoordinatorLayout) view;
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mEmptyView = view.findViewById(R.id.empty_view);
         configureRecyclerView();
