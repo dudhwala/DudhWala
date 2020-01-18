@@ -1,7 +1,5 @@
 package com.diary.android.dudhwala.viewmodelimpl.viewmodel;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,22 +15,22 @@ import com.diary.android.dudhwala.viewmodel.MilkTransactionDFViewModel;
 
 import java.util.Optional;
 
+import static com.diary.android.dudhwala.common.Constants.Log._TAG;
+
+// not creating any LiveDataManager in this as we will keep all its livedata in viewmodel only;
 public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTransactionDFViewModel {
 
+    private final String TAG = _TAG + "MilkTransactionDFViewModelImpl";
     private boolean mIsNewInstance = true;
 
     private MediatorLiveData<MilkTransaction> mSelectedMilkTransactionLiveData = new MediatorLiveData<>();
-
-    private MediatorLiveData<CustomerInfo> mCustomerInfoLiveData = new MediatorLiveData<>();
+    private LiveData<CustomerInfo> mCustomerInfoLiveData;
 
     private ICustomerInfoDataSource mCustomerInfoDataSource;
-
     private IMilkTransactionDataSource mMilkTransactionDataSource;
 
     private static final float DEFAULT_MILK_PRICE = 50;
-
-    private int mMilkTransationId = -1;
-
+    private int mMilkTransactionId = -1;
     private int mCustomerId = -1;
 
     @Override
@@ -47,8 +45,7 @@ public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTra
 
     @Override
     public void setMilkTransactionId(int id) {
-        mMilkTransationId = id;
-
+        mMilkTransactionId = id;
     }
 
     @Override
@@ -59,7 +56,6 @@ public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTra
 
     @Override
     public void injectRepositoryFactory(IRepositoryFactory repositoryFactory) {
-
         mCustomerInfoDataSource = repositoryFactory.getCustomerInfoRepository();
         mMilkTransactionDataSource = repositoryFactory.getMilkTransactionRepository();
 
@@ -67,35 +63,27 @@ public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTra
 
     @Override
     public void injectLiveDataManager() {
-        // not creating any LiveDataManager in this as we will keep all its livedata in viewmodel only;
+        mCustomerInfoLiveData = mCustomerInfoDataSource.getCustomerInfo(mCustomerId);
 
-        mSelectedMilkTransactionLiveData.addSource(mCustomerInfoDataSource.getCustomerInfo(mCustomerId),
-                value -> {
-                    Log.d("nainaa", "customerInfo : " + value);
-                    if (value == null) {
-                        return;
-                    }
-                    mCustomerInfoLiveData.setValue(value);
-                    if (mMilkTransationId == Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID) {
-                        mSelectedMilkTransactionLiveData.setValue(getDefaultMilkTransaction());
-                    } else {
-                        mSelectedMilkTransactionLiveData.setValue(getMTForTransactionId());
-                    }
-                });
+        if (mMilkTransactionId == Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID) {
+            mSelectedMilkTransactionLiveData.addSource(mCustomerInfoLiveData,
+                    value -> mSelectedMilkTransactionLiveData.setValue(getDefaultMilkTransaction()));
+        } else {
+            //just add customer info live data so that it gets updated.
+            mSelectedMilkTransactionLiveData.addSource(mCustomerInfoLiveData, v -> {
+            });
+
+            mSelectedMilkTransactionLiveData.addSource(
+                    mMilkTransactionDataSource.getMilkTransactionForId(mMilkTransactionId),
+                    value -> mSelectedMilkTransactionLiveData.setValue(value));
+        }
 
         //todo check about removing resource from mediatorLD
-        //mMilkTransactionDataSource.getMilkTransactionForId(mMilkTransationId);
-
-    }
-
-    private MilkTransaction getMTForTransactionId() {
-        return null;
     }
 
     @Override
     public void onClickAddMilkTransaction(MilkTransaction newMilkTransaction) {
         mMilkTransactionDataSource.insertMilkTransaction(newMilkTransaction);
-
     }
 
     @Override
@@ -104,12 +92,9 @@ public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTra
     }
 
     @Override
-    public void updateMilkType(int milkType, long date, float price, float quantity) {
-
+    public void updateMilkType(MilkTransaction milkTransaction) {
         //update price also
-        price = getPriceOfMilkType(milkType);
-        MilkTransaction milkTransaction = new MilkTransaction(
-                mCustomerId, quantity, milkType, price, price * quantity, date, System.currentTimeMillis());
+        milkTransaction.setPricePerLiter(getPriceOfMilkType(milkTransaction.getMilkType()));
         mSelectedMilkTransactionLiveData.setValue(milkTransaction);
     }
 

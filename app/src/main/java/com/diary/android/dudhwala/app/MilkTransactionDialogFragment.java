@@ -8,7 +8,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.diary.android.dudhwala.common.Constants;
@@ -57,17 +56,10 @@ public class MilkTransactionDialogFragment extends DialogFragment {
         Log.d(TAG, "onCreateDialog()");
 
         ViewFactory viewFactory = ViewFactory.getViewFactoryInstance();
-        mMilkTransactionDialogView = viewFactory.provideMilkTransactionDialogView(mContext, ((LifecycleOwner) mContext));
+        mMilkTransactionDialogView = viewFactory.provideMilkTransactionDialogView(mContext, this);
         mMilkTransactionDialogView.startObservingLiveData(mMilkTransactionDFViewModel, mMilkTransactionDFViewModel);
 
         return mMilkTransactionDialogView.createDialog();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("nainaa", "onActivityCreated");
-
     }
 
     @Override

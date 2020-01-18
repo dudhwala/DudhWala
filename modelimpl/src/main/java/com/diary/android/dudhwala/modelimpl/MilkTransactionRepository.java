@@ -49,4 +49,9 @@ public class MilkTransactionRepository implements IMilkTransactionDataSource {
         CommonThreadPool.getThreadPool().execute(() -> mDb.milkTransactionDao()
                 .deleteMilkTransaction(milkTransaction));
     }
+
+    @Override
+    public LiveData<MilkTransaction> getMilkTransactionForId(int milkTransactionId) {
+        return mDb.milkTransactionDao().getAllMilkTransactionsForId(milkTransactionId);
+    }
 }

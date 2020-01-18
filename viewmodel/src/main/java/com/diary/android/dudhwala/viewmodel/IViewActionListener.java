@@ -24,17 +24,17 @@ public interface IViewActionListener {
 
         void onClickDelete(MilkTransaction milkTransaction);
 
-        void onClickUNDOMilkTransaction(MilkTransaction milkTransaction);
+        void onClickUndoMilkTransaction(MilkTransaction milkTransaction);
 
     }
 
-    interface MilkTransactionDFViewActionListender{
+    interface MilkTransactionDFViewActionListener {
 
         void onClickAddMilkTransaction(MilkTransaction newMilkTransaction);
 
         void saveCurrentMilkTransactionState(MilkTransaction mMilkTransaction);
 
-        void updateMilkType(int milkType, long date, float price, float quantity);
+        void updateMilkType(MilkTransaction milkTransaction);
 
     }
 

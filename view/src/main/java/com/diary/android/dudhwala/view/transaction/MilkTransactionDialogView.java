@@ -24,7 +24,7 @@ import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.ILiveDataObserver;
 import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionDFLiveDataSource;
-import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionDFViewActionListender;
+import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionDFViewActionListener;
 
 import java.util.Calendar;
 
@@ -36,7 +36,7 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
     private final Context mContext;
     private LinearLayout mDatePickerLayout;
 
-    private MilkTransactionDFViewActionListender mViewActionListener;
+    private MilkTransactionDFViewActionListener mViewActionListener;
     private TextView mDateTextView;
     private EditText mMilkQuantityEditText;
     private EditText mMilkPriceEditText;
@@ -50,10 +50,9 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
     }
 
     public AlertDialog createDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         LayoutInflater inflater = LayoutInflater.from(mContext);
-
         View view = inflater.inflate(R.layout.dialog_add_new_milk_transaction, null);
+
         mMilkQuantityEditText = view.findViewById(R.id.milkQuantity);
         mMilkPriceEditText = view.findViewById(R.id.milkPrice);
         mMilkTypeSpinner = view.findViewById(R.id.milkTypeSpinner);
@@ -62,10 +61,13 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
         mDatePickerLayout.setOnClickListener(getOnClickDateListener());
         mDateTextView = view.findViewById(R.id.date);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(view)
                 .setPositiveButton(R.string.add, ((dialog, which) -> {
-                    createMilkTransactionAndInsert();
-                    dialog.dismiss();
+                    //todo dialog dismissing if add listener here
+                    if (createMilkTransactionAndInsert()) {
+                        dialog.dismiss();
+                    }
                 }))
                 .setNegativeButton(R.string.cancel, (dialog, whichButton) -> dialog.dismiss());
         return builder.create();
@@ -80,44 +82,56 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
         mViewActionListener.saveCurrentMilkTransactionState(mMilkTransaction);
     }
 
-    private void createMilkTransactionAndInsert() {
+    private boolean createMilkTransactionAndInsert() {
 
-        String quantity = mMilkQuantityEditText.getText().toString();
+        String q = mMilkQuantityEditText.getText().toString();
         String milkPrice = mMilkPriceEditText.getText().toString();
         String date = mDateTextView.getText().toString();
         int milkType = mMilkTypeSpinner.getSelectedItemPosition() + 1;
 
-        if (TextUtils.isEmpty(quantity) || TextUtils.isEmpty(milkPrice) || TextUtils.isEmpty(date)) {
-            Toast.makeText(mContext, R.string.enter_all_details_toast, Toast.LENGTH_SHORT).show();
-            return;
+        float quantity = 0;
+        float price = 0;
+        if (!TextUtils.isEmpty(q)) {
+            quantity = Float.parseFloat(q);
+        }
+        if (!TextUtils.isEmpty(milkPrice)) {
+            price = Float.parseFloat(milkPrice);
         }
 
-        mMilkTransaction.setMilkQuantityLiters(Float.parseFloat(quantity));
+        if (quantity <= 0 || price <= 0 || TextUtils.isEmpty(date)) {
+            Toast.makeText(mContext, R.string.enter_all_details_toast, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        Log.d(TAG, "createMilkTransactionAndInsert() mMilkTransaction : " + mMilkTransaction);
+
+        mMilkTransaction.setMilkQuantityLiters(quantity);
         mMilkTransaction.setMilkType(milkType);
-        mMilkTransaction.setPricePerLiter(Float.parseFloat(milkPrice));
-        mMilkTransaction.setTransactionAmount(Float.parseFloat(quantity) * Float.parseFloat(milkPrice));
+        mMilkTransaction.setPricePerLiter(price);
+        mMilkTransaction.setTransactionAmount(quantity * price);
         mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(date));
         mMilkTransaction.setCreatedTimeStamp(System.currentTimeMillis());
 
+        Log.d(TAG, "createMilkTransactionAndInsert()1 mMilkTransaction : " + mMilkTransaction);
         mViewActionListener.onClickAddMilkTransaction(mMilkTransaction);
+        return true;
     }
 
 
     @Override
-    public void startObservingLiveData(MilkTransactionDFLiveDataSource liveDataSource, MilkTransactionDFViewActionListender viewActionListener) {
+    public void startObservingLiveData(MilkTransactionDFLiveDataSource liveDataSource,
+                                       MilkTransactionDFViewActionListener viewActionListener) {
         Log.d(TAG, "startObservingLiveData()");
         mViewActionListener = viewActionListener;
         liveDataSource.provideSelectedMilkTransactionLiveData().ifPresent(this::setMilkTransactionObserver);
     }
 
     private void setMilkTransactionObserver(LiveData<MilkTransaction> milkTransactionLiveData) {
-        Log.d("nainaa", "start observing");
         milkTransactionLiveData.observe(mLifecycleOwner, this::dataChangedUpdateDialogInfo);
     }
 
     private void dataChangedUpdateDialogInfo(MilkTransaction milkTransaction) {
-        Log.d(TAG, "dataChangedUpdateDialogInfo()");
         mMilkTransaction = milkTransaction;
+        Log.d(TAG, "dataChangedUpdateDialogInfo() mMilkTransaction : " + mMilkTransaction);
 
         mDateTextView.setText(String.valueOf(TimeUtils.convertTimestampToDateString(mMilkTransaction.getTransactionDate())));
         mMilkQuantityEditText.setText((String.valueOf(mMilkTransaction.getMilkQuantityLiters())));
@@ -129,12 +143,12 @@ public class MilkTransactionDialogView implements ILiveDataObserver.MillTransact
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                //todo
+                mMilkTransaction.setMilkType(pos + 1);
+                mMilkTransaction.setTransactionDate(TimeUtils.convertStringToTimestamp(mDateTextView.getText().toString()));
+                mMilkTransaction.setPricePerLiter(Float.parseFloat(mMilkPriceEditText.getText().toString()));
+                mMilkTransaction.setMilkQuantityLiters(Float.parseFloat(mMilkQuantityEditText.getText().toString()));
 
-                mViewActionListener.updateMilkType(pos + 1,
-                        TimeUtils.convertStringToTimestamp(mDateTextView.getText().toString()),
-                        Float.parseFloat(mMilkPriceEditText.getText().toString()),
-                        Float.parseFloat(mMilkQuantityEditText.getText().toString()));
+                mViewActionListener.updateMilkType(mMilkTransaction);
             }
 
             @Override

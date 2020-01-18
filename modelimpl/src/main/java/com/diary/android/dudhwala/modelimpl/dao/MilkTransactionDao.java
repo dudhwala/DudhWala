@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface MilkTransactionDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMilkTransaction(MilkTransaction transaction);
 
     @Query("SELECT * FROM milk_transaction_table")
@@ -26,6 +26,9 @@ public interface MilkTransactionDao {
             " ORDER BY transaction_date ASC")
     LiveData<List<MilkTransaction>> getMilkTransactionsForDuration(
             int customerId, long fromTimestamp, long toTimestamp);
+
+    @Query("SELECT * FROM milk_transaction_table where _id = :milkTransactionId")
+    LiveData<MilkTransaction> getAllMilkTransactionsForId(int milkTransactionId);
 
     @Update
     void updateTransaction(MilkTransaction milkTransaction);

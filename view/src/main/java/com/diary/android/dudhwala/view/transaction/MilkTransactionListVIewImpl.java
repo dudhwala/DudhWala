@@ -35,12 +35,14 @@ public class MilkTransactionListVIewImpl implements
     private final CoordinatorLayout mView;
     private MilkTransactionViewActionListener mViewActionListener;
     private MilkTransactionsAdapter mAdapter;
+    private IMilkTransactionListActionListener mMilkTransactionListActionListener;
 
     public MilkTransactionListVIewImpl(Context context, LifecycleOwner lifecycleOwner, View view) {
         mContext = context;
         mLifecycleOwner = lifecycleOwner;
         mAdapter = new MilkTransactionsAdapter();
 
+        mMilkTransactionListActionListener = (IMilkTransactionListActionListener) mContext;
         mView = (CoordinatorLayout) view;
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mEmptyView = view.findViewById(R.id.empty_view);
@@ -91,7 +93,9 @@ public class MilkTransactionListVIewImpl implements
 
     @Override
     public void onEditClicked(int position) {
-        //todo
+        Log.d(TAG, "onEditClicked() position : " + position);
+        MilkTransaction milkTransaction = mAdapter.getItem(position);
+        mMilkTransactionListActionListener.onClickEditMilkTransaction(milkTransaction.getId(), milkTransaction.getCustomerId());
     }
 
     @Override
@@ -104,8 +108,12 @@ public class MilkTransactionListVIewImpl implements
         Snackbar.make(mView, R.string.item_deleted_text, Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo, v -> {
                     Log.d(TAG, "onClickUndo delete");
-                    mViewActionListener.onClickUNDOMilkTransaction(milkTransaction);
+                    mViewActionListener.onClickUndoMilkTransaction(milkTransaction);
                 })
                 .show();
+    }
+
+    public interface IMilkTransactionListActionListener {
+        void onClickEditMilkTransaction(int transactionId, int customerId);
     }
 }

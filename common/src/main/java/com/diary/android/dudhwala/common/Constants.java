@@ -24,7 +24,7 @@ public interface Constants {
     }
 
     interface Log {
-        String _TAG = "Dudhwala - ";
+        String _TAG = "DudhWala/";
     }
     interface ActivityIntent{
         String MilkTransactionActivity = "com.diary.android.dudhwala.app.MilkTransactionsActivity";

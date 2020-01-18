@@ -73,7 +73,7 @@ public class MilkTransactionViewModelImpl extends ViewModel implements IMilkTran
     }
 
     @Override
-    public void onClickUNDOMilkTransaction(MilkTransaction milkTransaction) {
+    public void onClickUndoMilkTransaction(MilkTransaction milkTransaction) {
         mRepositoryFactory.getMilkTransactionRepository().insertMilkTransaction(milkTransaction);
     }
 
