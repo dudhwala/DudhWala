@@ -20,7 +20,7 @@ public class TimeUtils {
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date date = formatter.parse(strDate);
 
-            return date.getTime();
+            return date != null ? date.getTime() : 0;
         } catch (ParseException e) {
             System.out.println("Exception :" + e);
             return 0;
