@@ -99,8 +99,8 @@ public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTra
     }
 
     private float getPriceOfMilkType(int milkType) {
-        CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
-        return Optional.ofNullable(customerInfo)
+        return Optional.ofNullable(mCustomerInfoLiveData)
+                .map(LiveData::getValue)
                 .map(info -> {
                     float price;
                     if (milkType == MilkType.COW.intValue()) {
@@ -115,7 +115,6 @@ public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTra
     }
 
     private float getPriceOfDefaultMilkType(CustomerInfo customerInfo) {
-
         return Optional.ofNullable(customerInfo)
                 .map(info -> {
                     float price;
@@ -132,19 +131,22 @@ public class MilkTransactionDFViewModelImpl extends ViewModel implements MilkTra
     }
 
     private MilkTransaction getDefaultMilkTransaction() {
-        CustomerInfo customerInfo = mCustomerInfoLiveData.getValue();
-        float pricePerLiter = getPriceOfDefaultMilkType(customerInfo);
-        float transactionAmount = customerInfo.getQuickAddMilkType() * pricePerLiter;
-        long transactionDate = System.currentTimeMillis();
+        return Optional.ofNullable(mCustomerInfoLiveData)
+                .map(LiveData::getValue)
+                .map(customerInfo -> {
+                    float pricePerLiter = getPriceOfDefaultMilkType(customerInfo);
+                    float transactionAmount = customerInfo.getQuickAddMilkType() * pricePerLiter;
+                    long transactionDate = System.currentTimeMillis();
 
-        return new MilkTransaction(
-                customerInfo.getId(),
-                customerInfo.getQuickAddQuantity(),
-                customerInfo.getQuickAddMilkType(),
-                pricePerLiter,
-                transactionAmount,
-                transactionDate,
-                System.currentTimeMillis());
+                    return new MilkTransaction(
+                            customerInfo.getId(),
+                            customerInfo.getQuickAddQuantity(),
+                            customerInfo.getQuickAddMilkType(),
+                            pricePerLiter,
+                            transactionAmount,
+                            transactionDate,
+                            System.currentTimeMillis());
+                }).orElse(null);
     }
 
     @Override

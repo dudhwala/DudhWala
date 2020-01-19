@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -63,9 +64,15 @@ public class MilkTransactionDialogFragment extends DialogFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mMilkTransactionDialogView.setDialogButtonClickListener(((AlertDialog) getDialog()));
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mMilkTransactionDialogView.onSaveInstanceState(outState);
+        mMilkTransactionDialogView.onSaveInstanceState();
     }
 
     private MilkTransactionDFViewModel getMilkTransactionDFViewModel() {
