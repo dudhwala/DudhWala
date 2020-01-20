@@ -51,7 +51,7 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
+    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:$rootProject.archLifecycleVersion"
 
     // UI
     implementation "com.google.android.material:material:$rootProject.materialVersion"
