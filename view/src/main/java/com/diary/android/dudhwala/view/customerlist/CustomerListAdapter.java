@@ -143,6 +143,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             action_button_container.setVisibility(View.GONE);
         }
     }
+    //test
 
     interface CustomerListItemClickListener {
 
