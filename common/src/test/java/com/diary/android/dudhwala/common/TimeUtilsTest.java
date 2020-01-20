@@ -4,24 +4,32 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.text.SimpleDateFormat;
 
-@RunWith(MockitoJUnitRunner.class)
+import static junit.framework.TestCase.assertEquals;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
+
+@PrepareForTest({
+        SimpleDateFormat.class
+})
+@RunWith(PowerMockRunner.class)
 public class TimeUtilsTest {
 
     private static final long TEST_TIMESTAMP = 1579320168;
     private static final long TEST_INVALID_TIMESTAMP = -1;
     private final String TEST_DATE = "19/01/1970";
 
-
-    @Mock
     SimpleDateFormat mSimpleDateFormat;
 
     @Before
     public void setUp() throws Exception {
+        //mockStatic(SimpleDateFormat.class);
+        mSimpleDateFormat = mock(SimpleDateFormat.class);
+        mSimpleDateFormat.applyPattern("dd/MM/yyyy");
     }
 
     @After
@@ -29,9 +37,10 @@ public class TimeUtilsTest {
     }
 
     @Test
-    public void convertTimestampToDateString() {
-        //when(new SimpleDateFormat()).thenReturn(mSimpleDateFormat);
-        //assertThat(TEST_DATE, is(TimeUtils.convertTimestampToDateString(TEST_TIMESTAMP)));
+    public void convertTimestampToDateString() throws Exception {
+        whenNew(SimpleDateFormat.class).withArguments("dd/MM/yyyy").thenReturn(mSimpleDateFormat);
+        //when(mSimpleDateFormat.format(TEST_TIMESTAMP)).thenReturn("Hello");
+        assertEquals(TEST_DATE, TimeUtils.convertTimestampToDateString(TEST_TIMESTAMP));
     }
 
     @Test

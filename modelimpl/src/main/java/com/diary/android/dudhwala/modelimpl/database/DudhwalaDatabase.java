@@ -56,6 +56,42 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
                     "WHERE _id = OLD.customer_id; " +
                     "END;";
 
+    private static final String CREATE_TRIGGER_AFTER_INSERT_MILK_TRANSACTION_UPDATE_MILK_PRICE_COW =
+            "CREATE TRIGGER update_milk_price_cow " +
+                    "AFTER INSERT ON milk_transaction_table " +
+                    "WHEN (NEW.milk_type = 1 " +
+                    "AND NEW.price_per_liter <> 0) " +
+                    "BEGIN " +
+                    "UPDATE customer_info_table " +
+                    "SET price_per_liter_cow = NEW.price_per_liter, " +
+                    "last_updated_timestamp = NEW.created_time_stamp " +
+                    "WHERE _id = NEW.customer_id AND price_per_liter_cow = 0; " +
+                    "END;";
+
+    private static final String CREATE_TRIGGER_AFTER_INSERT_MILK_TRANSACTION_UPDATE_MILK_PRICE_BUFFALO =
+            "CREATE TRIGGER update_milk_price_buffalo " +
+                    "AFTER INSERT ON milk_transaction_table " +
+                    "WHEN (NEW.milk_type = 2 " +
+                    "AND NEW.price_per_liter <> 0) " +
+                    "BEGIN " +
+                    "UPDATE customer_info_table " +
+                    "SET price_per_liter_buffalo = NEW.price_per_liter, " +
+                    "last_updated_timestamp = NEW.created_time_stamp " +
+                    "WHERE _id = NEW.customer_id AND price_per_liter_buffalo = 0; " +
+                    "END;";
+
+    private static final String CREATE_TRIGGER_AFTER_INSERT_MILK_TRANSACTION_UPDATE_MILK_PRICE_MIX =
+            "CREATE TRIGGER update_milk_price_mix " +
+                    "AFTER INSERT ON milk_transaction_table " +
+                    "WHEN (NEW.milk_type = 3 " +
+                    "AND NEW.price_per_liter <> 0) " +
+                    "BEGIN " +
+                    "UPDATE customer_info_table " +
+                    "SET price_per_liter_mix = NEW.price_per_liter, " +
+                    "last_updated_timestamp = NEW.created_time_stamp " +
+                    "WHERE _id = NEW.customer_id AND price_per_liter_mix = 0; " +
+                    "END;";
+
     public static DudhwalaDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (DudhwalaDatabase.class) {
@@ -78,6 +114,9 @@ public abstract class DudhwalaDatabase extends RoomDatabase {
             db.execSQL(CREATE_TRIGGER_AFTER_INSERT_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME);
             db.execSQL(CREATE_TRIGGER_AFTER_UPDATE_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME);
             db.execSQL(CREATE_TRIGGER_AFTER_DELETE_TOTAL_DUE_AMOUNT_AND_LAST_UPDATE_TIME);
+            db.execSQL(CREATE_TRIGGER_AFTER_INSERT_MILK_TRANSACTION_UPDATE_MILK_PRICE_COW);
+            db.execSQL(CREATE_TRIGGER_AFTER_INSERT_MILK_TRANSACTION_UPDATE_MILK_PRICE_BUFFALO);
+            db.execSQL(CREATE_TRIGGER_AFTER_INSERT_MILK_TRANSACTION_UPDATE_MILK_PRICE_MIX);
         }
 
         @Override
