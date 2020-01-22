@@ -13,13 +13,12 @@ import androidx.lifecycle.ViewModelProviders;
 import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.ViewFactory;
-import com.diary.android.dudhwala.view.transaction.MilkTransactionListVIewImpl;
 import com.diary.android.dudhwala.viewmodelimpl.viewmodel.MilkTransactionViewModelImpl;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.Optional;
 
-public class MilkTransactionsActivity extends BaseActivity implements MilkTransactionListVIewImpl.IMilkTransactionListActionListener {
+public class MilkTransactionsActivity extends BaseActivity {
 
     private static final String TAG = "DudhWala/MilkTransactionsActivity";
     private int mCustomerId = Constants.Customer.UNKNOWN_CUSTOMER_ID;
@@ -42,8 +41,6 @@ public class MilkTransactionsActivity extends BaseActivity implements MilkTransa
         injectView();
 
         mAppBarLayout = findViewById(R.id.appBar);
-        findViewById(R.id.add_fab).setOnClickListener(v ->
-                showAddEditMilkTransactionDialog(Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID, mCustomerId));
     }
 
     @Override
@@ -112,7 +109,8 @@ public class MilkTransactionsActivity extends BaseActivity implements MilkTransa
                 findViewById(R.id.summeryViewContainer), findViewById(R.id.collapsingToolbar))
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
-        mViewFactory.provideMilkTransactionListView(this, this, findViewById(R.id.transactionListContainer))
+        mViewFactory.provideMilkTransactionListView(this, this,
+                findViewById(R.id.transactionListContainer), mCustomerId)
                 .startObservingLiveData(mMilkTransactionsViewModel, mMilkTransactionsViewModel);
 
         mViewFactory.provideCustomCalendarView(this, this, findViewById(R.id.calendarView))
@@ -133,10 +131,5 @@ public class MilkTransactionsActivity extends BaseActivity implements MilkTransa
         milkTransactionDialogFragment.setArguments(args);
 
         milkTransactionDialogFragment.show(getSupportFragmentManager(), "add_edit_milk_transaction_dialog");
-    }
-
-    @Override
-    public void onClickEditMilkTransaction(int transactionId, int customerId) {
-        showAddEditMilkTransactionDialog(transactionId, customerId);
     }
 }

@@ -1,9 +1,11 @@
 package com.diary.android.dudhwala.view.transaction;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.LifecycleOwner;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.android.dudhwala.R;
+import com.diary.android.dudhwala.app.MilkTransactionDialogFragment;
+import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.ILiveDataObserver.MillTransactionLiveDataObserver;
 import com.diary.android.dudhwala.view.SwipeController;
@@ -33,19 +37,23 @@ public class MilkTransactionListVIewImpl implements
     private final RecyclerView mRecyclerView;
     private final NestedScrollView mEmptyView;
     private final CoordinatorLayout mView;
+    private final int mCustomerId;
     private MilkTransactionViewActionListener mViewActionListener;
     private MilkTransactionsAdapter mAdapter;
-    private IMilkTransactionListActionListener mMilkTransactionListActionListener;
 
-    public MilkTransactionListVIewImpl(Context context, LifecycleOwner lifecycleOwner, View view) {
+    public MilkTransactionListVIewImpl(Context context, LifecycleOwner lifecycleOwner, View view,
+                                       int customerId) {
         mContext = context;
         mLifecycleOwner = lifecycleOwner;
+        mCustomerId = customerId;
         mAdapter = new MilkTransactionsAdapter();
 
-        mMilkTransactionListActionListener = (IMilkTransactionListActionListener) mContext;
         mView = (CoordinatorLayout) view;
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mEmptyView = view.findViewById(R.id.empty_view);
+        view.findViewById(R.id.add_fab).setOnClickListener(v -> showAddEditMilkTransactionDialog(
+                Constants.MilkTransactionConstants.UNKNOWN_TRANSACTION_ID, mCustomerId));
+
         configureRecyclerView();
     }
 
@@ -95,7 +103,20 @@ public class MilkTransactionListVIewImpl implements
     public void onEditClicked(int position) {
         Log.d(TAG, "onEditClicked() position : " + position);
         MilkTransaction milkTransaction = mAdapter.getItem(position);
-        mMilkTransactionListActionListener.onClickEditMilkTransaction(milkTransaction.getId(), milkTransaction.getCustomerId());
+        showAddEditMilkTransactionDialog(milkTransaction.getId(), milkTransaction.getCustomerId());
+    }
+
+    private void showAddEditMilkTransactionDialog(int transactionId, int customerId) {
+        Log.d(TAG, "showAddEditMilkTransactionDialog()");
+        MilkTransactionDialogFragment milkTransactionDialogFragment = new MilkTransactionDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(Constants.Customer.CUSTOMER_ID, customerId);
+        args.putInt(Constants.MilkTransactionConstants.TRANSACTION_STRING, transactionId);
+        milkTransactionDialogFragment.setArguments(args);
+
+        milkTransactionDialogFragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(),
+                "add_edit_milk_transaction_dialog");
     }
 
     @Override
@@ -111,9 +132,5 @@ public class MilkTransactionListVIewImpl implements
                     mViewActionListener.onClickUndoMilkTransaction(milkTransaction);
                 })
                 .show();
-    }
-
-    public interface IMilkTransactionListActionListener {
-        void onClickEditMilkTransaction(int transactionId, int customerId);
     }
 }

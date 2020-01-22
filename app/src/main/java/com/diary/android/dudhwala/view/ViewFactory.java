@@ -38,8 +38,8 @@ public class ViewFactory {
     }
 
     public MilkTransactionListVIewImpl provideMilkTransactionListView(
-            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, View view) {
-        return new MilkTransactionListVIewImpl(context, lifecycleOwner, view);
+            @NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, View view, int customerId) {
+        return new MilkTransactionListVIewImpl(context, lifecycleOwner, view, customerId);
     }
 
     public MilkTransactionSummeryAndToolbarViewImpl provideMilkTransactionSummeryAndToolbarView(
