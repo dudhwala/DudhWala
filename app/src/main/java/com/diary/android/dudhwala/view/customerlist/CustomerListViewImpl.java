@@ -15,10 +15,10 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.view.ILiveDataObserver;
-import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.view.SwipeController;
 import com.diary.android.dudhwala.view.itemdecoration.CustomItemDecoration;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource;
@@ -32,10 +32,8 @@ import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 public class CustomerListViewImpl implements CustomerListAdapter.CustomerListItemClickListener,
         ILiveDataObserver.CustomerListLiveDataObserver, SwipeController.SwipeActionListener {
 
-    private final String TAG = _TAG + "CustomerListViewImpl";
-
     private static final int VERTICAL_ITEM_SPACE = 0;
-
+    private final String TAG = _TAG + "CustomerListViewImpl";
     private Context mContext;
     private LifecycleOwner mLifecycleOwner;
     private RecyclerView mRecyclerView;

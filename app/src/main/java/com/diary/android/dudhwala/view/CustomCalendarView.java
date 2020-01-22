@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
+import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.Constants;
 import com.diary.android.dudhwala.view.ILiveDataObserver.ICustomCalendarLiveDataObserver;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.ICustomCalendarLiveDataSource;
@@ -53,12 +54,12 @@ public class CustomCalendarView extends FrameLayout implements ICustomCalendarLi
     }
 
     private void init() {
-        inflate(mContext, com.diary.android.dudhwala.view.R.layout.custom_calendar_view, this);
+        inflate(mContext, R.layout.custom_calendar_view, this);
 
-        mSwitcher = findViewById(com.diary.android.dudhwala.view.R.id.textSwitcher);
-        mNextButton = findViewById(com.diary.android.dudhwala.view.R.id.navigateNextButton);
+        mSwitcher = findViewById(R.id.textSwitcher);
+        mNextButton = findViewById(R.id.navigateNextButton);
         mNextButton.setOnClickListener(v -> showNextMonth());
-        mPreviousButton = findViewById(com.diary.android.dudhwala.view.R.id.navigatePreviousButton);
+        mPreviousButton = findViewById(R.id.navigatePreviousButton);
         mPreviousButton.setOnClickListener(v -> showPreviousMonth());
     }
 
@@ -99,8 +100,8 @@ public class CustomCalendarView extends FrameLayout implements ICustomCalendarLi
 
 
     public void showNextMonth() {
-        mSwitcher.setInAnimation(mContext, com.diary.android.dudhwala.view.R.anim.slide_in_right);
-        mSwitcher.setOutAnimation(mContext, com.diary.android.dudhwala.view.R.anim.slide_out_left);
+        mSwitcher.setInAnimation(mContext, R.anim.slide_in_right);
+        mSwitcher.setOutAnimation(mContext, R.anim.slide_out_left);
         mCustomCalendarActionListener.onClickCustomCalenderButton(Constants.ClickedButton.NEXT);
     }
 

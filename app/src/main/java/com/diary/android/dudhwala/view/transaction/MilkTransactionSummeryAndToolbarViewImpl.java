@@ -10,9 +10,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
+import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
 import com.diary.android.dudhwala.view.ILiveDataObserver.MillTransactionLiveDataObserver;
-import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionViewActionListener;
 import com.diary.android.dudhwala.viewmodel.data.SummeryData;

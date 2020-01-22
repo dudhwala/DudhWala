@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.entity.CustomerInfo;
-import com.diary.android.dudhwala.view.R;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +22,9 @@ import static com.diary.android.dudhwala.common.Constants.Log._TAG;
 
 public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.ViewHolder> {
     private final String TAG = _TAG + "CustomerListAdapter";
+    private final CustomerListItemClickListener mCustomerListItemClickListener;
     @Nullable
     private List<CustomerInfo> mCustomerInfoList;
-
-    private final CustomerListItemClickListener mCustomerListItemClickListener;
-
     private int mmExpandedForPosition = -1;
 
     CustomerListAdapter(CustomerListItemClickListener customerListItemClickListener) {
@@ -75,6 +73,22 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     }
 
 
+    interface CustomerListItemClickListener {
+
+        boolean removeActionContainerForPositionIfPossible(int position);
+
+        //void onClickListItem(int position);
+
+        void onClickQuickAdd(int position);
+
+        void onClickActionCustomer(int position);
+
+        void onClickActionMilk(int position);
+
+        void onClickActionPayment(int position);
+    }
+    //test
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView pendingAmount;
@@ -119,7 +133,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
                     boolean _done = mCustomerListItemClickListener.removeActionContainerForPositionIfPossible(oldExpandedPosition);
                     if (!_done) {
                         notifyItemChanged(oldExpandedPosition);
-                        Log.d("nainf","notified");
+                        Log.d("nainf", "notified");
                     }
                 }
                 setActionContainerVisibility(visibility);
@@ -142,21 +156,5 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         void hideActionContainer() {
             action_button_container.setVisibility(View.GONE);
         }
-    }
-    //test
-
-    interface CustomerListItemClickListener {
-
-        boolean removeActionContainerForPositionIfPossible(int position);
-
-        //void onClickListItem(int position);
-
-        void onClickQuickAdd(int position);
-
-        void onClickActionCustomer(int position);
-
-        void onClickActionMilk(int position);
-
-        void onClickActionPayment(int position);
     }
 }

@@ -22,10 +22,8 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
 
     @Nullable
     private final SwipeController swipeController;
-
-    private Drawable divider;
-
     private final int verticalSpaceHeight;
+    private Drawable divider;
 
     /**
      * Default divider will be used

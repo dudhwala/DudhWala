@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.diary.android.dudhwala.view.customerlist.CustomerListViewImpl;

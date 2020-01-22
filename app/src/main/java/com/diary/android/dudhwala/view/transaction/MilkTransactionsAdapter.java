@@ -9,9 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.TimeUtils;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
-import com.diary.android.dudhwala.view.R;
 
 import java.util.ArrayList;
 import java.util.List;

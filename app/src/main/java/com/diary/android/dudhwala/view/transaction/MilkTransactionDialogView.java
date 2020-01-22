@@ -17,10 +17,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
+import com.diary.android.dudhwala.R;
 import com.diary.android.dudhwala.common.TimeUtils;
 import com.diary.android.dudhwala.common.entity.MilkTransaction;
 import com.diary.android.dudhwala.view.ILiveDataObserver;
-import com.diary.android.dudhwala.view.R;
 import com.diary.android.dudhwala.viewmodel.ILiveDataSource.MilkTransactionDFLiveDataSource;
 import com.diary.android.dudhwala.viewmodel.IViewActionListener.MilkTransactionDFViewActionListener;
 

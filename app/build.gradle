@@ -30,7 +30,6 @@ android {
 }
 
 dependencies {
-    implementation project(":view")
     implementation project(":viewmodel")
     implementation project(":viewmodelimpl")
     implementation project(":model")
